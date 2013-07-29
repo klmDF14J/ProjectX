@@ -11,6 +11,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import roboyobo.ball.Ball;
+import roboyobo.ball.BouncyBall;
 import roboyobo.ball.Bullet;
 import roboyobo.ball.Rock;
 import roboyobo.ball.util.GameInfo;
@@ -24,7 +25,8 @@ public class GameState extends BasicGameState {
 	
 	public GameState(int stateID) {
 		this.stateID = stateID;
-		//BouncyBall.app.setTargetFrameRate(60);
+		
+		BouncyBall.app.setTargetFrameRate(60);
 		
 		GameInfo.rocks = new ArrayList<Rock>();
 		GameInfo.balls = new ArrayList<Ball>();

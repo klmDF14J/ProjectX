@@ -53,6 +53,10 @@ public class GameOverState extends BasicGameState {
 	private boolean flag = false;
 	private boolean renderInfo = false;
 	
+	private boolean canX = false, canX2 = false, canX3 = false, canX4 = false, canX5 = false;
+	
+	private boolean canRock = false, canTime = false, canShock = false, canTotal = false;
+	
 	private MouseOverArea info, play, menu, highscore;
 	
 	public GameOverState(int stateID) {
@@ -61,6 +65,7 @@ public class GameOverState extends BasicGameState {
 	
 	@Override
 	public void init(GameContainer gc, final StateBasedGame sbg) throws SlickException {
+		
 		font = FontHelper.setupAndReturnNewFont("font", 48);
 		font2 = FontHelper.setupAndReturnNewFont("font", 24);
 		font3 = FontHelper.setupAndReturnNewFont("font", 16);
@@ -88,6 +93,7 @@ public class GameOverState extends BasicGameState {
 		menu = new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), (GameInfo.SCREEN_WIDTH / 2) - 150, (int) GameInfo.SCREEN_HEIGHT - 100, new ComponentListener() {
 			@Override
 			public void componentActivated(AbstractComponent ac) {
+				GameInfo.balls.get(0).reset(sbg);
 				renderInfo = false;
 				sbg.enterState(GameInfo.STATE_MENU_ID);
 			}
@@ -112,19 +118,19 @@ public class GameOverState extends BasicGameState {
 		g.drawImage(new Image("/resources/images/projectX/menuBackground.png"), 0, 0);
 		font.drawString(x + FontHelper.getBigWidthDifference(font, GameInfo.language.gameOver), y, GameInfo.language.gameOver);
 		
-		if(y == targetY) {
+		if(canX2) {
 			font2.drawString(x2, y2, GameInfo.language.rocksDestroyed);
 			font2.drawString(655, y2, "" + Math.round(rockAmount));
 		}
-		if(x2 == rockX) {
+		if(canX3) {
 			font2.drawString(x3, y3, GameInfo.language.timeLasted);
 			font2.drawString(655, y3, "" + Math.round(timeAmount / 1000));
 		}
-		if(x3 == timeX) {
+		if(canX4) {
 			font2.drawString(x4, y4, GameInfo.language.shockwavesUsed);
 			font2.drawString(655, y4, "" + Math.round(shockwaveAmount));
 		}
-		if(x4 == shockwaveX) {
+		if(canX5) {
 			font2.drawString(x5, y5, GameInfo.language.totalScore);
 			font2.drawString(655, y5, "" + Math.round(totalAmount));
 			info.render(gc, g);
@@ -138,7 +144,7 @@ public class GameOverState extends BasicGameState {
 		}
 		
 		if(renderInfo) {
-			font3.drawString(680, y5 + 25, "(T x R) - (S x 10)");
+			font3.drawString(680, y5 + 25, "(T x R) - (S x 3000)");
 		}
 		
 		
@@ -147,59 +153,69 @@ public class GameOverState extends BasicGameState {
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
 		if(y > targetY) {
-			y -= 0.5F;
+			y -= 4.5F;
 		}
 		
-		if(y == targetY) {
+		if(y <= targetY) {
 			if(x2 < rockX) {
-				x2 += 0.5F;
+				canX2 = true;
+				x2 += 3.5F;
 			}
-		}
-		if(x2 == rockX) {
-			if(x3 < timeX) {
-				x3 += 0.5F;
-			}
-		}
-		if(x3 == timeX) {
-			if(x4 < shockwaveX) {
-				x4 += 0.5F;
-			}
-		}
-		if(x4 == shockwaveX) {
-			if(x5 < totalX) {
-				x5 += 0.5F;
+			if(x2 >= rockX) {
+				if(x3 < timeX) {
+					canX3 = true;
+					x3 += 3.5F;
+				}
+				if(x3 >= timeX) {
+					if(x4 < shockwaveX) {
+						canX4 = true;
+						x4 += 3.5F;
+					}
+					if(x4 >= shockwaveX) {
+						if(x5 < totalX) {
+							canX5 = true;
+							x5 += 3.5F;
+						}
+					}
+				}
 			}
 		}
 		
-		if(x5 == totalX) {
-			if(rockAmount < GameInfo.DEAD_ROCKS) {
-				rockAmount += 0.1F;
-			}
+		if(x5 >= totalX) {
+			canRock = true;
 		}
-		if(rockAmount >= GameInfo.DEAD_ROCKS || GameInfo.DEAD_ROCKS == 0) {
-			if(timeAmount < GameInfo.TIME_RUNNING) {
-				timeAmount += 100F;
-			}
+		if(canRock && rockAmount < GameInfo.DEAD_ROCKS) {
+			rockAmount += 1.5F;
 		}
-		if(timeAmount >= GameInfo.TIME_RUNNING) {
-			if(shockwaveAmount < GameInfo.SHOCKWAVES_USED) {
-				shockwaveAmount += 0.1F;
-			}
+		if(canRock && rockAmount >= GameInfo.DEAD_ROCKS) {
+			canTime = true;
 		}
-		if(shockwaveAmount >= GameInfo.SHOCKWAVES_USED) {
+		if(canTime && timeAmount < GameInfo.TIME_RUNNING) {
+			timeAmount += 650F;
+		}
+		if(canTime && timeAmount >= GameInfo.TIME_RUNNING) {
+			canShock = true;
+		}
+		if(canShock && shockwaveAmount < GameInfo.SHOCKWAVES_USED) {
+			shockwaveAmount += 1F;
+		}
+		if(canShock && shockwaveAmount >= GameInfo.SHOCKWAVES_USED) {
+			canTotal = true;
+		}
+		if(canTotal) {
 			if(totalAmount < calcScore()) {
 				playTotalSound();
 				if(calcScore() < 1000) {
-					totalAmount += 0.5F;
+					totalAmount += 45F;
 				}
 				if(calcScore() >= 1000 && calcScore() < 3000) {
-					totalAmount += 1.5F;
+					totalAmount += 75F;
 				}
 				if(calcScore() >= 3000 && calcScore() < 10000) {
-					totalAmount += 2.5F;
+					totalAmount += 105F;
 				}
 				if(calcScore() >= 10000) {
-					totalAmount += 4F;
+					totalAmount += 350F;
 				}
 				
 			}
@@ -207,8 +223,8 @@ public class GameOverState extends BasicGameState {
 		
 	}
 	
-	public float calcScore() {
-		return ((GameInfo.TIME_RUNNING / 1000) * GameInfo.DEAD_ROCKS) - (GameInfo.SHOCKWAVES_USED * 10);
+	public static float calcScore() {
+		return ((GameInfo.TIME_RUNNING / 1000) * GameInfo.DEAD_ROCKS) - (GameInfo.SHOCKWAVES_USED * 3000);
 	}
 	
 	private void playTotalSound() {

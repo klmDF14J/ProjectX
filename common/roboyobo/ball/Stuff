@@ -3,8 +3,11 @@ Link to text: http://cooltext.com/Logo-Design-Galactica
 Link to background: http://www.spacewallpapers.net/wallpapers/thumbnails.php?album=6
 
 TODO: 
-	- Highscore Table
 	- In game shop
 	- Pause menu, leads to ^
 	
 	-Add battle mode
+	
+	-Possible broken score counter, rounding relying on fps various results
+	
+	

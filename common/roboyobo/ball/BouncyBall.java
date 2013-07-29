@@ -8,6 +8,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import roboyobo.ball.state.GameOverState;
 import roboyobo.ball.state.GameState;
+import roboyobo.ball.state.HighscoreState;
 import roboyobo.ball.state.LanguageState;
 import roboyobo.ball.state.MenuState;
 import roboyobo.ball.state.OptionsState;

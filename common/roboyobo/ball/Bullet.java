@@ -38,18 +38,18 @@ public class Bullet {
 		
 		if(x != endPoint.getX()) {
 			if(endPoint.getX() > x) {
-				x++;
+				x += 3F;
 			}
 			if(endPoint.getX() < x) {
-				x--;
+				x -= 3F;
 			}
 		}
 		if(y != endPoint.getY()) {
 			if(endPoint.getY() > y) {
-				y++;
+				y += 3F;
 			}
 			if(endPoint.getY() < y) {
-				y--;
+				y -= 3F;
 			}
 		}
 		

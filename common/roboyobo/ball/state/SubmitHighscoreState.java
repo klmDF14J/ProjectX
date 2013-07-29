@@ -8,8 +8,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
-import org.newdawn.slick.geom.Line;
-import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.gui.AbstractComponent;
 import org.newdawn.slick.gui.ComponentListener;
 import org.newdawn.slick.gui.MouseOverArea;
@@ -18,17 +16,15 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import roboyobo.ball.FontHelper;
-import roboyobo.ball.Language;
-import roboyobo.ball.LanguageHandler;
+import roboyobo.ball.highscore.Entry;
 import roboyobo.ball.resource.Sounds;
 import roboyobo.ball.util.GameInfo;
-import roboyobo.hoppityHop.util.Reference;
 
 public class SubmitHighscoreState extends BasicGameState {
 
 	private int stateID;
 	
-	private UnicodeFont font;
+	private UnicodeFont font, font2;
 	
 	private TextField username;
 	
@@ -38,12 +34,16 @@ public class SubmitHighscoreState extends BasicGameState {
 		this.stateID = stateID;
 		
 		font = FontHelper.setupAndReturnNewFont("font", 96);
+		font2 = FontHelper.setupAndReturnNewFont("font", 24);
+		
+		GameInfo.scores = new ArrayList<Entry>();
 		
 		
 	}
 	
 	@Override
 	public void init(GameContainer gc, final StateBasedGame sbg) throws SlickException {
+		
 		username = new TextField(gc, font, (int) (GameInfo.SCREEN_WIDTH / 2 - 145), (int) (GameInfo.SCREEN_HEIGHT / 2 - 27.5), 290, 55, new ComponentListener() {
 			public void componentActivated(AbstractComponent source) {
 				username.setFocus(true);
@@ -52,12 +52,16 @@ public class SubmitHighscoreState extends BasicGameState {
 		
 		username.setTextColor(Color.white);
 		username.setBorderColor(Color.red);
-		username.setMaxLength(4);
+		username.setMaxLength(3);
 		
 		submit = new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), GameInfo.SCREEN_WIDTH / 2 - 350, GameInfo.SCREEN_HEIGHT - 200, new ComponentListener() {
 			@Override
 			public void componentActivated(AbstractComponent arg0) {
-				GameInfo.USERNAME = username.getText();
+				GameInfo.scores.add(new Entry(username.getText(), Math.round(GameOverState.calcScore()), GameInfo.DEAD_ROCKS, GameInfo.TIME_RUNNING, GameInfo.SHOCKWAVES_USED));
+				for(int i = 0; i < GameInfo.scores.size(); i++) {
+					GameInfo.scores.get(i).printInfo();
+				}
+				HighscoreState.save();
 				sbg.enterState(GameInfo.STATE_HIGHSCORE_ID);
 			}
 		});
@@ -88,6 +92,10 @@ public class SubmitHighscoreState extends BasicGameState {
 		
 		submit.render(gc, g);
 		menu.render(gc, g);
+		
+		font2.drawString(((GameInfo.SCREEN_WIDTH / 2) - 350) + FontHelper.getWidthDifference(font2, GameInfo.language.submit), ((GameInfo.SCREEN_HEIGHT - 200) + FontHelper.getHeightDifference(font2, GameInfo.language.submit)), GameInfo.language.submit);
+		
+		font2.drawString(((GameInfo.SCREEN_WIDTH / 2) + 50) + FontHelper.getWidthDifference(font2, GameInfo.language.backToMenu), ((GameInfo.SCREEN_HEIGHT - 200) + FontHelper.getHeightDifference(font2, GameInfo.language.backToMenu)), GameInfo.language.backToMenu);
 	}
 	
 	

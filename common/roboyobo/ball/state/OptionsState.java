@@ -56,6 +56,13 @@ public class OptionsState extends BasicGameState {
 			}
 		}));
 		
+		buttons.add(new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), 350, 250, new ComponentListener() {
+			@Override
+			public void componentActivated(AbstractComponent ac) {
+				sbg.enterState(GameInfo.STATE_HIGHSCORE_ID);
+			}
+		}));
+		
 		buttons.add(new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), GameInfo.SCREEN_WIDTH - 300, GameInfo.SCREEN_HEIGHT - 100, new ComponentListener() {
 			@Override
 			public void componentActivated(AbstractComponent ac) {
@@ -65,9 +72,11 @@ public class OptionsState extends BasicGameState {
 		
 		buttons.get(0).setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));
 		buttons.get(1).setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));
+		buttons.get(2).setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));
 		
 		buttons.get(0).setMouseDownSound(Sounds.select);
 		buttons.get(1).setMouseDownSound(Sounds.select);
+		buttons.get(2).setMouseDownSound(Sounds.select);
 	}
 
 	@Override
@@ -82,6 +91,7 @@ public class OptionsState extends BasicGameState {
 		font.drawString(GameInfo.LANGUAGE_TEXT_X, GameInfo.LANGUAGE_TEXT_Y, GameInfo.language.options);
 		
 		font.drawString(370, 120 + (index * 110), GameInfo.language.languages);
+		font.drawString(370, 270, GameInfo.language.highscore);
 		
 		FontHelper.setupAndReturnNewFont("font", 24).drawString(GameInfo.SCREEN_WIDTH - 260, GameInfo.SCREEN_HEIGHT - 60, GameInfo.language.backToMenu);
 	}

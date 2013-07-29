@@ -68,7 +68,7 @@ public class Rock {
 		for(Ball ball : GameInfo.balls) {
 			if(bounds.intersects(ball.getBounds()) && !isDead()) {
 				changeDirection();
-				ball.setHealth(ball.getHealth() - 0.05F);
+				ball.setHealth(ball.getHealth() - 0.15F);
 			}
 			if(bounds.intersects(ball.getShockwaveBounds()) && !isDead() && !bounds.intersects(ball.getBounds())) {
 				dead = true;

@@ -44,6 +44,7 @@ public class MenuState extends BasicGameState {
 		play = new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), GameInfo.PLAY_BUTTON_X, GameInfo.PLAY_BUTTON_Y, new ComponentListener() {
 			@Override
 			public void componentActivated(AbstractComponent ac) {
+				GameInfo.balls.get(0).reset(bb);
 				bb.enterState(GameInfo.STATE_GAME_ID);
 			}
 		});

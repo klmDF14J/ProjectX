@@ -63,7 +63,7 @@ public class Ball {
 				shockwaveSize = 0;
 			}
 			else {
-				shockwaveSize += 0.25F;
+				shockwaveSize += 3F;
 				if(shockwaveCharge >= GameInfo.MIN_SHOCKWAVE_CHARGE && !flag) {
 					shockwaveCharge -= GameInfo.MIN_SHOCKWAVE_CHARGE;
 					flag = true;
@@ -71,7 +71,7 @@ public class Ball {
 			}
 		}
 		if(!shouldShockwave && !isDead()) {
-			shockwaveCharge += 0.25F;
+			shockwaveCharge += 3F;
 		}
 		
 		if(!isDead() && !shouldShockwave) {
@@ -114,10 +114,10 @@ public class Ball {
 	
 	public void setDead(boolean val, StateBasedGame sbg) {
 		dead = val;
-		GameInfo.TIME_DEAD++;
+		GameInfo.TIME_DEAD += 3;
+		System.out.println(GameInfo.TIME_DEAD);
 		if(GameInfo.TIME_DEAD >= GameInfo.MIN_DEATH_TIMER) { 
 			GameInfo.TIME_DEAD = 0;
-			
 			sbg.enterState(GameInfo.STATE_GAME_OVER_ID);
 		}
 	}
