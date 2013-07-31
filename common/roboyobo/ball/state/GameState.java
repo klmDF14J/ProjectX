@@ -28,7 +28,6 @@ public class GameState extends BasicGameState {
 		
 		BouncyBall.app.setTargetFrameRate(60);
 		
-		GameInfo.rocks = new ArrayList<Rock>();
 		GameInfo.balls = new ArrayList<Ball>();
 		GameInfo.bullets = new ArrayList<Bullet>();
 		
@@ -40,6 +39,11 @@ public class GameState extends BasicGameState {
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		
+	}
+	
+	@Override
+	public void enter(GameContainer container, StateBasedGame game) throws SlickException {
+		GameInfo.rocks = new ArrayList<Rock>();
 	}
 
 	@Override
@@ -73,7 +77,7 @@ public class GameState extends BasicGameState {
 			shouldTime = false;
 		}
 		
-		int timeToWait = 500 - (GameInfo.TIME_RUNNING / 2);
+		int timeToWait = 500 - ((GameInfo.TIME_RUNNING / 1000));
 		
 		if(timeToWait < 300) {
 			timeToWait = 300;

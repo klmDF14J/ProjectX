@@ -6,13 +6,20 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import roboyobo.ball.state.AudioOptionsState;
+import roboyobo.ball.state.BattleMenuGamemodeState;
+import roboyobo.ball.state.BattleMenuState;
+import roboyobo.ball.state.BattleState;
+import roboyobo.ball.state.GameOptionsState;
 import roboyobo.ball.state.GameOverState;
 import roboyobo.ball.state.GameState;
+import roboyobo.ball.state.GeneralOptionsState;
 import roboyobo.ball.state.HighscoreState;
 import roboyobo.ball.state.LanguageState;
 import roboyobo.ball.state.MenuState;
 import roboyobo.ball.state.OptionsState;
 import roboyobo.ball.state.SubmitHighscoreState;
+import roboyobo.ball.state.VideoOptionsState;
 import roboyobo.ball.util.GameInfo;
 
 
@@ -40,8 +47,15 @@ public class BouncyBall extends StateBasedGame {
 		addState(new GameOverState(GameInfo.STATE_GAME_OVER_ID));
 		addState(new SubmitHighscoreState(GameInfo.STATE_SUBMIT_HIGHSCORE_ID));
 		addState(new HighscoreState(GameInfo.STATE_HIGHSCORE_ID));
+		addState(new BattleMenuState(GameInfo.STATE_BATTLE_MENU_ID));
+		addState(new BattleMenuGamemodeState(GameInfo.STATE_BATTLE_MENU_GAMEMODE_ID));
+		addState(new BattleState(GameInfo.STATE_BATTLE_ID));
+		addState(new GeneralOptionsState(GameInfo.STATE_GENERAL_OPTIONS_ID));
+		addState(new VideoOptionsState(GameInfo.STATE_VIDEO_OPTIONS_ID));
+		addState(new AudioOptionsState(GameInfo.STATE_AUDIO_OPTIONS_ID));
+		addState(new GameOptionsState(GameInfo.STATE_GAME_OPTIONS_ID));
 		
-		enterState(GameInfo.STATE_GAME_OVER_ID);
+		enterState(GameInfo.STATE_MENU_ID);
 	}
 	
 	

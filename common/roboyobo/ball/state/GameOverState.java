@@ -22,45 +22,56 @@ public class GameOverState extends BasicGameState {
 	
 	private UnicodeFont font, font2, font3;
 	
-	private float x = GameInfo.SCREEN_WIDTH / 2 - (GameInfo.GAME_OVER_PANEL_WIDTH / 2);
-	private float y = GameInfo.SCREEN_HEIGHT;
+	private static float x = GameInfo.SCREEN_WIDTH / 2 - (GameInfo.GAME_OVER_PANEL_WIDTH / 2);
+	private static float y = GameInfo.SCREEN_HEIGHT;
 	
 	private int targetX = GameInfo.SCREEN_WIDTH / 2 - (GameInfo.GAME_OVER_PANEL_WIDTH / 2);
-	private int targetY = GameInfo.SCREEN_HEIGHT / 2 - (GameInfo.GAME_OVER_PANEL_HEIGHT / 2);
+	private static int targetY = GameInfo.SCREEN_HEIGHT / 2 - (GameInfo.GAME_OVER_PANEL_HEIGHT / 2);
 	
-	private float x2 = 0;
-	private float y2 = targetY + 75;
+	private static float x2 = 0;
+	private static float y2 = targetY + 75;
 	
 	private int rockX = targetX - 50;
 	
-	private float x3 = 0;
-	private float y3 = targetY + 125;
+	private static float x3 = 0;
+	private static float y3 = targetY + 125;
 	
 	private int timeX = targetX - 50;
 	
-	private float x4 = 0;
-	private float y4 = targetY + 175;
+	private static float x4 = 0;
+	private static float y4 = targetY + 175;
 	
 	private int shockwaveX = targetX - 50;
 	
-	private float x5 = 0;
-	private float y5 = targetY + 275;
+	private static float x5 = 0;
+	private static float y5 = targetY + 275;
 	
 	private int totalX = targetX - 50;
 	
-	private float rockAmount, timeAmount, shockwaveAmount, totalAmount;
+	private static float rockAmount;
+
+	private static float timeAmount;
+
+	private static float shockwaveAmount;
+
+	private static float totalAmount;
 	
-	private boolean flag = false;
-	private boolean renderInfo = false;
+	private static boolean flag = false;
+	private static boolean renderInfo = false;
 	
-	private boolean canX = false, canX2 = false, canX3 = false, canX4 = false, canX5 = false;
+	private static boolean canX = false, canX2 = false, canX3 = false, canX4 = false, canX5 = false;
 	
-	private boolean canRock = false, canTime = false, canShock = false, canTotal = false;
+	private static boolean canRock = false, canTime = false, canShock = false, canTotal = false;
 	
 	private MouseOverArea info, play, menu, highscore;
 	
 	public GameOverState(int stateID) {
 		this.stateID = stateID;
+	}
+	
+	@Override
+	public void enter(GameContainer container, StateBasedGame game) throws SlickException {
+		x4 = 0;
 	}
 	
 	@Override
@@ -84,17 +95,20 @@ public class GameOverState extends BasicGameState {
 			public void componentActivated(AbstractComponent ac) {
 				GameInfo.balls.get(0).reset(sbg);
 				renderInfo = false;
+				reset();
 				sbg.enterState(GameInfo.STATE_GAME_ID);
 			}
 		});
 		play.setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));
 		play.setMouseDownSound(Sounds.select);
+		
 
 		menu = new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), (GameInfo.SCREEN_WIDTH / 2) - 150, (int) GameInfo.SCREEN_HEIGHT - 100, new ComponentListener() {
 			@Override
 			public void componentActivated(AbstractComponent ac) {
 				GameInfo.balls.get(0).reset(sbg);
 				renderInfo = false;
+				reset();
 				sbg.enterState(GameInfo.STATE_MENU_ID);
 			}
 		});
@@ -104,6 +118,7 @@ public class GameOverState extends BasicGameState {
 		highscore = new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), GameInfo.SCREEN_WIDTH - 300, (int) GameInfo.SCREEN_HEIGHT - 100, new ComponentListener() {
 			@Override
 			public void componentActivated(AbstractComponent ac) {
+				reset();
 				sbg.enterState(GameInfo.STATE_SUBMIT_HIGHSCORE_ID);
 			}
 		});
@@ -185,13 +200,13 @@ public class GameOverState extends BasicGameState {
 			canRock = true;
 		}
 		if(canRock && rockAmount < GameInfo.DEAD_ROCKS) {
-			rockAmount += 1.5F;
+			rockAmount += 2.5F;
 		}
 		if(canRock && rockAmount >= GameInfo.DEAD_ROCKS) {
 			canTime = true;
 		}
 		if(canTime && timeAmount < GameInfo.TIME_RUNNING) {
-			timeAmount += 650F;
+			timeAmount += 2000;
 		}
 		if(canTime && timeAmount >= GameInfo.TIME_RUNNING) {
 			canShock = true;
@@ -202,7 +217,7 @@ public class GameOverState extends BasicGameState {
 		if(canShock && shockwaveAmount >= GameInfo.SHOCKWAVES_USED) {
 			canTotal = true;
 		}
-		if(canTotal) {
+		if(canShock && shockwaveAmount >= GameInfo.SHOCKWAVES_USED) {
 			if(totalAmount < calcScore()) {
 				playTotalSound();
 				if(calcScore() < 1000) {
@@ -215,7 +230,7 @@ public class GameOverState extends BasicGameState {
 					totalAmount += 105F;
 				}
 				if(calcScore() >= 10000) {
-					totalAmount += 350F;
+					totalAmount += 400F;
 				}
 				
 			}
@@ -224,7 +239,7 @@ public class GameOverState extends BasicGameState {
 	}
 	
 	public static float calcScore() {
-		return ((GameInfo.TIME_RUNNING / 1000) * GameInfo.DEAD_ROCKS) - (GameInfo.SHOCKWAVES_USED * 3000);
+		return (Math.round((GameInfo.TIME_RUNNING / 1000)) * GameInfo.DEAD_ROCKS) - (GameInfo.SHOCKWAVES_USED * 3000);
 	}
 	
 	private void playTotalSound() {
@@ -232,6 +247,42 @@ public class GameOverState extends BasicGameState {
 			flag = true;
 			Sounds.total.play();
 		}
+	}
+	
+	public static void reset() {
+		x = GameInfo.SCREEN_WIDTH / 2 - (GameInfo.GAME_OVER_PANEL_WIDTH / 2);
+		y = GameInfo.SCREEN_HEIGHT;
+		
+		x2 = 0;
+		y2 = targetY + 75;
+		
+		x3 = 0;
+		y3 = targetY + 125;
+		
+		x4 = 0;
+		x4 = targetY + 175;
+		
+		x5 = 0;
+		y5 = targetY + 275;
+		
+		canX2 = false;
+		canX3 = false;
+		canX4 = false;
+		canX5 = false;
+		
+		canRock = false;
+		canTime = false;
+		canShock = false;
+		canTotal = false;
+		
+		renderInfo = false;
+		
+		rockAmount = 0;
+		timeAmount = 0;
+		shockwaveAmount = 0;
+		totalAmount = 0;
+		
+		flag = false;
 	}
 
 	@Override

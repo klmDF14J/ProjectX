@@ -5,7 +5,7 @@ public class Language {
 
 	private String key, name;
 	
-	public String play, battle, options, selectLanguage, backToMenu, languages, gameOver, rocksDestroyed, timeLasted, shockwavesUsed, totalScore, submit, enterUsername, highscore, username, score;
+	public String play, battle, options, selectLanguage, backToMenu, languages, gameOver, rocksDestroyed, timeLasted, shockwavesUsed, totalScore, submit, enterUsername, highscore, username, score, player, back, rocks, time, vs, general, videoS, audioS, gameS, settings;
 	
 	public Language(String key, String[] values) {
 		this.key = key;
@@ -28,6 +28,16 @@ public class Language {
 		highscore = values[14];
 		username = values[15];
 		score = values[16];
+		player = values[17];
+		back = values[18];
+		rocks = values[19];
+		time = values[20];
+		vs = values[21];
+		general = values[22];
+		videoS = values[23];
+		audioS = values[24];
+		gameS = values[25];
+		settings = values[26];
 	}
 	
 	public String getKey() {

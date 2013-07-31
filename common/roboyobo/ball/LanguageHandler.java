@@ -13,9 +13,64 @@ public class LanguageHandler {
 	public static void init() {
 		languages = new ArrayList<Language>();
 		
-		languages.add(new Language("en_GB", new String[]{"English", "Play", "Battle", "Options", "Select a language", "Back to menu", "Languages", "Game Over", "Rocks Destroyed", "Time Lasted", "Shockwaves Used", "Total Score", "Submit", "Enter username", "Highscores", "Name", "Score"}));
-		languages.add(new Language("fr_FR", new String[]{"Francais", "Jouer", "Bataille", "Les options", "Selectionnez une langue", "Retour au menu", "Langues", "Jeu Termine", "Roches detruit", "Temps dure", "Ondes de choc occasion", "Total des points", "Soumettre", "Entrer un nom d'", "Meilleurs scores", "Nom", "Score"}));
-		//languages.add(new Language("ga_IE", new String[]{"Gaelach", "Cluiche", "Batal", "Ragha", "Tagh te canan", "Cul go biachlar", "Canans"}));
+		languages.add(new Language("en_GB", new String[]{
+				"English",
+				"Play",
+				"Battle",
+				"Options",
+				"Select a language",
+				"Back to menu",
+				"Languages",
+				"Game Over",
+				"Rocks Destroyed",
+				"Time Lasted",
+				"Shockwaves Used",
+				"Total Score",
+				"Submit",
+				"Enter username",
+				"Highscores",
+				"Name",
+				"Score",
+				"Player",
+				"Back",
+				"Rocks",
+				"Time",
+				"Vs",
+				"General",
+				"Video",
+				"Audio",
+				"Game",
+				"Settings"
+		}));
+		languages.add(new Language("fr_FR", new String[]{
+				"Francais",
+				"Jouer",
+				"Bataille",
+				"Les options",
+				"Selectionnez une langue",
+				"Retour au menu",
+				"Langues",
+				"Jeu Termine",
+				"Roches detruit",
+				"Temps dure",
+				"Ondes de choc occasion",
+				"Total des points",
+				"Soumettre",
+				"Entrer un nom d'",
+				"Meilleurs scores",
+				"Nom",
+				"Score",
+				"Joueur",
+				"Retour",
+				"Roches",
+				"Heure",
+				"Vs",
+				"General",
+				"Video",
+				"Acoustique",
+				"Jeu",
+				"Reglages"
+		}));
 	}
 	
 	public static void setLanguageToKey(String key) {

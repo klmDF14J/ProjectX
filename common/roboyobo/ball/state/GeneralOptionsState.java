@@ -19,7 +19,7 @@ import roboyobo.ball.LanguageHandler;
 import roboyobo.ball.resource.Sounds;
 import roboyobo.ball.util.GameInfo;
 
-public class OptionsState extends BasicGameState {
+public class GeneralOptionsState extends BasicGameState {
 
 	private int stateID;
 	
@@ -35,7 +35,7 @@ public class OptionsState extends BasicGameState {
 	
 	private UnicodeFont font, font2;
 	
-	public OptionsState(int stateID) throws SlickException {
+	public GeneralOptionsState(int stateID) throws SlickException {
 		this.stateID = stateID;
 		
 		font = FontHelper.setupAndReturnNewFont("font", 36);
@@ -50,21 +50,28 @@ public class OptionsState extends BasicGameState {
 		buttons.add(new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), 350, 100, new ComponentListener() {
 			@Override
 			public void componentActivated(AbstractComponent ac) {
-				sbg.enterState(GameInfo.STATE_LANGUAGE_ID);
+				sbg.enterState(GameInfo.STATE_VIDEO_OPTIONS_ID);
 			}
 		}));
 		
 		buttons.add(new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), 350, 250, new ComponentListener() {
 			@Override
 			public void componentActivated(AbstractComponent ac) {
-				sbg.enterState(GameInfo.STATE_HIGHSCORE_ID);
+				sbg.enterState(GameInfo.STATE_AUDIO_OPTIONS_ID);
 			}
 		}));
 		
 		buttons.add(new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), 350, 400, new ComponentListener() {
 			@Override
 			public void componentActivated(AbstractComponent ac) {
-				sbg.enterState(GameInfo.STATE_GENERAL_OPTIONS_ID);
+				sbg.enterState(GameInfo.STATE_GAME_OPTIONS_ID);
+			}
+		}));
+		
+		buttons.add(new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), 0, GameInfo.SCREEN_HEIGHT - 100, new ComponentListener() {
+			@Override
+			public void componentActivated(AbstractComponent ac) {
+				sbg.enterState(GameInfo.STATE_OPTIONS_ID);
 			}
 		}));
 		
@@ -79,11 +86,13 @@ public class OptionsState extends BasicGameState {
 		buttons.get(1).setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));
 		buttons.get(2).setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));
 		buttons.get(3).setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));
+		buttons.get(4).setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));
 		
 		buttons.get(0).setMouseDownSound(Sounds.select);
 		buttons.get(1).setMouseDownSound(Sounds.select);
 		buttons.get(2).setMouseDownSound(Sounds.select);
 		buttons.get(3).setMouseDownSound(Sounds.select);
+		buttons.get(4).setMouseDownSound(Sounds.select);
 	}
 
 	@Override
@@ -95,13 +104,14 @@ public class OptionsState extends BasicGameState {
 			moa.render(gc, g);
 		}
 		
-		font.drawString(GameInfo.SCREEN_WIDTH / 2 - (font.getWidth(GameInfo.language.options) / 2), 50, GameInfo.language.options);
+		font.drawString(GameInfo.SCREEN_WIDTH / 2 - (font.getWidth(GameInfo.language.settings) / 2), 50, GameInfo.language.settings);
 		
-		font2.drawString(350 + FontHelper.getWidthDifference(font2, GameInfo.language.languages), 100 + FontHelper.getHeightDifference(font2, GameInfo.language.languages), GameInfo.language.languages);
-		font2.drawString(350 + FontHelper.getWidthDifference(font2, GameInfo.language.highscore), 250 + FontHelper.getHeightDifference(font2, GameInfo.language.highscore), GameInfo.language.highscore);
-		font2.drawString(350 + FontHelper.getWidthDifference(font2, GameInfo.language.general), 400 + FontHelper.getHeightDifference(font2, GameInfo.language.general), GameInfo.language.general);
+		font2.drawString(350 + FontHelper.getWidthDifference(font2, GameInfo.language.videoS), 100 + FontHelper.getHeightDifference(font2, GameInfo.language.videoS), GameInfo.language.videoS);
+		font2.drawString(350 + FontHelper.getWidthDifference(font2, GameInfo.language.audioS), 250 + FontHelper.getHeightDifference(font2, GameInfo.language.audioS), GameInfo.language.audioS);
+		font2.drawString(350 + FontHelper.getWidthDifference(font2, GameInfo.language.gameS), 400 + FontHelper.getHeightDifference(font2, GameInfo.language.gameS), GameInfo.language.gameS);
 		
 		font2.drawString(GameInfo.SCREEN_WIDTH - 300 + FontHelper.getWidthDifference(font2, GameInfo.language.backToMenu), GameInfo.SCREEN_HEIGHT - 100 + FontHelper.getHeightDifference(font2, GameInfo.language.backToMenu), GameInfo.language.backToMenu);
+		font2.drawString(FontHelper.getWidthDifference(font2, GameInfo.language.back), GameInfo.SCREEN_HEIGHT - 100 + FontHelper.getHeightDifference(font2, GameInfo.language.back), GameInfo.language.back);
 	}
 	
 	

@@ -52,7 +52,7 @@ public class MenuState extends BasicGameState {
 		multiplayer = new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), GameInfo.MULTIPLAYER_BUTTON_X, GameInfo.MULTIPLAYER_BUTTON_Y, new ComponentListener() {
 			@Override
 			public void componentActivated(AbstractComponent ac) {
-				bb.enterState(GameInfo.STATE_GAME_ID);
+				bb.enterState(GameInfo.STATE_BATTLE_MENU_ID);
 			}
 		});
 		

@@ -1,16 +1,18 @@
 package roboyobo.ball;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.state.StateBasedGame;
 
 import roboyobo.ball.resource.Sounds;
+import roboyobo.ball.state.GameOverState;
 import roboyobo.ball.util.GameInfo;
 
 public class Ball {
@@ -115,9 +117,10 @@ public class Ball {
 	public void setDead(boolean val, StateBasedGame sbg) {
 		dead = val;
 		GameInfo.TIME_DEAD += 3;
-		System.out.println(GameInfo.TIME_DEAD);
 		if(GameInfo.TIME_DEAD >= GameInfo.MIN_DEATH_TIMER) { 
+			GameInfo.rocks = new ArrayList<Rock>();
 			GameInfo.TIME_DEAD = 0;
+			GameOverState.reset();
 			sbg.enterState(GameInfo.STATE_GAME_OVER_ID);
 		}
 	}

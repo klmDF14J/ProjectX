@@ -36,7 +36,7 @@ public class HighscoreState extends BasicGameState {
 	
 	private UnicodeFont font, font2, font3;
 	
-	private MouseOverArea menu;
+	private MouseOverArea menu, back;
 	
 	public HighscoreState(int stateID) throws SlickException {
 		this.stateID = stateID;
@@ -49,7 +49,7 @@ public class HighscoreState extends BasicGameState {
 	@Override
 	public void init(GameContainer gc, final StateBasedGame sbg) throws SlickException {
 		
-		menu = new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), GameInfo.SCREEN_WIDTH / 2 + 50, GameInfo.SCREEN_HEIGHT - 200, new ComponentListener() {
+		menu = new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), GameInfo.SCREEN_WIDTH - 300, GameInfo.SCREEN_HEIGHT - 100, new ComponentListener() {
 			@Override
 			public void componentActivated(AbstractComponent arg0) {
 				GameInfo.balls.get(0).reset(sbg);
@@ -57,8 +57,18 @@ public class HighscoreState extends BasicGameState {
 			}
 		});
 		
+		back = new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), 0, GameInfo.SCREEN_HEIGHT - 100, new ComponentListener() {
+			@Override
+			public void componentActivated(AbstractComponent ac) {
+				sbg.enterState(GameInfo.STATE_OPTIONS_ID);
+			}
+		});
+		
 		menu.setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));
 		menu.setMouseDownSound(Sounds.select);
+		
+		back.setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));
+		back.setMouseDownSound(Sounds.select);
 		
 		load();
 		
@@ -74,12 +84,16 @@ public class HighscoreState extends BasicGameState {
 		font.drawString((int) (GameInfo.SCREEN_WIDTH / 2 - (font.getWidth(GameInfo.language.highscore) / 2)), (int) (GameInfo.SCREEN_HEIGHT / 2 - (font.getHeight(GameInfo.language.highscore) / 2) - 250), GameInfo.language.highscore);
 
 		menu.render(gc, g);
+		back.render(gc, g);
 		
 		font2.drawString(100, 110, GameInfo.language.username);
 		font2.drawString(250, 110, GameInfo.language.score);
 		font2.drawString(430, 110, "R");
 		font2.drawString(580, 110, "T");
 		font2.drawString(730, 110, "S");
+		
+		font3.drawString(GameInfo.SCREEN_WIDTH - 300 + FontHelper.getWidthDifference(font3, GameInfo.language.backToMenu), GameInfo.SCREEN_HEIGHT - 100 + FontHelper.getHeightDifference(font3, GameInfo.language.backToMenu), GameInfo.language.backToMenu);
+		font3.drawString(FontHelper.getWidthDifference(font3, GameInfo.language.back), GameInfo.SCREEN_HEIGHT - 100 + FontHelper.getHeightDifference(font3, GameInfo.language.back), GameInfo.language.back);
 		
 		g.drawLine(98, 108, 98, 450);
 		g.drawLine(245, 108, 245, 450);

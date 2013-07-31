@@ -32,7 +32,9 @@ public class LanguageState extends BasicGameState {
 	
 	private ArrayList<MouseOverArea> buttons;
 	
-	private UnicodeFont font;
+	private MouseOverArea back;
+	
+	private UnicodeFont font, font2;
 	
 	public LanguageState(int stateID) {
 		this.stateID = stateID;
@@ -44,6 +46,7 @@ public class LanguageState extends BasicGameState {
 		buttons = new ArrayList<MouseOverArea>();
 		
 		font = FontHelper.setupAndReturnNewFont("font", 36);
+		font2 = FontHelper.setupAndReturnNewFont("font", 24);
 		
 		for(final Language language : LanguageHandler.languages) {
 			buttons.add(new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), 350, 100 + (index * 110), new ComponentListener() {
@@ -65,8 +68,18 @@ public class LanguageState extends BasicGameState {
 			}
 		}));
 		
+		back = new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), 0, GameInfo.SCREEN_HEIGHT - 100, new ComponentListener() {
+			@Override
+			public void componentActivated(AbstractComponent ac) {
+				sbg.enterState(GameInfo.STATE_OPTIONS_ID);
+			}
+		});
+		
 		buttons.get(index).setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));
 		buttons.get(index).setMouseDownSound(Sounds.select);
+		
+		back.setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));
+		back.setMouseDownSound(Sounds.select);
 	}
 
 	@Override
@@ -78,16 +91,19 @@ public class LanguageState extends BasicGameState {
 			moa.render(gc, g);
 		}
 		
-		font.drawString(GameInfo.LANGUAGE_TEXT_X, GameInfo.LANGUAGE_TEXT_Y, GameInfo.language.selectLanguage);
+		font.drawString(GameInfo.SCREEN_WIDTH / 2 - (font.getWidth(GameInfo.language.selectLanguage) / 2), 50, GameInfo.language.selectLanguage);
+		
+		back.render(gc, g);
 		
 		index = 0;
 		
 		for(Language language : LanguageHandler.languages) {
-			font.drawString(370, 120 + (index * 110), language.getName());
+			font.drawString(350 + FontHelper.getWidthDifference(font, language.getName()), 100 + FontHelper.getHeightDifference(font, language.getName()) + (index * 110), language.getName());
 			index++;
 		}
 		
-		FontHelper.setupAndReturnNewFont("font", 24).drawString(GameInfo.SCREEN_WIDTH - 260, GameInfo.SCREEN_HEIGHT - 60, GameInfo.language.backToMenu);
+		font2.drawString(GameInfo.SCREEN_WIDTH - 300 + FontHelper.getWidthDifference(font2, GameInfo.language.backToMenu), GameInfo.SCREEN_HEIGHT - 100 + FontHelper.getHeightDifference(font2, GameInfo.language.backToMenu), GameInfo.language.backToMenu);
+		font2.drawString(FontHelper.getWidthDifference(font2, GameInfo.language.back), GameInfo.SCREEN_HEIGHT - 100 + FontHelper.getHeightDifference(font2, GameInfo.language.back), GameInfo.language.back);
 	}
 
 	@Override

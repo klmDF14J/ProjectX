@@ -26,6 +26,13 @@ public class GameInfo {
 	public static final int STATE_LANGUAGE_ID = getNextID();
 	public static final int STATE_SUBMIT_HIGHSCORE_ID = getNextID();
 	public static final int STATE_HIGHSCORE_ID = getNextID();
+	public static final int STATE_BATTLE_MENU_ID = getNextID();
+	public static final int STATE_BATTLE_MENU_GAMEMODE_ID = getNextID();
+	public static final int STATE_BATTLE_ID = getNextID();
+	public static final int STATE_GENERAL_OPTIONS_ID = getNextID();
+	public static final int STATE_VIDEO_OPTIONS_ID = getNextID();
+	public static final int STATE_AUDIO_OPTIONS_ID = getNextID();
+	public static final int STATE_GAME_OPTIONS_ID = getNextID();
 	
 	public static final float BALL_SIZE = 20;
 	
@@ -60,28 +67,27 @@ public class GameInfo {
 	public static final int LOGO_X = 225;
 	public static final int LOGO_Y = 75;
 
-	public static final int LANGUAGE_TEXT_X = 200;
-	public static final int LANGUAGE_TEXT_Y = 50;
-
 	public static final float ROCK_SPEED = 3F;
 
 	public static final float MIN_SHOCKWAVE_CHARGE = 2500;
 
-	public static final int MAX_ROCKS = 10;
+	public static final int MAX_ROCKS = 25;
 
-	public static final int MIN_DEATH_TIMER = 3000;
+	public static final int MIN_DEATH_TIMER = 500;
 
 	public static final int ROCK_REMOVAL_TIME = 300;
-	
+
 	public static ArrayList<Rock> rocks;
 	public static ArrayList<Ball> balls;
 	public static ArrayList<Bullet> bullets;
 	public static ArrayList<Entry> scores;
 	
-	public static int DEAD_ROCKS = 410; 
+	public static int DEAD_ROCKS = 10; 
 	public static int TIME_DEAD;
-	public static int TIME_RUNNING = 300000;
-	public static int SHOCKWAVES_USED = 4;
+	public static int TIME_RUNNING = 3000;
+	public static int SHOCKWAVES_USED = 0;
+	public static int BATTLE_PLAYER_COUNT;
+	public static int BATTLE_GAMEMODE;
 	
 	public static Language language;
 	
