@@ -48,7 +48,9 @@ public class LanguageHandler {
 				"Off",
 				"Shop",
 				"HUD Scale",
-				"Show FPS"
+				"Show FPS",
+				"Sound",
+				"Music"
 		}));
 		languages.add(new Language("fr_FR", new String[]{
 				"Francais",
@@ -84,7 +86,9 @@ public class LanguageHandler {
 				"De",
 				"Magasiner",
 				"HUD Echelle",
-				"Montrer IPS"
+				"Montrer IPS",
+				"Sonner",
+				"Musique"
 		}));
 	}
 	

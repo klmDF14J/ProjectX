@@ -14,6 +14,8 @@ import org.newdawn.slick.gui.MouseOverArea;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import roboyobo.ball.BouncyBall;
+import roboyobo.ball.FileWriter;
 import roboyobo.ball.FontHelper;
 import roboyobo.ball.LanguageHandler;
 import roboyobo.ball.resource.Sounds;
@@ -47,12 +49,38 @@ public class AudioOptionsState extends BasicGameState {
 		languageCount = LanguageHandler.languages.size();
 		buttons = new ArrayList<MouseOverArea>();
 		
+		buttons.add(new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), GameInfo.SCREEN_WIDTH / 2 - 325, 100, new ComponentListener() {
+			@Override
+			public void componentActivated(AbstractComponent ac) {
+				GameInfo.settings.sound = GameInfo.settings.sound == true ? false : true;
+				BouncyBall.app.setSoundOn(GameInfo.settings.sound);
+				FileWriter.save("/resources/projectX/settings.dat", GameInfo.settings);
+				if(GameInfo.settings.sound) {
+					Sounds.select.play();
+				}
+			}
+		}));
+		
+		buttons.add(new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), GameInfo.SCREEN_WIDTH / 2 - 325, 250, new ComponentListener() {
+			@Override
+			public void componentActivated(AbstractComponent ac) {
+				GameInfo.settings.music = GameInfo.settings.music == true ? false : true;
+				BouncyBall.app.setMusicOn(GameInfo.settings.music);
+				FileWriter.save("/resources/projectX/settings.dat", GameInfo.settings);
+				if(GameInfo.settings.sound) {
+					Sounds.select.play();
+				}
+			}
+		}));
+		
 		buttons.add(new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), 0, GameInfo.SCREEN_HEIGHT - 100, new ComponentListener() {
 			@Override
 			public void componentActivated(AbstractComponent ac) {
 				sbg.enterState(GameInfo.STATE_GENERAL_OPTIONS_ID);
 			}
 		}));
+		
+		
 		
 		buttons.add(new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), GameInfo.SCREEN_WIDTH - 300, GameInfo.SCREEN_HEIGHT - 100, new ComponentListener() {
 			@Override
@@ -63,9 +91,10 @@ public class AudioOptionsState extends BasicGameState {
 		
 		buttons.get(0).setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));
 		buttons.get(1).setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));
-		
-		buttons.get(0).setMouseDownSound(Sounds.select);
-		buttons.get(1).setMouseDownSound(Sounds.select);
+		buttons.get(2).setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));
+		buttons.get(3).setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));
+		buttons.get(2).setMouseDownSound(Sounds.select);
+		buttons.get(3).setMouseDownSound(Sounds.select);
 	}
 
 	@Override
@@ -81,6 +110,14 @@ public class AudioOptionsState extends BasicGameState {
 		
 		font2.drawString(GameInfo.SCREEN_WIDTH - 300 + FontHelper.getWidthDifference(font2, GameInfo.language.backToMenu), GameInfo.SCREEN_HEIGHT - 100 + FontHelper.getHeightDifference(font2, GameInfo.language.backToMenu), GameInfo.language.backToMenu);
 		font2.drawString(FontHelper.getWidthDifference(font2, GameInfo.language.back), GameInfo.SCREEN_HEIGHT - 100 + FontHelper.getHeightDifference(font2, GameInfo.language.back), GameInfo.language.back);
+	
+		String s = " " + (GameInfo.settings.sound == true ? GameInfo.language.on : GameInfo.language.off);
+		
+		font2.drawString(GameInfo.SCREEN_WIDTH / 2 - 325 + FontHelper.getWidthDifference(font2, GameInfo.language.sound + s), 100 + FontHelper.getHeightDifference(font2, GameInfo.language.sound + s), GameInfo.language.sound + s);
+		
+		String s2 = " " + (GameInfo.settings.music == true ? GameInfo.language.on : GameInfo.language.off);
+		
+		font2.drawString(GameInfo.SCREEN_WIDTH / 2 - 325 + FontHelper.getWidthDifference(font2, GameInfo.language.music + s2), 250 + FontHelper.getHeightDifference(font2, GameInfo.language.music + s2), GameInfo.language.music + s2);
 	}
 	
 	

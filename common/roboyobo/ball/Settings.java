@@ -24,6 +24,7 @@ public class Settings implements Serializable {
 	/**
 	 * Settings for audio
 	 */
+	public boolean sound, music;
 	
 	
 	/**

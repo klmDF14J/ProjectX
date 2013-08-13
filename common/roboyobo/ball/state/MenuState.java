@@ -92,6 +92,8 @@ public class MenuState extends BasicGameState {
 		options.setMouseDownSound(Sounds.select);
 		
 		BouncyBall.app.setShowFPS(GameInfo.settings.showFPS);
+		BouncyBall.app.setSoundOn(GameInfo.settings.sound);
+		BouncyBall.app.setMusicOn(GameInfo.settings.music);
 	}
 	
 	@Override
