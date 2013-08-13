@@ -18,6 +18,7 @@ import roboyobo.ball.state.HighscoreState;
 import roboyobo.ball.state.LanguageState;
 import roboyobo.ball.state.MenuState;
 import roboyobo.ball.state.OptionsState;
+import roboyobo.ball.state.ShopState;
 import roboyobo.ball.state.SubmitHighscoreState;
 import roboyobo.ball.state.VideoOptionsState;
 import roboyobo.ball.util.GameInfo;
@@ -54,8 +55,9 @@ public class BouncyBall extends StateBasedGame {
 		addState(new VideoOptionsState(GameInfo.STATE_VIDEO_OPTIONS_ID));
 		addState(new AudioOptionsState(GameInfo.STATE_AUDIO_OPTIONS_ID));
 		addState(new GameOptionsState(GameInfo.STATE_GAME_OPTIONS_ID));
+		addState(new ShopState(GameInfo.STATE_SHOP_ID));
 		
-		enterState(GameInfo.STATE_MENU_ID);
+		enterState(GameInfo.STATE_VIDEO_OPTIONS_ID);
 	}
 	
 	
@@ -70,8 +72,10 @@ public class BouncyBall extends StateBasedGame {
 	public void mouseMoved(int oldX, int oldY, int newX, int newY) {
 		super.mouseMoved(oldX, oldY, newX, newY);
 		
-		GameInfo.balls.get(0).mouseX = newX;
-		GameInfo.balls.get(0).mouseY = newY;
+		if(!GameState.isPaused) {
+			GameInfo.balls.get(0).mouseX = newX;
+			GameInfo.balls.get(0).mouseY = newY;
+		}
 	}
 	
 	@Override
@@ -88,9 +92,9 @@ public class BouncyBall extends StateBasedGame {
 	
 	@Override
 	public void keyPressed(int key, char c) {
-		if(this.getCurrentStateID() == GameInfo.STATE_GAME_ID) {
-			if(key == Keyboard.KEY_R) {
-				GameInfo.balls.get(0).reset(this);
+		if(getCurrentStateID() == GameInfo.STATE_GAME_ID) {
+			if(key == Keyboard.KEY_ESCAPE) {
+				GameState.isPaused = GameState.isPaused == true ? false : true;
 			}
 		}
 	}

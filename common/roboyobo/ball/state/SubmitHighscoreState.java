@@ -15,6 +15,7 @@ import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import roboyobo.ball.FileWriter;
 import roboyobo.ball.FontHelper;
 import roboyobo.ball.highscore.Entry;
 import roboyobo.ball.resource.Sounds;
@@ -61,7 +62,7 @@ public class SubmitHighscoreState extends BasicGameState {
 				for(int i = 0; i < GameInfo.scores.size(); i++) {
 					GameInfo.scores.get(i).printInfo();
 				}
-				HighscoreState.save();
+				FileWriter.save("/resources/projectX/highscores.dat", GameInfo.scores);
 				sbg.enterState(GameInfo.STATE_HIGHSCORE_ID);
 			}
 		});

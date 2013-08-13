@@ -1,6 +1,7 @@
 package roboyobo.ball;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import roboyobo.ball.util.GameInfo;
 
@@ -17,7 +18,7 @@ public class LanguageHandler {
 				"English",
 				"Play",
 				"Battle",
-				"Options",
+				"More",
 				"Select a language",
 				"Back to menu",
 				"Languages",
@@ -36,17 +37,23 @@ public class LanguageHandler {
 				"Rocks",
 				"Time",
 				"Vs",
-				"General",
+				"General(Unused)",
 				"Video",
 				"Audio",
 				"Game",
-				"Settings"
+				"Settings",
+				"Colour",
+				"Aim Line",
+				"On",
+				"Off",
+				"Shop",
+				"HUD Scale"
 		}));
 		languages.add(new Language("fr_FR", new String[]{
 				"Francais",
 				"Jouer",
 				"Bataille",
-				"Les options",
+				"Plus",
 				"Selectionnez une langue",
 				"Retour au menu",
 				"Langues",
@@ -65,14 +72,31 @@ public class LanguageHandler {
 				"Roches",
 				"Heure",
 				"Vs",
-				"General",
+				"General(Unused)",
 				"Video",
 				"Acoustique",
 				"Jeu",
-				"Reglages"
+				"Reglages",
+				"Couleur",
+				"But ligne",
+				"Sur",
+				"De",
+				"Magasiner",
+				"HUD Echelle"
 		}));
 	}
 	
+	public static void workOutAndSetLanguage() {
+		Locale locale = Locale.getDefault();
+		String key = locale.getDisplayLanguage();
+		System.out.println(key);
+		for(int i = 0; i < languages.size(); i++) {
+			if(key == languages.get(i).getName()) {
+				GameInfo.language = languages.get(i);
+			}
+		}
+	}
+
 	public static void setLanguageToKey(String key) {
 		for(Language language : languages) {
 			if(key.equals(language.getKey())) {
@@ -83,6 +107,7 @@ public class LanguageHandler {
 	}
 
 	public static void changeLanguage(int i) {
+		System.out.println("Language is now " + languages.get(i).getName());
 		GameInfo.language = languages.get(i);
 	}
 }

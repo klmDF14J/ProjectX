@@ -1,5 +1,7 @@
 package roboyobo.ball.state;
 
+import java.util.Locale;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -13,8 +15,10 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import roboyobo.ball.BouncyBall;
+import roboyobo.ball.FileWriter;
 import roboyobo.ball.FontHelper;
 import roboyobo.ball.LanguageHandler;
+import roboyobo.ball.Settings;
 import roboyobo.ball.resource.Sounds;
 import roboyobo.ball.util.GameInfo;
 
@@ -39,7 +43,24 @@ public class MenuState extends BasicGameState {
 		LanguageHandler.init();
 		Sounds.init();
 		
-		GameInfo.language = LanguageHandler.languages.get(0);
+		if(FileWriter.load("/resources/projectX/settings.dat") instanceof Settings) {
+			GameInfo.settings = (Settings) FileWriter.load("/resources/projectX/settings.dat");
+			System.out.println("HUD Scale: " + GameInfo.settings.hudScale);
+		}
+		
+		int i = 0;
+		
+		if(FileWriter.load("/resources/projectX/language.dat") instanceof Integer) {
+			i = (int) FileWriter.load("/resources/projectX/language.dat");
+		}
+		
+		if(i == 0 && Locale.getDefault().getDisplayLanguage() != Locale.ENGLISH.getDisplayLanguage()) {
+			System.err.println("Language is set to English, however your default locale is " + Locale.getDefault().getDisplayLanguage());
+			LanguageHandler.workOutAndSetLanguage();
+		}
+		else {
+			LanguageHandler.changeLanguage(i);
+		}
 		
 		play = new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), GameInfo.PLAY_BUTTON_X, GameInfo.PLAY_BUTTON_Y, new ComponentListener() {
 			@Override

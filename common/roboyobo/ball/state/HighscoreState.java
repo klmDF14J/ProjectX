@@ -1,5 +1,6 @@
 package roboyobo.ball.state;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -20,6 +21,7 @@ import org.newdawn.slick.gui.MouseOverArea;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import roboyobo.ball.FileWriter;
 import roboyobo.ball.FontHelper;
 import roboyobo.ball.highscore.Entry;
 import roboyobo.ball.resource.Sounds;
@@ -31,6 +33,8 @@ import roboyobo.hoppityHop.util.Reason;
 import roboyobo.hoppityHop.util.Reference;
 
 public class HighscoreState extends BasicGameState {
+
+	public static int mode;
 
 	private int stateID;
 	
@@ -60,7 +64,13 @@ public class HighscoreState extends BasicGameState {
 		back = new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), 0, GameInfo.SCREEN_HEIGHT - 100, new ComponentListener() {
 			@Override
 			public void componentActivated(AbstractComponent ac) {
-				sbg.enterState(GameInfo.STATE_OPTIONS_ID);
+				if(mode == 0) {
+					sbg.enterState(GameInfo.STATE_OPTIONS_ID);
+				}
+				if(mode == 1) {
+					mode = 0;
+					sbg.enterState(GameInfo.STATE_GAME_ID);
+				}
 			}
 		});
 		
@@ -70,7 +80,10 @@ public class HighscoreState extends BasicGameState {
 		back.setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));
 		back.setMouseDownSound(Sounds.select);
 		
-		load();
+		
+		if(FileWriter.load("/resources/projectX/highscores.dat") instanceof ArrayList<?>) {
+			GameInfo.scores = (ArrayList<Entry>) FileWriter.load("/resources/projectX/highscores.dat");
+		}
 		
 	}
 
@@ -114,7 +127,7 @@ public class HighscoreState extends BasicGameState {
 					GameInfo.scores.set(i - 1, e);
 					GameInfo.scores.set(i, e2);
 					
-					save();
+					FileWriter.save("/resources/projectX/highscores.dat", GameInfo.scores);
 				}
 			}
 		}
@@ -147,37 +160,5 @@ public class HighscoreState extends BasicGameState {
 	public int getID() {
 		return stateID;
 	}
-	
-	@SuppressWarnings("unchecked")
-	public void load() {
-		ObjectInputStream ois;
-		try {
-			ois = new ObjectInputStream(new FileInputStream("resources/projectX/high.scores"));
-			GameInfo.scores =  (ArrayList<Entry>) ois.readObject();
-			ois.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	
-	public static void save() {
-		System.out.println("Saving");
-		ObjectOutputStream oos;
-		try {
-			oos = new ObjectOutputStream(new FileOutputStream("resources/projectX/high.scores"));
-			oos.writeObject(GameInfo.scores);
-			oos.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-
 
 }

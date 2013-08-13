@@ -2,12 +2,28 @@ Link to text: http://cooltext.com/Logo-Design-Galactica
 
 Link to background: http://www.spacewallpapers.net/wallpapers/thumbnails.php?album=6
 
+Music: http://www.last.fm/music/+free-music-downloads/space+ambient
+
+Converted with: http://audio.online-convert.com/convert-to-ogg
+
 TODO: 
-	- In game shop
-	- Pause menu, leads to ^
+	- In game shop (Lots to do)
 	
-	-Add battle mode
+	-Finish battle mode, actually add gameplay, waiting on new entity system before doing this
 	
-	-Possible broken score counter, rounding relying on fps various results
+	-Finish up basic shop
 	
+	-Work on token system, need an equation for converting score into tokens. 
+	
+	-Finish up shop, add selection menu for buy size instead of just fixed
+	
+	-Add items where u can only have one a day etc in the shop
+	
+	-Work on HUD that includes health bars and rocks destoryed etc
+	
+	-Battle mode needs to be disabled until done
+	
+	-Render text on pause menu (Easy)
+	
+	-Fix rocks glitching on each other (Hopefully with new entity system)
 	

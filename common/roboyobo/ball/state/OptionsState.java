@@ -99,7 +99,7 @@ public class OptionsState extends BasicGameState {
 		
 		font2.drawString(350 + FontHelper.getWidthDifference(font2, GameInfo.language.languages), 100 + FontHelper.getHeightDifference(font2, GameInfo.language.languages), GameInfo.language.languages);
 		font2.drawString(350 + FontHelper.getWidthDifference(font2, GameInfo.language.highscore), 250 + FontHelper.getHeightDifference(font2, GameInfo.language.highscore), GameInfo.language.highscore);
-		font2.drawString(350 + FontHelper.getWidthDifference(font2, GameInfo.language.general), 400 + FontHelper.getHeightDifference(font2, GameInfo.language.general), GameInfo.language.general);
+		font2.drawString(350 + FontHelper.getWidthDifference(font2, GameInfo.language.settings), 400 + FontHelper.getHeightDifference(font2, GameInfo.language.settings), GameInfo.language.settings);
 		
 		font2.drawString(GameInfo.SCREEN_WIDTH - 300 + FontHelper.getWidthDifference(font2, GameInfo.language.backToMenu), GameInfo.SCREEN_HEIGHT - 100 + FontHelper.getHeightDifference(font2, GameInfo.language.backToMenu), GameInfo.language.backToMenu);
 	}

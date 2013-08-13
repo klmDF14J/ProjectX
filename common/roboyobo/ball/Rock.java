@@ -12,23 +12,31 @@ import roboyobo.ball.util.GameInfo;
 
 public class Rock {
 	
-	private float x, y;
+	private float x, y, rotSpeed;
 	private int timePassed, direction;
 	private boolean dead = false;
+	private Image img;
 	
 	private Rectangle bounds = new Rectangle(x, y, GameInfo.ROCK_WIDTH, GameInfo.ROCK_HEIGHT);
 	
-	public Rock(int x, int y, int direction) {
+	public Rock(int x, int y, int direction) throws SlickException {
 		this.x = x;
 		this.y = y;
 		this.direction = direction;
+		
+		Random rand = new Random();
+		float num = rand.nextFloat() + 1;
+		rotSpeed = (float) (num > 1.5 ? 1.5 : num);
+		
+		img = new Image("/resources/images/projectX/asteroid.png");
 	}
 	
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		for(Ball ball : GameInfo.balls) {
 			if(!ball.isDead() && !isDead()) {
 				g.setColor(GameInfo.ROCK_COLOUR);
-				g.drawImage(new Image("/resources/images/projectX/asteroid.png"), x, y);
+				img.rotate(rotSpeed);
+				g.drawImage(img, x, y);
 			}
 		}
 	}

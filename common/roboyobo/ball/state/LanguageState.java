@@ -14,6 +14,7 @@ import org.newdawn.slick.gui.MouseOverArea;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import roboyobo.ball.FileWriter;
 import roboyobo.ball.FontHelper;
 import roboyobo.ball.Language;
 import roboyobo.ball.LanguageHandler;
@@ -53,7 +54,8 @@ public class LanguageState extends BasicGameState {
 				@Override
 				public void componentActivated(AbstractComponent ac) {
 					GameInfo.language = language;
-					System.out.println("Language is now: " + GameInfo.language.getKey());
+					System.out.println(LanguageHandler.languages.indexOf(language));
+					FileWriter.save("/resources/projectX/language.dat", LanguageHandler.languages.indexOf(language));
 				}
 			}));
 			buttons.get(index).setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));

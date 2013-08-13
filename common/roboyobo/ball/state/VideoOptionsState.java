@@ -2,6 +2,14 @@ package roboyobo.ball.state;
 
 import java.util.ArrayList;
 
+import mdes.slick.sui.Display;
+import mdes.slick.sui.ScrollBar;
+import mdes.slick.sui.Slider;
+import mdes.slick.sui.event.ChangeEvent;
+import mdes.slick.sui.event.ChangeListener;
+import mdes.slick.sui.event.MouseEvent;
+import mdes.slick.sui.event.MouseListener;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -14,8 +22,8 @@ import org.newdawn.slick.gui.MouseOverArea;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import roboyobo.ball.FileWriter;
 import roboyobo.ball.FontHelper;
-import roboyobo.ball.LanguageHandler;
 import roboyobo.ball.resource.Sounds;
 import roboyobo.ball.util.GameInfo;
 
@@ -28,8 +36,8 @@ public class VideoOptionsState extends BasicGameState {
 	
 	public static int length = 10;
 	
-	private int languageCount;
-	private int index;
+	private Slider slider;
+	private float lastX = 19 * 5, sliderVal = 1;
 	
 	private ArrayList<MouseOverArea> buttons;
 	
@@ -42,10 +50,16 @@ public class VideoOptionsState extends BasicGameState {
 		font2 = FontHelper.setupAndReturnNewFont("font", 24);
 	}
 	
+	Display disp;
+	
 	@Override
 	public void init(GameContainer gc, final StateBasedGame sbg) throws SlickException {
-		languageCount = LanguageHandler.languages.size();
 		buttons = new ArrayList<MouseOverArea>();
+		
+		sliderVal = GameInfo.settings.hudScale;
+		lastX = GameInfo.settings.lastX;
+		
+		System.out.println(sliderVal + " " + lastX);
 		
 		buttons.add(new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), 0, GameInfo.SCREEN_HEIGHT - 100, new ComponentListener() {
 			@Override
@@ -66,6 +80,36 @@ public class VideoOptionsState extends BasicGameState {
 		
 		buttons.get(0).setMouseDownSound(Sounds.select);
 		buttons.get(1).setMouseDownSound(Sounds.select);
+	
+		disp = new Display(gc);
+		slider = new Slider(Slider.HORIZONTAL);
+		slider.setBounds(GameInfo.SCREEN_WIDTH / 2 - 275, 170, 200, 20);
+		slider.setValue(GameInfo.settings.hudScale / 2);
+		slider.setThumbSize(0.05F);
+		slider.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent event) {
+				System.out.println("X of thumb is now: " + slider.getThumbButton().getX());
+				if(slider.getThumbButton().getX() > lastX) {
+					sliderVal += 0.2F;
+				}
+				if(slider.getThumbButton().getX() < lastX) {
+					sliderVal -= 0.2F;
+				}
+				lastX = slider.getThumbButton().getX();
+				GameInfo.settings.hudScale = sliderVal;
+				GameInfo.settings.lastX = lastX;
+				try {
+					GameState.setFonts();
+				} catch (SlickException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				FileWriter.save("/resources/projectX/settings.dat", GameInfo.settings);
+				System.out.println("Slider Val: " + sliderVal);
+			}
+		});
+        disp.add(slider);
 	}
 
 	@Override
@@ -81,13 +125,18 @@ public class VideoOptionsState extends BasicGameState {
 		
 		font2.drawString(GameInfo.SCREEN_WIDTH - 300 + FontHelper.getWidthDifference(font2, GameInfo.language.backToMenu), GameInfo.SCREEN_HEIGHT - 100 + FontHelper.getHeightDifference(font2, GameInfo.language.backToMenu), GameInfo.language.backToMenu);
 		font2.drawString(FontHelper.getWidthDifference(font2, GameInfo.language.back), GameInfo.SCREEN_HEIGHT - 100 + FontHelper.getHeightDifference(font2, GameInfo.language.back), GameInfo.language.back);
+	
+		g.drawImage(new Image("/resources/images/projectX/button.png"), GameInfo.SCREEN_WIDTH / 2 - 325, 100);
+		font2.drawString(GameInfo.SCREEN_WIDTH / 2 - 325 + FontHelper.getWidthDifference(font2, GameInfo.language.hud), 100 + ((70 - font2.getHeight(GameInfo.language.hud)) / 2), GameInfo.language.hud);
+		
+		disp.render(gc, g);
 	}
 	
 	
 
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
-		
+		disp.update(gc, delta);
 	}
 
 	@Override

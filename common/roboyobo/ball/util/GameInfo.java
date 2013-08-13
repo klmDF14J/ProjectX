@@ -7,9 +7,11 @@ import org.newdawn.slick.geom.Shape;
 
 import roboyobo.ball.Ball;
 import roboyobo.ball.Bullet;
+import roboyobo.ball.Item;
 import roboyobo.ball.Language;
 import roboyobo.ball.LanguageHandler;
 import roboyobo.ball.Rock;
+import roboyobo.ball.Settings;
 import roboyobo.ball.highscore.Entry;
 
 public class GameInfo {
@@ -33,6 +35,7 @@ public class GameInfo {
 	public static final int STATE_VIDEO_OPTIONS_ID = getNextID();
 	public static final int STATE_AUDIO_OPTIONS_ID = getNextID();
 	public static final int STATE_GAME_OPTIONS_ID = getNextID();
+	public static final int STATE_SHOP_ID = getNextID();
 	
 	public static final float BALL_SIZE = 20;
 	
@@ -44,7 +47,7 @@ public class GameInfo {
 	
 	public static final float BALL_MIN_DISTANCE_FOR_MOVE = 75;
 	
-	public static final int MIN_TIME_FOR_ROCK_MOVE = 1000;
+	public static final int MIN_TIME_FOR_ROCK_MOVE = 5000;
 	
 	public static final float ROCK_WIDTH = 50;
 	public static final float ROCK_HEIGHT = 50;
@@ -82,14 +85,21 @@ public class GameInfo {
 	public static ArrayList<Bullet> bullets;
 	public static ArrayList<Entry> scores;
 	
-	public static int DEAD_ROCKS = 10; 
+	public static int DEAD_ROCKS = 0; 
+	public static int DEAD_ROCKS_DEFAULT = 10; 
 	public static int TIME_DEAD;
 	public static int TIME_RUNNING = 3000;
 	public static int SHOCKWAVES_USED = 0;
 	public static int BATTLE_PLAYER_COUNT;
 	public static int BATTLE_GAMEMODE;
 	
+	public static int TOKEN_COUNT = 100;
+	public static final int TOKEN_STARTER_NUM = 100;
+	
+	public static ArrayList<Item> shopContents;
+	
 	public static Language language;
+	public static Settings settings = new Settings();
 	
 	private static int getNextID() {
 		return CURRENT_ID++;

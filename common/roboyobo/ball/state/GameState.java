@@ -3,17 +3,25 @@ package roboyobo.ball.state;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.UnicodeFont;
+import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.gui.AbstractComponent;
+import org.newdawn.slick.gui.ComponentListener;
+import org.newdawn.slick.gui.MouseOverArea;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import roboyobo.ball.Ball;
 import roboyobo.ball.BouncyBall;
 import roboyobo.ball.Bullet;
+import roboyobo.ball.FontHelper;
 import roboyobo.ball.Rock;
+import roboyobo.ball.resource.Sounds;
 import roboyobo.ball.util.GameInfo;
 
 public class GameState extends BasicGameState {
@@ -21,7 +29,13 @@ public class GameState extends BasicGameState {
 	private int stateID;
 	private int timeSinceNewRock, timeSinceStart;
 	private boolean shouldTime = true;
+	public static boolean isPaused = false;
 	private Random rand;
+	private MouseOverArea resume, shop, highscores, menu;
+	private Image rocksDead;
+	private static UnicodeFont statFont;
+	private static UnicodeFont statFont2;
+	private static UnicodeFont statFont3;
 	
 	public GameState(int stateID) {
 		this.stateID = stateID;
@@ -37,8 +51,58 @@ public class GameState extends BasicGameState {
 	}
 
 	@Override
-	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
+	public void init(GameContainer gc, final StateBasedGame sbg) throws SlickException {
+		shop = new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), 350, 100, new ComponentListener() {
+			@Override
+			public void componentActivated(AbstractComponent ac) {
+				sbg.enterState(GameInfo.STATE_SHOP_ID);
+			}
+		});
 		
+		highscores = new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), 350, 250, new ComponentListener() {
+			@Override
+			public void componentActivated(AbstractComponent ac) {
+				HighscoreState.mode = 1;
+				sbg.enterState(GameInfo.STATE_HIGHSCORE_ID);
+			}
+		});
+		
+		resume = new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), 0, GameInfo.SCREEN_HEIGHT - 100, new ComponentListener() {
+			@Override
+			public void componentActivated(AbstractComponent ac) {
+				isPaused = false;
+			}
+		});
+		
+		menu = new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), GameInfo.SCREEN_WIDTH - 300, GameInfo.SCREEN_HEIGHT - 100, new ComponentListener() {
+			@Override
+			public void componentActivated(AbstractComponent ac) {
+				isPaused = false;
+				GameInfo.balls.get(0).reset(sbg);
+				GameOverState.reset();
+				sbg.enterState(GameInfo.STATE_MENU_ID);
+			}
+		});
+		
+		shop.setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));
+		highscores.setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));
+		resume.setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));
+		menu.setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));
+		
+		shop.setMouseDownSound(Sounds.select);
+		highscores.setMouseDownSound(Sounds.select);
+		resume.setMouseDownSound(Sounds.select);
+		menu.setMouseDownSound(Sounds.select);
+		
+		rocksDead = new Image("/resources/images/projectX/asteroid.png");
+		
+		setFonts();
+	}
+	
+	public static void setFonts() throws SlickException {
+		statFont = FontHelper.setupAndReturnNewFont("font", (int) (24 * GameInfo.settings.hudScale));
+		statFont2 = FontHelper.setupAndReturnNewFont("font", (int) (18 * GameInfo.settings.hudScale));
+		statFont3 = FontHelper.setupAndReturnNewFont("font", (int) (12 * GameInfo.settings.hudScale));
 	}
 	
 	@Override
@@ -62,56 +126,86 @@ public class GameState extends BasicGameState {
 		for(Bullet bullet : GameInfo.bullets) {
 			bullet.render(gc, g);
 		}
+		
+		if(isPaused) {
+			shop.render(gc, g);
+			highscores.render(gc, g);
+			resume.render(gc, g);
+			menu.render(gc, g);
+		}
+		
+		g.setColor(Color.gray);
+		g.fill(new Rectangle(0, 0, 150 * GameInfo.settings.hudScale, 10 * GameInfo.settings.hudScale));
+		g.fill(new Rectangle(0, 55 * GameInfo.settings.hudScale, 150 * GameInfo.settings.hudScale, 10 * GameInfo.settings.hudScale));
+		g.fill(new Rectangle(0, 0, 10 * GameInfo.settings.hudScale, 65 * GameInfo.settings.hudScale));
+		g.fill(new Rectangle(140 * GameInfo.settings.hudScale, 0, 10 * GameInfo.settings.hudScale, 65 * GameInfo.settings.hudScale));
+		
+		g.setColor(new Color(0, 0, 0, 0.5F));
+		g.fill(new Rectangle(10 * GameInfo.settings.hudScale, 10 * GameInfo.settings.hudScale, 130 * GameInfo.settings.hudScale, 45 * GameInfo.settings.hudScale));
+		
+		rocksDead.draw(15 * GameInfo.settings.hudScale, 15 * GameInfo.settings.hudScale, 0.7F * GameInfo.settings.hudScale);
+		
+		if(GameInfo.DEAD_ROCKS >= 0 && GameInfo.DEAD_ROCKS < 1000) { 
+			statFont.drawString(70 * GameInfo.settings.hudScale, (((65 * GameInfo.settings.hudScale) - statFont.getHeight("" + GameInfo.DEAD_ROCKS)) / 2), "" + GameInfo.DEAD_ROCKS);
+		}
+		else if(GameInfo.DEAD_ROCKS >= 1000 && GameInfo.DEAD_ROCKS < 10000) {
+			statFont2.drawString(70 * GameInfo.settings.hudScale, (((65 * GameInfo.settings.hudScale) - statFont2.getHeight("" + GameInfo.DEAD_ROCKS)) / 2), "" + GameInfo.DEAD_ROCKS);
+		}
+		else if(GameInfo.DEAD_ROCKS >= 10000) {
+			statFont3.drawString(70 * GameInfo.settings.hudScale, (((65 * GameInfo.settings.hudScale) - statFont3.getHeight("" + GameInfo.DEAD_ROCKS)) / 2), "" + GameInfo.DEAD_ROCKS);
+		}
 	}
 
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
 		
-		timeSinceNewRock += delta;
-		GameInfo.TIME_RUNNING += delta;
-		
-		if(shouldTime) {
-			timeSinceStart += delta;
-		}
-		if(timeSinceStart >= 5000) {
-			shouldTime = false;
-		}
-		
-		int timeToWait = 500 - ((GameInfo.TIME_RUNNING / 1000));
-		
-		if(timeToWait < 300) {
-			timeToWait = 300;
-		}
-		
-		if(timeSinceNewRock >= timeToWait && !shouldTime && GameInfo.rocks.size() <= GameInfo.MAX_ROCKS) {
-			Random rand = new Random();
-			int x = rand.nextInt(GameInfo.SCREEN_WIDTH);
-			int y = rand.nextInt(GameInfo.SCREEN_HEIGHT);
-			GameInfo.rocks.add(new Rock(x, y, rand.nextInt(4)));
-			timeSinceNewRock = 0;
-		}
-		
-		for(Ball ball : GameInfo.balls) {
-			ball.update(gc, sbg, delta);
-		}
-		
-		for(int i = 0; i < GameInfo.rocks.size(); i++) {
-			Rock rock = GameInfo.rocks.get(i);
-			if(!rock.isDead()) {
-				rock.update(delta);
+		if(!isPaused) {
+			timeSinceNewRock += delta;
+			GameInfo.TIME_RUNNING += delta;
+			
+			if(shouldTime) {
+				timeSinceStart += delta;
 			}
-			if(rock.isDead()) {
-				GameInfo.rocks.remove(rock);
+			if(timeSinceStart >= 5000) {
+				shouldTime = false;
 			}
-		}
-		
-		for(int i = 0; i < GameInfo.bullets.size(); i++) {
-			Bullet bullet = GameInfo.bullets.get(i);
-			if(!bullet.isDead()) {
-				bullet.update(delta);
+			
+			int timeToWait = 500 - ((GameInfo.TIME_RUNNING / 1000));
+			
+			if(timeToWait < 300) {
+				timeToWait = 300;
 			}
-			if(bullet.isDead()) {
-				GameInfo.bullets.remove(bullet);
+			
+			if(timeSinceNewRock >= timeToWait && !shouldTime && GameInfo.rocks.size() <= GameInfo.MAX_ROCKS) {
+				Random rand = new Random();
+				int x = rand.nextInt(GameInfo.SCREEN_WIDTH);
+				int y = rand.nextInt(GameInfo.SCREEN_HEIGHT);
+				GameInfo.rocks.add(new Rock(x, y, rand.nextInt(4)));
+				timeSinceNewRock = 0;
+			}
+			
+			for(Ball ball : GameInfo.balls) {
+				ball.update(gc, sbg, delta);
+			}
+			
+			for(int i = 0; i < GameInfo.rocks.size(); i++) {
+				Rock rock = GameInfo.rocks.get(i);
+				if(!rock.isDead()) {
+					rock.update(delta);
+				}
+				if(rock.isDead()) {
+					GameInfo.rocks.remove(rock);
+				}
+			}
+			
+			for(int i = 0; i < GameInfo.bullets.size(); i++) {
+				Bullet bullet = GameInfo.bullets.get(i);
+				if(!bullet.isDead()) {
+					bullet.update(delta);
+				}
+				if(bullet.isDead()) {
+					GameInfo.bullets.remove(bullet);
+				}
 			}
 		}
 	}

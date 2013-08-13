@@ -14,13 +14,15 @@ import org.newdawn.slick.gui.MouseOverArea;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import roboyobo.ball.EnumRank;
 import roboyobo.ball.FileWriter;
 import roboyobo.ball.FontHelper;
+import roboyobo.ball.Item;
 import roboyobo.ball.LanguageHandler;
 import roboyobo.ball.resource.Sounds;
 import roboyobo.ball.util.GameInfo;
 
-public class GameOptionsState extends BasicGameState {
+public class ShopState extends BasicGameState {
 
 	private int stateID;
 	
@@ -36,11 +38,35 @@ public class GameOptionsState extends BasicGameState {
 	
 	private UnicodeFont font, font2;
 	
-	public GameOptionsState(int stateID) throws SlickException {
+	public ShopState(int stateID) throws SlickException {
 		this.stateID = stateID;
 		
 		font = FontHelper.setupAndReturnNewFont("font", 36);
 		font2 = FontHelper.setupAndReturnNewFont("font", 24);
+		
+		GameInfo.shopContents = new ArrayList<Item>();
+		
+		GameInfo.shopContents.add(new Item("Ultimate Gun", EnumRank.EPIC, 100, false, 1));
+		GameInfo.shopContents.add(new Item("Ultimate Ship", EnumRank.GOOD, 250, true, 1));
+		GameInfo.shopContents.add(new Item("Ultimate Bullet", EnumRank.BAD, 20, false, 10));
+		
+		if(FileWriter.load("/resources/projectX/itemsBought.dat") instanceof ArrayList<?>) {
+			GameInfo.shopContents = (ArrayList<Item>) FileWriter.load("/resources/projectX/itemsBought.dat");
+		}
+		
+		System.out.println("There are currently " + GameInfo.shopContents.size() + " Items Available For Purchase");
+		
+		for(Item item : GameInfo.shopContents) {
+			System.out.println(item.getName() + " is an item of " + item.getRank().getRankValue() + " quality. It costs " + item.getCost() + " tokens and is" + (item.isPremium() == false ? " not" : "") + " a premium item");
+		}
+		
+		GameInfo.shopContents.get(2).buy();
+		
+		for(Item item : GameInfo.shopContents) {
+			System.out.println(item.getName() + " has " + item.getStackSize() + " items in its stack. You buy it in a size of " + item.getBuySize() + " and just to check it " + (item.canStack() == true ? "can" : "cannot") + " stack");
+		}
+		
+		
 	}
 	
 	@Override
@@ -48,31 +74,10 @@ public class GameOptionsState extends BasicGameState {
 		languageCount = LanguageHandler.languages.size();
 		buttons = new ArrayList<MouseOverArea>();
 		
-		buttons.add(new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), GameInfo.SCREEN_WIDTH / 2 - 325, 100, new ComponentListener() {
-			@Override
-			public void componentActivated(AbstractComponent ac) {
-				GameInfo.settings.renderAimLine = GameInfo.settings.renderAimLine == true ? false : true;
-				FileWriter.save("/resources/projectX/settings.dat", GameInfo.settings);
-			}
-		}));
-		
-		buttons.add(new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), GameInfo.SCREEN_WIDTH / 2 + 25, 100, new ComponentListener() {
-			@Override
-			public void componentActivated(AbstractComponent ac) {
-				if(GameInfo.settings.lineColour + 1 < GameInfo.settings.lineColours.length) {
-					GameInfo.settings.lineColour++;
-				}
-				else {
-					GameInfo.settings.lineColour = 0;
-				}
-				FileWriter.save("/resources/projectX/settings.dat", GameInfo.settings);
-			}
-		}));
-		
 		buttons.add(new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), 0, GameInfo.SCREEN_HEIGHT - 100, new ComponentListener() {
 			@Override
 			public void componentActivated(AbstractComponent ac) {
-				sbg.enterState(GameInfo.STATE_GENERAL_OPTIONS_ID);
+				sbg.enterState(GameInfo.STATE_GAME_ID);
 			}
 		}));
 		
@@ -85,13 +90,11 @@ public class GameOptionsState extends BasicGameState {
 		
 		buttons.get(0).setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));
 		buttons.get(1).setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));
-		buttons.get(2).setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));
-		buttons.get(3).setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));
 		
 		buttons.get(0).setMouseDownSound(Sounds.select);
 		buttons.get(1).setMouseDownSound(Sounds.select);
-		buttons.get(2).setMouseDownSound(Sounds.select);
-		buttons.get(3).setMouseDownSound(Sounds.select);
+		
+		
 	}
 
 	@Override
@@ -100,30 +103,12 @@ public class GameOptionsState extends BasicGameState {
 		g.drawImage(new Image("/resources/images/projectX/menuBackground.png"), 0, 0);
 		
 		for(MouseOverArea moa : buttons) {
-			if(moa == buttons.get(1)) {
-				if(GameInfo.settings.renderAimLine) {
-					moa.render(gc, g);
-				}
-			}
-			else {
-				moa.render(gc, g);
-			}
+			moa.render(gc, g);
 		}
-		
-		font.drawString(GameInfo.SCREEN_WIDTH / 2 - (font.getWidth(GameInfo.language.gameS + " " + GameInfo.language.settings) / 2), 50, GameInfo.language.gameS + " " + GameInfo.language.settings);
+		font.drawString(GameInfo.SCREEN_WIDTH / 2 - (font.getWidth(GameInfo.language.shop) / 2), 50, GameInfo.language.shop);
 		
 		font2.drawString(GameInfo.SCREEN_WIDTH - 300 + FontHelper.getWidthDifference(font2, GameInfo.language.backToMenu), GameInfo.SCREEN_HEIGHT - 100 + FontHelper.getHeightDifference(font2, GameInfo.language.backToMenu), GameInfo.language.backToMenu);
 		font2.drawString(FontHelper.getWidthDifference(font2, GameInfo.language.back), GameInfo.SCREEN_HEIGHT - 100 + FontHelper.getHeightDifference(font2, GameInfo.language.back), GameInfo.language.back);
-		
-		String s = " " + (GameInfo.settings.renderAimLine == true ? GameInfo.language.on : GameInfo.language.off);
-		
-		font2.drawString(GameInfo.SCREEN_WIDTH / 2 - 325 + FontHelper.getWidthDifference(font2, GameInfo.language.aimLine + s), 100 + FontHelper.getHeightDifference(font2, GameInfo.language.aimLine + s), GameInfo.language.aimLine + s);
-		
-		if(GameInfo.settings.renderAimLine) {
-			font2.drawString(GameInfo.SCREEN_WIDTH / 2 + 25 + FontHelper.getWidthDifference(font2, GameInfo.language.colour), 100 + FontHelper.getHeightDifference(font2, GameInfo.language.colour), GameInfo.language.colour);
-			g.setColor(GameInfo.settings.lineColours[GameInfo.settings.lineColour]);
-			g.fillRect(GameInfo.SCREEN_WIDTH / 2 + 25 + 100, 100 + 70, 100, 20);
-		}
 	}
 	
 	

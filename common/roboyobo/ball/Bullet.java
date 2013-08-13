@@ -1,6 +1,5 @@
 package roboyobo.ball;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -38,18 +37,18 @@ public class Bullet {
 		
 		if(x != endPoint.getX()) {
 			if(endPoint.getX() > x) {
-				x += 3F;
+				x += 4F;
 			}
 			if(endPoint.getX() < x) {
-				x -= 3F;
+				x -= 4F;
 			}
 		}
 		if(y != endPoint.getY()) {
 			if(endPoint.getY() > y) {
-				y += 3F;
+				y += 4F;
 			}
 			if(endPoint.getY() < y) {
-				y -= 3F;
+				y -= 4F;
 			}
 		}
 		

@@ -13,6 +13,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import roboyobo.ball.resource.Sounds;
 import roboyobo.ball.state.GameOverState;
+import roboyobo.ball.state.GameState;
 import roboyobo.ball.util.GameInfo;
 
 public class Ball {
@@ -46,11 +47,11 @@ public class Ball {
 			g.drawImage(new Image("/resources/images/projectX/ufo.png"), x - 20, y - 20);
 		}
 		
-		String string = isDead() ? "Dead" : "Health: " + health;
-		g.drawString(string, 300, 300);
-		g.drawString("Rocks Dead: " + GameInfo.DEAD_ROCKS, 600, 300);
-		g.drawString("Charge: " + shockwaveCharge, 300, 500);
-		
+
+		if(GameInfo.settings.renderAimLine) {
+			g.setColor(GameInfo.settings.lineColours[GameInfo.settings.lineColour]);
+			g.drawLine(x, y, mouseX, mouseY);
+		}
 		
 	}
 	
@@ -130,18 +131,20 @@ public class Ball {
 	}
 
 	public void fire(int button) {
-		if(button == 0) {
-			Point point = new Point(GameInfo.balls.get(0).mouseX, GameInfo.balls.get(0).mouseY);
-			Point point2 = new Point(GameInfo.balls.get(0).x, GameInfo.balls.get(0).y);
-		
-			GameInfo.bullets.add(new Bullet(point, point2));
-			Sounds.fire.play();
-		}
-		else if(button == 1 && shockwaveCharge >= GameInfo.MIN_SHOCKWAVE_CHARGE) {
-			shouldShockwave = true;
-			flag = false;
-			Sounds.shockwave.play();
-			GameInfo.SHOCKWAVES_USED++;
+		if(!GameState.isPaused) { 
+			if(button == 0) {
+				Point point = new Point(GameInfo.balls.get(0).mouseX, GameInfo.balls.get(0).mouseY);
+				Point point2 = new Point(GameInfo.balls.get(0).x, GameInfo.balls.get(0).y);
+			
+				GameInfo.bullets.add(new Bullet(point, point2));
+				Sounds.fire.play();
+			}
+			else if(button == 1 && shockwaveCharge >= GameInfo.MIN_SHOCKWAVE_CHARGE) {
+				shouldShockwave = true;
+				flag = false;
+				Sounds.shockwave.play();
+				GameInfo.SHOCKWAVES_USED++;
+			}
 		}
 	}
 
@@ -154,7 +157,7 @@ public class Ball {
 		shockwaveCharge = 2500;
 		health = 100;
 		
-		GameInfo.DEAD_ROCKS = 0;
+		GameInfo.DEAD_ROCKS = GameInfo.DEAD_ROCKS_DEFAULT;
 		GameInfo.TIME_RUNNING = 0;
 		GameInfo.SHOCKWAVES_USED = 0;
 		setDead(false, sbg);

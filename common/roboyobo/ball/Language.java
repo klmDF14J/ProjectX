@@ -1,11 +1,12 @@
 package roboyobo.ball;
 
+
 public class Language {
-	
 
 	private String key, name;
 	
-	public String play, battle, options, selectLanguage, backToMenu, languages, gameOver, rocksDestroyed, timeLasted, shockwavesUsed, totalScore, submit, enterUsername, highscore, username, score, player, back, rocks, time, vs, general, videoS, audioS, gameS, settings;
+	public String play, battle, options, selectLanguage, backToMenu, languages, gameOver, rocksDestroyed, timeLasted, shockwavesUsed, totalScore, submit, enterUsername, highscore, username, score, player, back, rocks, time, vs, general, videoS, audioS, gameS, settings, colour, aimLine;
+	public String on, off, shop, hud;
 	
 	public Language(String key, String[] values) {
 		this.key = key;
@@ -38,6 +39,12 @@ public class Language {
 		audioS = values[24];
 		gameS = values[25];
 		settings = values[26];
+		colour = values[27];
+		aimLine = values[28];
+		on = values[29];
+		off = values[30];
+		shop = values[31];
+		hud = values[32];
 	}
 	
 	public String getKey() {
