@@ -14,7 +14,7 @@ import roboyobo.ball.util.GameInfo;
 public class Rock {
 	
 	private float x, y, rotSpeed;
-	private int timePassed, direction;
+	private int timePassed, direction, rotDir;
 	private boolean dead = false;
 	private Image img;
 	
@@ -29,6 +29,8 @@ public class Rock {
 		float num = rand.nextFloat() + 1;
 		rotSpeed = (float) (num > 1.5 ? 1.5 : num);
 		
+		rotDir = rand.nextInt(2);
+		
 		img = new Image("/resources/images/projectX/asteroid.png");
 	}
 	
@@ -37,7 +39,12 @@ public class Rock {
 			if(!ball.isDead() && !isDead()) {
 				g.setColor(GameInfo.ROCK_COLOUR);
 				if(!GameState.isPaused) {
-					img.rotate(rotSpeed);
+					if(rotDir == 0) {
+						img.rotate(rotSpeed);
+					}
+					if(rotDir == 1) {
+						img.rotate(-rotSpeed);
+					}
 				}
 				g.drawImage(img, x, y);
 			}
@@ -72,6 +79,19 @@ public class Rock {
 		
 		for(Rock rock : GameInfo.rocks) {
 			if(bounds.intersects(rock.getBounds()) && rock.getBounds() != bounds && !isDead()) {
+				Random rand = new Random();
+				if(rand.nextInt(4) == 0) {
+					x += 5;
+				}
+				if(rand.nextInt(4) == 1) {
+					x -= 5;
+				}
+				if(rand.nextInt(4) == 2) {
+					y += 5;
+				}
+				if(rand.nextInt(4) == 3) {
+					y -= 5;
+				}
 				changeDirection();
 			}
 		}
