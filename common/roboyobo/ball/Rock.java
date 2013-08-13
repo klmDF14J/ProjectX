@@ -8,6 +8,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
+import roboyobo.ball.state.GameState;
 import roboyobo.ball.util.GameInfo;
 
 public class Rock {
@@ -35,7 +36,9 @@ public class Rock {
 		for(Ball ball : GameInfo.balls) {
 			if(!ball.isDead() && !isDead()) {
 				g.setColor(GameInfo.ROCK_COLOUR);
-				img.rotate(rotSpeed);
+				if(!GameState.isPaused) {
+					img.rotate(rotSpeed);
+				}
 				g.drawImage(img, x, y);
 			}
 		}

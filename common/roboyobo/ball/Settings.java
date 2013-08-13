@@ -29,7 +29,7 @@ public class Settings implements Serializable {
 	/**
 	 * Settings for game
 	 */
-	public boolean renderAimLine = false;
+	public boolean renderAimLine = false, showFPS = false;
 	public Color[] lineColours = {Color.black, Color.white, Color.red, Color.blue, Color.yellow, Color.green};
 	public int lineColour = 0;
 }

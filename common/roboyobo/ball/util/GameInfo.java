@@ -86,7 +86,7 @@ public class GameInfo {
 	public static ArrayList<Entry> scores;
 	
 	public static int DEAD_ROCKS = 0; 
-	public static int DEAD_ROCKS_DEFAULT = 10; 
+	public static int DEAD_ROCKS_DEFAULT = 0; 
 	public static int TIME_DEAD;
 	public static int TIME_RUNNING = 3000;
 	public static int SHOCKWAVES_USED = 0;

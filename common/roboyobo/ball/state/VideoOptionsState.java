@@ -1,5 +1,6 @@
 package roboyobo.ball.state;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import mdes.slick.sui.Display;
@@ -41,13 +42,14 @@ public class VideoOptionsState extends BasicGameState {
 	
 	private ArrayList<MouseOverArea> buttons;
 	
-	private UnicodeFont font, font2;
+	private UnicodeFont font, font2, font3;
 	
 	public VideoOptionsState(int stateID) throws SlickException {
 		this.stateID = stateID;
 		
 		font = FontHelper.setupAndReturnNewFont("font", 36);
 		font2 = FontHelper.setupAndReturnNewFont("font", 24);
+		font3 = FontHelper.setupAndReturnNewFont("font", 18);
 	}
 	
 	Display disp;
@@ -58,8 +60,6 @@ public class VideoOptionsState extends BasicGameState {
 		
 		sliderVal = GameInfo.settings.hudScale;
 		lastX = GameInfo.settings.lastX;
-		
-		System.out.println(sliderVal + " " + lastX);
 		
 		buttons.add(new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), 0, GameInfo.SCREEN_HEIGHT - 100, new ComponentListener() {
 			@Override
@@ -89,7 +89,6 @@ public class VideoOptionsState extends BasicGameState {
 		slider.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent event) {
-				System.out.println("X of thumb is now: " + slider.getThumbButton().getX());
 				if(slider.getThumbButton().getX() > lastX) {
 					sliderVal += 0.2F;
 				}
@@ -99,17 +98,15 @@ public class VideoOptionsState extends BasicGameState {
 				lastX = slider.getThumbButton().getX();
 				GameInfo.settings.hudScale = sliderVal;
 				GameInfo.settings.lastX = lastX;
-				try {
-					GameState.setFonts();
-				} catch (SlickException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 				FileWriter.save("/resources/projectX/settings.dat", GameInfo.settings);
-				System.out.println("Slider Val: " + sliderVal);
 			}
 		});
         disp.add(slider);
+	}
+	
+	@Override
+	public void leave(GameContainer container, StateBasedGame game) throws SlickException {
+		GameState.setFonts();
 	}
 
 	@Override
@@ -128,6 +125,10 @@ public class VideoOptionsState extends BasicGameState {
 	
 		g.drawImage(new Image("/resources/images/projectX/button.png"), GameInfo.SCREEN_WIDTH / 2 - 325, 100);
 		font2.drawString(GameInfo.SCREEN_WIDTH / 2 - 325 + FontHelper.getWidthDifference(font2, GameInfo.language.hud), 100 + ((70 - font2.getHeight(GameInfo.language.hud)) / 2), GameInfo.language.hud);
+		
+		DecimalFormat oneDigit = new DecimalFormat("#,##0.0");
+		String val = oneDigit.format(GameInfo.settings.hudScale);
+		font3.drawString(GameInfo.SCREEN_WIDTH / 2 - 325 + FontHelper.getWidthDifference(font3, "" + val), 125 + ((70 - font3.getHeight("" + val)) / 2), "" + val);
 		
 		disp.render(gc, g);
 	}

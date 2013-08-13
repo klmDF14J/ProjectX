@@ -14,6 +14,7 @@ import org.newdawn.slick.gui.MouseOverArea;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import roboyobo.ball.BouncyBall;
 import roboyobo.ball.FileWriter;
 import roboyobo.ball.FontHelper;
 import roboyobo.ball.LanguageHandler;
@@ -83,15 +84,19 @@ public class GameOptionsState extends BasicGameState {
 			}
 		}));
 		
-		buttons.get(0).setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));
-		buttons.get(1).setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));
-		buttons.get(2).setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));
-		buttons.get(3).setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));
+		buttons.add(new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), GameInfo.SCREEN_WIDTH / 2 - 325, 250, new ComponentListener() {
+			@Override
+			public void componentActivated(AbstractComponent ac) {
+				GameInfo.settings.showFPS = GameInfo.settings.showFPS == true ? false : true;
+				BouncyBall.app.setShowFPS(GameInfo.settings.showFPS);
+				FileWriter.save("/resources/projectX/settings.dat", GameInfo.settings);
+			}
+		}));
 		
-		buttons.get(0).setMouseDownSound(Sounds.select);
-		buttons.get(1).setMouseDownSound(Sounds.select);
-		buttons.get(2).setMouseDownSound(Sounds.select);
-		buttons.get(3).setMouseDownSound(Sounds.select);
+		for(int i = 0; i < buttons.size(); i++) {
+			buttons.get(i).setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));
+			buttons.get(i).setMouseDownSound(Sounds.select);
+		}	
 	}
 
 	@Override
@@ -118,6 +123,10 @@ public class GameOptionsState extends BasicGameState {
 		String s = " " + (GameInfo.settings.renderAimLine == true ? GameInfo.language.on : GameInfo.language.off);
 		
 		font2.drawString(GameInfo.SCREEN_WIDTH / 2 - 325 + FontHelper.getWidthDifference(font2, GameInfo.language.aimLine + s), 100 + FontHelper.getHeightDifference(font2, GameInfo.language.aimLine + s), GameInfo.language.aimLine + s);
+		
+		String s2 = " " + (GameInfo.settings.showFPS == true ? GameInfo.language.on : GameInfo.language.off);
+		
+		font2.drawString(GameInfo.SCREEN_WIDTH / 2 - 325 + FontHelper.getWidthDifference(font2, GameInfo.language.showFPS + s2), 250 + FontHelper.getHeightDifference(font2, GameInfo.language.showFPS + s2), GameInfo.language.showFPS + s2);
 		
 		if(GameInfo.settings.renderAimLine) {
 			font2.drawString(GameInfo.SCREEN_WIDTH / 2 + 25 + FontHelper.getWidthDifference(font2, GameInfo.language.colour), 100 + FontHelper.getHeightDifference(font2, GameInfo.language.colour), GameInfo.language.colour);

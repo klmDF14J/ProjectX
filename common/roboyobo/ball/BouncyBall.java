@@ -57,7 +57,7 @@ public class BouncyBall extends StateBasedGame {
 		addState(new GameOptionsState(GameInfo.STATE_GAME_OPTIONS_ID));
 		addState(new ShopState(GameInfo.STATE_SHOP_ID));
 		
-		enterState(GameInfo.STATE_VIDEO_OPTIONS_ID);
+		enterState(GameInfo.STATE_MENU_ID);
 	}
 	
 	

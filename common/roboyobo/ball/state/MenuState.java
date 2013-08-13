@@ -45,7 +45,6 @@ public class MenuState extends BasicGameState {
 		
 		if(FileWriter.load("/resources/projectX/settings.dat") instanceof Settings) {
 			GameInfo.settings = (Settings) FileWriter.load("/resources/projectX/settings.dat");
-			System.out.println("HUD Scale: " + GameInfo.settings.hudScale);
 		}
 		
 		int i = 0;
@@ -91,6 +90,8 @@ public class MenuState extends BasicGameState {
 		play.setMouseDownSound(Sounds.select);
 		multiplayer.setMouseDownSound(Sounds.select);
 		options.setMouseDownSound(Sounds.select);
+		
+		BouncyBall.app.setShowFPS(GameInfo.settings.showFPS);
 	}
 	
 	@Override

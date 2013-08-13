@@ -6,7 +6,7 @@ public class Language {
 	private String key, name;
 	
 	public String play, battle, options, selectLanguage, backToMenu, languages, gameOver, rocksDestroyed, timeLasted, shockwavesUsed, totalScore, submit, enterUsername, highscore, username, score, player, back, rocks, time, vs, general, videoS, audioS, gameS, settings, colour, aimLine;
-	public String on, off, shop, hud;
+	public String on, off, shop, hud, showFPS;
 	
 	public Language(String key, String[] values) {
 		this.key = key;
@@ -45,6 +45,7 @@ public class Language {
 		off = values[30];
 		shop = values[31];
 		hud = values[32];
+		showFPS = values[33];
 	}
 	
 	public String getKey() {
