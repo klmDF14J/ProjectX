@@ -18,6 +18,7 @@ public class Rock {
 	private int timePassed, direction, rotDir;
 	private boolean dead = false;
 	private Image img;
+	public static boolean flag = false;
 	
 	private Rectangle bounds = new Rectangle(x, y, GameInfo.ROCK_WIDTH, GameInfo.ROCK_HEIGHT);
 	
@@ -47,7 +48,9 @@ public class Rock {
 						img.rotate(-rotSpeed);
 					}
 				}
-				g.drawImage(img, x, y);
+				if(!flag) {
+					g.drawImage(img, x, y);
+				}
 			}
 		}
 	}
@@ -144,4 +147,6 @@ public class Rock {
 		
 		direction = val;
 	}
+	
+	
 }

@@ -19,11 +19,9 @@ TODO:
 	
 	-Add items where u can only have one a day etc in the shop
 	
-	-Work on HUD that includes health bars and rocks destoryed etc
+	-Finish up HUD (needs health bar and charge level)
 	
 	-Battle mode needs to be disabled until done
-	
-	-Render text on pause menu (Easy)
 	
 	-Fix rocks glitching on each other (Hopefully with new entity system)
 	
@@ -32,4 +30,5 @@ TODO:
 	-Find a good place to put the title on the menu
 	
 	-(Non-major) Find a nicer way to handle the menu orientation. Buttons dont update proper so I'm just maintaining 3 instances of it
+	
 	

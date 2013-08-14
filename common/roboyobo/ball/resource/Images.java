@@ -5,7 +5,7 @@ import org.newdawn.slick.SlickException;
 
 public class Images {
 	
-	public static Image rock, ship, shipDead, shockwave, bullet;
+	public static Image rock, ship, shipDead, shockwave, bullet, onethreethreeseven;
 	
 	public static Image logo, button, buttonMO;
 	
@@ -15,6 +15,7 @@ public class Images {
 		shipDead = createImage("ufoDead");
 		shockwave = createImage("shockwave");
 		bullet = createImage("bullet");
+		onethreethreeseven = createImage("1337");
 		
 		logo = createImage("logo");
 		button = createImage("button");

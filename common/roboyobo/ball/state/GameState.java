@@ -3,6 +3,7 @@ package roboyobo.ball.state;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -205,6 +206,28 @@ public class GameState extends BasicState {
 				}
 			}
 		}
+	}
+	
+	private int lastkey = 0, chain = 0;
+	private boolean started = false;
+	
+	@Override
+	public void keyPress(int key, char c) {
+		if(key == Keyboard.KEY_1 && !started && chain == 0) {
+			chain++;
+		}
+		if(lastkey == Keyboard.KEY_1 && key == Keyboard.KEY_3 && chain == 1) {
+			chain++;
+		}
+		if(lastkey == Keyboard.KEY_3 && key == Keyboard.KEY_3 && chain == 2) {
+			chain++;
+		}
+		if(lastkey == Keyboard.KEY_3 && key == Keyboard.KEY_7 && chain == 3) {
+			System.out.println("1337");
+			Images.rock = Images.onethreethreeseven;
+			chain = 0;
+		}
+		lastkey = key;
 	}
 
 }
