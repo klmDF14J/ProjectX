@@ -19,6 +19,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import roboyobo.ball.BouncyBall;
 import roboyobo.ball.game.Ball;
 import roboyobo.ball.game.Bullet;
+import roboyobo.ball.game.HUD;
 import roboyobo.ball.game.Rock;
 import roboyobo.ball.resource.Sounds;
 import roboyobo.ball.util.FontHelper;
@@ -134,26 +135,7 @@ public class GameState extends BasicGameState {
 			menu.render(gc, g);
 		}
 		
-		g.setColor(Color.gray);
-		g.fill(new Rectangle(0, 0, 150 * GameInfo.settings.hudScale, 10 * GameInfo.settings.hudScale));
-		g.fill(new Rectangle(0, 55 * GameInfo.settings.hudScale, 150 * GameInfo.settings.hudScale, 10 * GameInfo.settings.hudScale));
-		g.fill(new Rectangle(0, 0, 10 * GameInfo.settings.hudScale, 65 * GameInfo.settings.hudScale));
-		g.fill(new Rectangle(140 * GameInfo.settings.hudScale, 0, 10 * GameInfo.settings.hudScale, 65 * GameInfo.settings.hudScale));
-		
-		g.setColor(new Color(0, 0, 0, 0.5F));
-		g.fill(new Rectangle(10 * GameInfo.settings.hudScale, 10 * GameInfo.settings.hudScale, 130 * GameInfo.settings.hudScale, 45 * GameInfo.settings.hudScale));
-		
-		rocksDead.draw(15 * GameInfo.settings.hudScale, 15 * GameInfo.settings.hudScale, 0.7F * GameInfo.settings.hudScale);
-		
-		if(GameInfo.DEAD_ROCKS >= 0 && GameInfo.DEAD_ROCKS < 1000) { 
-			statFont.drawString(70 * GameInfo.settings.hudScale, (((65 * GameInfo.settings.hudScale) - statFont.getHeight("" + GameInfo.DEAD_ROCKS)) / 2), "" + GameInfo.DEAD_ROCKS);
-		}
-		else if(GameInfo.DEAD_ROCKS >= 1000 && GameInfo.DEAD_ROCKS < 10000) {
-			statFont2.drawString(70 * GameInfo.settings.hudScale, (((65 * GameInfo.settings.hudScale) - statFont2.getHeight("" + GameInfo.DEAD_ROCKS)) / 2), "" + GameInfo.DEAD_ROCKS);
-		}
-		else if(GameInfo.DEAD_ROCKS >= 10000) {
-			statFont3.drawString(70 * GameInfo.settings.hudScale, (((65 * GameInfo.settings.hudScale) - statFont3.getHeight("" + GameInfo.DEAD_ROCKS)) / 2), "" + GameInfo.DEAD_ROCKS);
-		}
+		HUD.render(g, statFont, statFont2, statFont3);
 	}
 
 	@Override
