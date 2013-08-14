@@ -11,6 +11,7 @@ import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.state.StateBasedGame;
 
+import roboyobo.ball.resource.Images;
 import roboyobo.ball.resource.Sounds;
 import roboyobo.ball.state.GameOverState;
 import roboyobo.ball.state.GameState;
@@ -37,14 +38,14 @@ public class Ball {
 		g.setColor(GameInfo.BALL_COLOUR);
 		
 		if(shouldShockwave) {
-			g.drawImage(new Image("/resources/images/projectX/shockwave.png"), x - 150, y- 150);
+			g.drawImage(Images.shockwave, x - 150, y- 150);
 		}
 		
 		if(isDead()) {
-			g.drawImage(new Image("/resources/images/projectX/ufoDead.png"), x - 20, y - 20);
+			g.drawImage(Images.shipDead, x - 20, y - 20);
 		}
 		else {
-			g.drawImage(new Image("/resources/images/projectX/ufo.png"), x - 20, y - 20);
+			g.drawImage(Images.ship, x - 20, y - 20);
 		}
 		
 

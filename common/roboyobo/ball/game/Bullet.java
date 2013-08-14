@@ -8,6 +8,7 @@ import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
 
+import roboyobo.ball.resource.Images;
 import roboyobo.ball.util.GameInfo;
 
 public class Bullet {
@@ -27,7 +28,7 @@ public class Bullet {
 	}
 	
 	public void render(GameContainer gc, Graphics g) throws SlickException {
-		g.drawImage(new Image("/resources/images/projectX/bullet.png"), x, y);
+		g.drawImage(Images.bullet, x, y);
 	}
 	
 	public void update(int delta) {
@@ -66,11 +67,6 @@ public class Bullet {
 		
 		endPoint.setX(mousePoint.getX() + (mousePoint.getX() - startPoint.getX()) / lenAB * length);
 		endPoint.setY(mousePoint.getY() + (mousePoint.getY() - startPoint.getY()) / lenAB * length);
-		
-		/*g.setColor(Color.red);
-		g.draw(AB);
-		g.setColor(Color.magenta);
-		g.draw(new Line(A.getX(), A.getY(), C.getX(), C.getY()));*/
 	}
 
 	public Rectangle getBounds() {

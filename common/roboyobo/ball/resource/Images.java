@@ -5,10 +5,14 @@ import org.newdawn.slick.SlickException;
 
 public class Images {
 	
-	public static Image rock;
+	public static Image rock, ship, shipDead, shockwave, bullet;
 	
 	public static void init() throws SlickException {
 		rock = createImage("asteroid");
+		ship = createImage("ufo");
+		shipDead = createImage("ufoDead");
+		shockwave = createImage("shockwave");
+		bullet = createImage("bullet");
 	}
 	
 	
