@@ -3,6 +3,7 @@ package roboyobo.ball;
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -41,6 +42,9 @@ public class BouncyBall extends StateBasedGame {
 
 	@Override
 	public void initStatesList(GameContainer gc) throws SlickException {
+		addState(new LoadingState(GameInfo.STATE_LOADING_ID));
+		enterState(GameInfo.STATE_LOADING_ID);
+		
 		addState(new MenuState(GameInfo.STATE_MENU_ID, gc, this));
 		addState(new GameState(GameInfo.STATE_GAME_ID));
 		addState(new OptionsState(GameInfo.STATE_OPTIONS_ID));

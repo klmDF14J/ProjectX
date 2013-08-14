@@ -36,6 +36,7 @@ public class GameInfo {
 	public static final int STATE_AUDIO_OPTIONS_ID = getNextID();
 	public static final int STATE_GAME_OPTIONS_ID = getNextID();
 	public static final int STATE_SHOP_ID = getNextID();
+	public static final int STATE_LOADING_ID = getNextID();
 	
 	public static final float BALL_SIZE = 20;
 	
