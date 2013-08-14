@@ -9,17 +9,14 @@ import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.gui.AbstractComponent;
 import org.newdawn.slick.gui.ComponentListener;
 import org.newdawn.slick.gui.MouseOverArea;
-import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import roboyobo.ball.resource.BackgroundManager;
+import roboyobo.ball.resource.Images;
 import roboyobo.ball.resource.Sounds;
 import roboyobo.ball.util.FontHelper;
 import roboyobo.ball.util.GameInfo;
 
-public class GameOverState extends BasicGameState {
-
-	private int stateID;
+public class GameOverState extends BasicState {
 	
 	private UnicodeFont font, font2, font3;
 	
@@ -67,7 +64,7 @@ public class GameOverState extends BasicGameState {
 	private MouseOverArea info, play, menu, highscore;
 	
 	public GameOverState(int stateID) {
-		this.stateID = stateID;
+		super(stateID, "menu");
 	}
 	
 	@Override
@@ -91,7 +88,7 @@ public class GameOverState extends BasicGameState {
 		info.setMouseOverImage(new Image("/resources/images/projectX/buttonScoreMO.png"));
 		info.setMouseDownSound(Sounds.select);
 		
-		play = new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), 0, (int) GameInfo.SCREEN_HEIGHT - 100, new ComponentListener() {
+		play = new MouseOverArea(gc, Images.button, 0, (int) GameInfo.SCREEN_HEIGHT - 100, new ComponentListener() {
 			@Override
 			public void componentActivated(AbstractComponent ac) {
 				GameInfo.balls.get(0).reset(sbg);
@@ -100,11 +97,11 @@ public class GameOverState extends BasicGameState {
 				sbg.enterState(GameInfo.STATE_GAME_ID);
 			}
 		});
-		play.setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));
+		play.setMouseOverImage(Images.buttonMO);
 		play.setMouseDownSound(Sounds.select);
 		
 
-		menu = new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), (GameInfo.SCREEN_WIDTH / 2) - 150, (int) GameInfo.SCREEN_HEIGHT - 100, new ComponentListener() {
+		menu = new MouseOverArea(gc, Images.button, (GameInfo.SCREEN_WIDTH / 2) - 150, (int) GameInfo.SCREEN_HEIGHT - 100, new ComponentListener() {
 			@Override
 			public void componentActivated(AbstractComponent ac) {
 				GameInfo.balls.get(0).reset(sbg);
@@ -113,25 +110,25 @@ public class GameOverState extends BasicGameState {
 				sbg.enterState(GameInfo.STATE_MENU_ID);
 			}
 		});
-		menu.setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));
+		menu.setMouseOverImage(Images.buttonMO);
 		menu.setMouseDownSound(Sounds.select);
 		
-		highscore = new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), GameInfo.SCREEN_WIDTH - 300, (int) GameInfo.SCREEN_HEIGHT - 100, new ComponentListener() {
+		highscore = new MouseOverArea(gc, Images.button, GameInfo.SCREEN_WIDTH - 300, (int) GameInfo.SCREEN_HEIGHT - 100, new ComponentListener() {
 			@Override
 			public void componentActivated(AbstractComponent ac) {
 				reset();
 				sbg.enterState(GameInfo.STATE_SUBMIT_HIGHSCORE_ID);
 			}
 		});
-		highscore.setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));
+		highscore.setMouseOverImage(Images.buttonMO);
 		highscore.setMouseDownSound(Sounds.select);
 	}
 	
 
 	@Override
-	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
+	public void renderMain(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		g.setColor(Color.blue);
-		g.drawImage(BackgroundManager.getBackgroundForState("menu"), 0, 0);
+
 		font.drawString(x + FontHelper.getBigWidthDifference(font, GameInfo.language.gameOver), y, GameInfo.language.gameOver);
 		
 		if(canX2) {
@@ -284,11 +281,6 @@ public class GameOverState extends BasicGameState {
 		totalAmount = 0;
 		
 		flag = false;
-	}
-
-	@Override
-	public int getID() {
-		return stateID;
 	}
 
 

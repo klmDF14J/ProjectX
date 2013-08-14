@@ -11,36 +11,26 @@ import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.gui.AbstractComponent;
 import org.newdawn.slick.gui.ComponentListener;
 import org.newdawn.slick.gui.MouseOverArea;
-import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import roboyobo.ball.resource.BackgroundManager;
+import roboyobo.ball.resource.Images;
 import roboyobo.ball.resource.Sounds;
 import roboyobo.ball.shop.Item;
 import roboyobo.ball.util.EnumRank;
 import roboyobo.ball.util.FileWriter;
 import roboyobo.ball.util.FontHelper;
 import roboyobo.ball.util.GameInfo;
-import roboyobo.ball.util.LanguageHandler;
 
-public class ShopState extends BasicGameState {
-
-	private int stateID;
-	
-	private int x = GameInfo.SCREEN_WIDTH / 2 - (GameInfo.GAME_OVER_PANEL_WIDTH / 2);
-	private int y = GameInfo.SCREEN_HEIGHT / 2 - (GameInfo.GAME_OVER_PANEL_HEIGHT / 2);
+public class ShopState extends BasicState {
 	
 	public static int length = 10;
-	
-	private int languageCount;
-	private int index;
 	
 	private ArrayList<MouseOverArea> buttons;
 	
 	private UnicodeFont font, font2;
 	
 	public ShopState(int stateID) throws SlickException {
-		this.stateID = stateID;
+		super(stateID, "menu");
 		
 		font = FontHelper.setupAndReturnNewFont("font", 36);
 		font2 = FontHelper.setupAndReturnNewFont("font", 24);
@@ -72,25 +62,24 @@ public class ShopState extends BasicGameState {
 	
 	@Override
 	public void init(GameContainer gc, final StateBasedGame sbg) throws SlickException {
-		languageCount = LanguageHandler.languages.size();
 		buttons = new ArrayList<MouseOverArea>();
 		
-		buttons.add(new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), 0, GameInfo.SCREEN_HEIGHT - 100, new ComponentListener() {
+		buttons.add(new MouseOverArea(gc, Images.button, 0, GameInfo.SCREEN_HEIGHT - 100, new ComponentListener() {
 			@Override
 			public void componentActivated(AbstractComponent ac) {
 				sbg.enterState(GameInfo.STATE_GAME_ID);
 			}
 		}));
 		
-		buttons.add(new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), GameInfo.SCREEN_WIDTH - 300, GameInfo.SCREEN_HEIGHT - 100, new ComponentListener() {
+		buttons.add(new MouseOverArea(gc, Images.button, GameInfo.SCREEN_WIDTH - 300, GameInfo.SCREEN_HEIGHT - 100, new ComponentListener() {
 			@Override
 			public void componentActivated(AbstractComponent ac) {
 				sbg.enterState(GameInfo.STATE_MENU_ID);
 			}
 		}));
 		
-		buttons.get(0).setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));
-		buttons.get(1).setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));
+		buttons.get(0).setMouseOverImage(Images.buttonMO);
+		buttons.get(1).setMouseOverImage(Images.buttonMO);
 		
 		buttons.get(0).setMouseDownSound(Sounds.select);
 		buttons.get(1).setMouseDownSound(Sounds.select);
@@ -99,9 +88,9 @@ public class ShopState extends BasicGameState {
 	}
 
 	@Override
-	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
+	public void renderMain(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		g.setColor(Color.blue);
-		g.drawImage(BackgroundManager.getBackgroundForState("menu"), 0, 0);
+
 		
 		for(MouseOverArea moa : buttons) {
 			moa.render(gc, g);
@@ -117,11 +106,6 @@ public class ShopState extends BasicGameState {
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
 		
-	}
-
-	@Override
-	public int getID() {
-		return stateID;
 	}
 
 

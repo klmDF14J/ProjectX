@@ -7,12 +7,18 @@ public class Images {
 	
 	public static Image rock, ship, shipDead, shockwave, bullet;
 	
+	public static Image logo, button, buttonMO;
+	
 	public static void init() throws SlickException {
 		rock = createImage("asteroid");
 		ship = createImage("ufo");
 		shipDead = createImage("ufoDead");
 		shockwave = createImage("shockwave");
 		bullet = createImage("bullet");
+		
+		logo = createImage("logo");
+		button = createImage("button");
+		buttonMO = createImage("buttonMO");
 	}
 	
 	

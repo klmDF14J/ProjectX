@@ -12,19 +12,16 @@ import org.newdawn.slick.gui.AbstractComponent;
 import org.newdawn.slick.gui.ComponentListener;
 import org.newdawn.slick.gui.MouseOverArea;
 import org.newdawn.slick.gui.TextField;
-import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import roboyobo.ball.highscore.Entry;
-import roboyobo.ball.resource.BackgroundManager;
+import roboyobo.ball.resource.Images;
 import roboyobo.ball.resource.Sounds;
 import roboyobo.ball.util.FileWriter;
 import roboyobo.ball.util.FontHelper;
 import roboyobo.ball.util.GameInfo;
 
-public class SubmitHighscoreState extends BasicGameState {
-
-	private int stateID;
+public class SubmitHighscoreState extends BasicState {
 	
 	private UnicodeFont font, font2;
 	
@@ -33,7 +30,7 @@ public class SubmitHighscoreState extends BasicGameState {
 	private MouseOverArea submit, menu;
 	
 	public SubmitHighscoreState(int stateID) throws SlickException {
-		this.stateID = stateID;
+		super(stateID, "menu");
 		
 		font = FontHelper.setupAndReturnNewFont("font", 96);
 		font2 = FontHelper.setupAndReturnNewFont("font", 24);
@@ -56,7 +53,7 @@ public class SubmitHighscoreState extends BasicGameState {
 		username.setBorderColor(Color.red);
 		username.setMaxLength(3);
 		
-		submit = new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), GameInfo.SCREEN_WIDTH / 2 - 350, GameInfo.SCREEN_HEIGHT - 200, new ComponentListener() {
+		submit = new MouseOverArea(gc, Images.button, GameInfo.SCREEN_WIDTH / 2 - 350, GameInfo.SCREEN_HEIGHT - 200, new ComponentListener() {
 			@Override
 			public void componentActivated(AbstractComponent arg0) {
 				GameInfo.scores.add(new Entry(username.getText(), Math.round(GameOverState.calcScore()), GameInfo.DEAD_ROCKS, GameInfo.TIME_RUNNING, GameInfo.SHOCKWAVES_USED));
@@ -68,10 +65,10 @@ public class SubmitHighscoreState extends BasicGameState {
 			}
 		});
 		
-		submit.setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));
+		submit.setMouseOverImage(Images.buttonMO);
 		submit.setMouseDownSound(Sounds.select);
 		
-		menu = new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), GameInfo.SCREEN_WIDTH / 2 + 50, GameInfo.SCREEN_HEIGHT - 200, new ComponentListener() {
+		menu = new MouseOverArea(gc, Images.button, GameInfo.SCREEN_WIDTH / 2 + 50, GameInfo.SCREEN_HEIGHT - 200, new ComponentListener() {
 			@Override
 			public void componentActivated(AbstractComponent arg0) {
 				username.setText("");
@@ -79,13 +76,13 @@ public class SubmitHighscoreState extends BasicGameState {
 			}
 		});
 		
-		menu.setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));
+		menu.setMouseOverImage(Images.buttonMO);
 		menu.setMouseDownSound(Sounds.select);
 	}
 
 	@Override
-	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-		g.drawImage(BackgroundManager.getBackgroundForState("menu"), 0, 0);
+	public void renderMain(GameContainer gc, StateBasedGame sbg, Graphics g) {
+
 		
 		font.drawString((int) (GameInfo.SCREEN_WIDTH / 2 - (font.getWidth(GameInfo.language.enterUsername) / 2)), (int) (GameInfo.SCREEN_HEIGHT / 2 - (font.getHeight(GameInfo.language.enterUsername) / 2) - 75), GameInfo.language.enterUsername);
 		
@@ -107,10 +104,6 @@ public class SubmitHighscoreState extends BasicGameState {
 		
 	}
 
-	@Override
-	public int getID() {
-		return stateID;
-	}
 
 
 }

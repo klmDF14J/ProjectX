@@ -11,10 +11,9 @@ import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.gui.AbstractComponent;
 import org.newdawn.slick.gui.ComponentListener;
 import org.newdawn.slick.gui.MouseOverArea;
-import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import roboyobo.ball.resource.BackgroundManager;
+import roboyobo.ball.resource.Images;
 import roboyobo.ball.resource.Sounds;
 import roboyobo.ball.util.FileWriter;
 import roboyobo.ball.util.FontHelper;
@@ -22,14 +21,8 @@ import roboyobo.ball.util.GameInfo;
 import roboyobo.ball.util.Language;
 import roboyobo.ball.util.LanguageHandler;
 
-public class LanguageState extends BasicGameState {
+public class LanguageState extends BasicState {
 
-	private int stateID;
-	
-	private int x = GameInfo.SCREEN_WIDTH / 2 - (GameInfo.GAME_OVER_PANEL_WIDTH / 2);
-	private int y = GameInfo.SCREEN_HEIGHT / 2 - (GameInfo.GAME_OVER_PANEL_HEIGHT / 2);
-	
-	private int languageCount;
 	private int index;
 	
 	private ArrayList<MouseOverArea> buttons;
@@ -39,19 +32,18 @@ public class LanguageState extends BasicGameState {
 	private UnicodeFont font, font2;
 	
 	public LanguageState(int stateID) {
-		this.stateID = stateID;
+		super(stateID, "menu");
 	}
 	
 	@Override
 	public void init(GameContainer gc, final StateBasedGame sbg) throws SlickException {
-		languageCount = LanguageHandler.languages.size();
 		buttons = new ArrayList<MouseOverArea>();
 		
 		font = FontHelper.setupAndReturnNewFont("font", 36);
 		font2 = FontHelper.setupAndReturnNewFont("font", 24);
 		
 		for(final Language language : LanguageHandler.languages) {
-			buttons.add(new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), 350, 100 + (index * 110), new ComponentListener() {
+			buttons.add(new MouseOverArea(gc, Images.button, 350, 100 + (index * 110), new ComponentListener() {
 				@Override
 				public void componentActivated(AbstractComponent ac) {
 					GameInfo.language = language;
@@ -59,36 +51,36 @@ public class LanguageState extends BasicGameState {
 					FileWriter.save("/resources/projectX/language.dat", LanguageHandler.languages.indexOf(language));
 				}
 			}));
-			buttons.get(index).setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));
+			buttons.get(index).setMouseOverImage(Images.buttonMO);
 			buttons.get(index).setMouseDownSound(Sounds.select);
 			index++;
 		}
 		
-		buttons.add(new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), GameInfo.SCREEN_WIDTH - 300, GameInfo.SCREEN_HEIGHT - 100, new ComponentListener() {
+		buttons.add(new MouseOverArea(gc, Images.button, GameInfo.SCREEN_WIDTH - 300, GameInfo.SCREEN_HEIGHT - 100, new ComponentListener() {
 			@Override
 			public void componentActivated(AbstractComponent ac) {
 				sbg.enterState(GameInfo.STATE_MENU_ID);
 			}
 		}));
 		
-		back = new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), 0, GameInfo.SCREEN_HEIGHT - 100, new ComponentListener() {
+		back = new MouseOverArea(gc, Images.button, 0, GameInfo.SCREEN_HEIGHT - 100, new ComponentListener() {
 			@Override
 			public void componentActivated(AbstractComponent ac) {
 				sbg.enterState(GameInfo.STATE_OPTIONS_ID);
 			}
 		});
 		
-		buttons.get(index).setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));
+		buttons.get(index).setMouseOverImage(Images.buttonMO);
 		buttons.get(index).setMouseDownSound(Sounds.select);
 		
-		back.setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));
+		back.setMouseOverImage(Images.buttonMO);
 		back.setMouseDownSound(Sounds.select);
 	}
 
 	@Override
-	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
+	public void renderMain(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		g.setColor(Color.blue);
-		g.drawImage(BackgroundManager.getBackgroundForState("menu"), 0, 0);
+
 		
 		for(MouseOverArea moa : buttons) {
 			moa.render(gc, g);
@@ -112,11 +104,6 @@ public class LanguageState extends BasicGameState {
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
 		
-	}
-
-	@Override
-	public int getID() {
-		return stateID;
 	}
 
 

@@ -3,17 +3,14 @@ package roboyobo.ball.state;
 import java.util.ArrayList;
 import java.util.Random;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
-import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.gui.AbstractComponent;
 import org.newdawn.slick.gui.ComponentListener;
 import org.newdawn.slick.gui.MouseOverArea;
-import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import roboyobo.ball.BouncyBall;
@@ -21,14 +18,12 @@ import roboyobo.ball.game.Ball;
 import roboyobo.ball.game.Bullet;
 import roboyobo.ball.game.HUD;
 import roboyobo.ball.game.Rock;
-import roboyobo.ball.resource.BackgroundManager;
+import roboyobo.ball.resource.Images;
 import roboyobo.ball.resource.Sounds;
 import roboyobo.ball.util.FontHelper;
 import roboyobo.ball.util.GameInfo;
 
-public class GameState extends BasicGameState {
-
-	private int stateID;
+public class GameState extends BasicState {
 	private int timeSinceNewRock, timeSinceStart;
 	private boolean shouldTime = true;
 	public static boolean isPaused = false;
@@ -40,7 +35,7 @@ public class GameState extends BasicGameState {
 	private static UnicodeFont statFont3;
 	
 	public GameState(int stateID) {
-		this.stateID = stateID;
+		super(stateID, "game");
 		
 		BouncyBall.app.setTargetFrameRate(60);
 		
@@ -54,14 +49,14 @@ public class GameState extends BasicGameState {
 
 	@Override
 	public void init(GameContainer gc, final StateBasedGame sbg) throws SlickException {
-		shop = new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), 350, 100, new ComponentListener() {
+		shop = new MouseOverArea(gc, Images.button, 350, 100, new ComponentListener() {
 			@Override
 			public void componentActivated(AbstractComponent ac) {
 				sbg.enterState(GameInfo.STATE_SHOP_ID);
 			}
 		});
 		
-		highscores = new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), 350, 250, new ComponentListener() {
+		highscores = new MouseOverArea(gc, Images.button, 350, 250, new ComponentListener() {
 			@Override
 			public void componentActivated(AbstractComponent ac) {
 				HighscoreState.mode = 1;
@@ -69,14 +64,14 @@ public class GameState extends BasicGameState {
 			}
 		});
 		
-		resume = new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), 0, GameInfo.SCREEN_HEIGHT - 100, new ComponentListener() {
+		resume = new MouseOverArea(gc, Images.button, 0, GameInfo.SCREEN_HEIGHT - 100, new ComponentListener() {
 			@Override
 			public void componentActivated(AbstractComponent ac) {
 				isPaused = false;
 			}
 		});
 		
-		menu = new MouseOverArea(gc, new Image("/resources/images/projectX/button.png"), GameInfo.SCREEN_WIDTH - 300, GameInfo.SCREEN_HEIGHT - 100, new ComponentListener() {
+		menu = new MouseOverArea(gc, Images.button, GameInfo.SCREEN_WIDTH - 300, GameInfo.SCREEN_HEIGHT - 100, new ComponentListener() {
 			@Override
 			public void componentActivated(AbstractComponent ac) {
 				isPaused = false;
@@ -86,10 +81,10 @@ public class GameState extends BasicGameState {
 			}
 		});
 		
-		shop.setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));
-		highscores.setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));
-		resume.setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));
-		menu.setMouseOverImage(new Image("/resources/images/projectX/buttonMO.png"));
+		shop.setMouseOverImage(Images.buttonMO);
+		highscores.setMouseOverImage(Images.buttonMO);
+		resume.setMouseOverImage(Images.buttonMO);
+		menu.setMouseOverImage(Images.buttonMO);
 		
 		shop.setMouseDownSound(Sounds.select);
 		highscores.setMouseDownSound(Sounds.select);
@@ -113,20 +108,30 @@ public class GameState extends BasicGameState {
 	}
 
 	@Override
-	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-		
-		g.drawImage(BackgroundManager.getBackgroundForState("game"), 0, 0);
+	public void renderMain(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		
 		for(Ball ball : GameInfo.balls) {
-			ball.render(gc, g);
+			try {
+				ball.render(gc, g);
+			} catch (SlickException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		for(Rock rock : GameInfo.rocks) {
-			rock.render(gc, g);
+			try {
+				rock.render(gc, g);
+			} catch (SlickException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		for(Bullet bullet : GameInfo.bullets) {
-			bullet.render(gc, g);
+			try {
+				bullet.render(gc, g);
+			} catch (SlickException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		if(isPaused) {
@@ -191,11 +196,6 @@ public class GameState extends BasicGameState {
 				}
 			}
 		}
-	}
-
-	@Override
-	public int getID() {
-		return stateID;
 	}
 
 }
