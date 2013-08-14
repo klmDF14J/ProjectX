@@ -8,6 +8,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
+import roboyobo.ball.resource.Images;
 import roboyobo.ball.state.GameState;
 import roboyobo.ball.util.GameInfo;
 
@@ -31,7 +32,7 @@ public class Rock {
 		
 		rotDir = rand.nextInt(2);
 		
-		img = new Image("/resources/images/projectX/asteroid.png");
+		img = Images.rock.copy();
 	}
 	
 	public void render(GameContainer gc, Graphics g) throws SlickException {
