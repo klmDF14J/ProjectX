@@ -47,5 +47,9 @@ public class BasicState extends BasicGameState {
 	public int getID() {
 		return stateID;
 	}
+	
+	public void keyPress(int key, char c) {
+		
+	}
 
 }

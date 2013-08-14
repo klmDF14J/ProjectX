@@ -26,13 +26,14 @@ public class GameOptionsState extends BasicState {
 	
 	private ArrayList<MouseOverArea> buttons;
 	
-	private UnicodeFont font, font2;
+	private UnicodeFont font, font2, font3;
 	
 	public GameOptionsState(int stateID) throws SlickException {
 		super(stateID, "menu");
 		
 		font = FontHelper.setupAndReturnNewFont("font", 36);
 		font2 = FontHelper.setupAndReturnNewFont("font", 24);
+		font3 = FontHelper.setupAndReturnNewFont("font", 18);
 	}
 	
 	@Override
@@ -83,6 +84,16 @@ public class GameOptionsState extends BasicState {
 			}
 		}));
 		
+		buttons.add(new MouseOverArea(gc, Images.button, GameInfo.SCREEN_WIDTH / 2 - 325, 400, new ComponentListener() {
+			@Override
+			public void componentActivated(AbstractComponent ac) {
+				GameInfo.settings.menuOrient = GameInfo.settings.menuOrient < 2 ? GameInfo.settings.menuOrient + 1 : 0;
+				System.out.println(GameInfo.settings.menuOrient);
+				MenuState.setButtonPos();
+				FileWriter.save("/resources/projectX/settings.dat", GameInfo.settings);
+			}
+		}));
+		
 		for(int i = 0; i < buttons.size(); i++) {
 			buttons.get(i).setMouseOverImage(Images.buttonMO);
 			buttons.get(i).setMouseDownSound(Sounds.select);
@@ -117,6 +128,11 @@ public class GameOptionsState extends BasicState {
 		String s2 = " " + (GameInfo.settings.showFPS == true ? GameInfo.language.on : GameInfo.language.off);
 		
 		font2.drawString(GameInfo.SCREEN_WIDTH / 2 - 325 + FontHelper.getWidthDifference(font2, GameInfo.language.showFPS + s2), 250 + FontHelper.getHeightDifference(font2, GameInfo.language.showFPS + s2), GameInfo.language.showFPS + s2);
+		
+		String[] names = {GameInfo.language.left, GameInfo.language.centre, GameInfo.language.right};
+		String s3 = names[GameInfo.settings.menuOrient];
+		
+		font3.drawString(GameInfo.SCREEN_WIDTH / 2 - 325 + FontHelper.getWidthDifference(font3, GameInfo.language.menuOrient + " " + s3), 400 + FontHelper.getHeightDifference(font3, GameInfo.language.menuOrient + " " + s3), GameInfo.language.menuOrient + " " + s3);
 		
 		if(GameInfo.settings.renderAimLine) {
 			font2.drawString(GameInfo.SCREEN_WIDTH / 2 + 25 + FontHelper.getWidthDifference(font2, GameInfo.language.colour), 100 + FontHelper.getHeightDifference(font2, GameInfo.language.colour), GameInfo.language.colour);

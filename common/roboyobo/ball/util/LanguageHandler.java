@@ -49,7 +49,11 @@ public class LanguageHandler {
 				"HUD Scale",
 				"Show FPS",
 				"Sound",
-				"Music"
+				"Music",
+				"Left",
+				"Centre",
+				"Right",
+				"Menu Position"
 		}));
 		languages.add(new Language("fr_FR", new String[]{
 				"Francais",
@@ -87,7 +91,11 @@ public class LanguageHandler {
 				"HUD Echelle",
 				"Montrer IPS",
 				"Sonner",
-				"Musique"
+				"Musique",
+				"Gauche",
+				"Centre",
+				"Droite",
+				"Position du menu"
 		}));
 	}
 	

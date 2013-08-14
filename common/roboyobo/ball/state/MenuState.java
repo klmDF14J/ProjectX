@@ -27,12 +27,15 @@ import roboyobo.ball.util.Settings;
 
 public class MenuState extends BasicState {
 	
-	private int x = GameInfo.SCREEN_WIDTH / 2 - (GameInfo.GAME_OVER_PANEL_WIDTH / 2);
-	private int y = GameInfo.SCREEN_HEIGHT / 2 - (GameInfo.GAME_OVER_PANEL_HEIGHT / 2);
+	private static int playX = GameInfo.PLAY_BUTTON_X;
+
+	private static int multiX = GameInfo.MULTIPLAYER_BUTTON_X;
+
+	private static int optX = GameInfo.OPTIONS_BUTTON_X;
 	
 	private UnicodeFont font, smallFont, fontToUse;
 	
-	private static MouseOverArea play, multiplayer, options;
+	private static MouseOverArea play, play2, play3, multiplayer, multiplayer2, multiplayer3, options, options2, options3;
 	
 	public MenuState(int stateID, GameContainer gc, final BouncyBall bb) throws SlickException {
 		super(stateID, "menu");
@@ -70,7 +73,37 @@ public class MenuState extends BasicState {
 			}
 		});
 		
+		play2 = new MouseOverArea(gc, Images.button, GameInfo.PLAY_BUTTON_X - 300, GameInfo.PLAY_BUTTON_Y, new ComponentListener() {
+			@Override
+			public void componentActivated(AbstractComponent ac) {
+				GameInfo.balls.get(0).reset(bb);
+				bb.enterState(GameInfo.STATE_GAME_ID);
+			}
+		});
+		
+		play3 = new MouseOverArea(gc, Images.button, GameInfo.PLAY_BUTTON_X + 300, GameInfo.PLAY_BUTTON_Y, new ComponentListener() {
+			@Override
+			public void componentActivated(AbstractComponent ac) {
+				GameInfo.balls.get(0).reset(bb);
+				bb.enterState(GameInfo.STATE_GAME_ID);
+			}
+		});
+		
 		multiplayer = new MouseOverArea(gc, Images.button, GameInfo.MULTIPLAYER_BUTTON_X, GameInfo.MULTIPLAYER_BUTTON_Y, new ComponentListener() {
+			@Override
+			public void componentActivated(AbstractComponent ac) {
+				bb.enterState(GameInfo.STATE_BATTLE_MENU_ID);
+			}
+		});
+		
+		multiplayer2 = new MouseOverArea(gc, Images.button, GameInfo.MULTIPLAYER_BUTTON_X - 300, GameInfo.MULTIPLAYER_BUTTON_Y, new ComponentListener() {
+			@Override
+			public void componentActivated(AbstractComponent ac) {
+				bb.enterState(GameInfo.STATE_BATTLE_MENU_ID);
+			}
+		});
+		
+		multiplayer3 = new MouseOverArea(gc, Images.button, GameInfo.MULTIPLAYER_BUTTON_X + 300, GameInfo.MULTIPLAYER_BUTTON_Y, new ComponentListener() {
 			@Override
 			public void componentActivated(AbstractComponent ac) {
 				bb.enterState(GameInfo.STATE_BATTLE_MENU_ID);
@@ -84,34 +117,89 @@ public class MenuState extends BasicState {
 			}
 		});
 		
+		options2 = new MouseOverArea(gc, Images.button, GameInfo.OPTIONS_BUTTON_X - 300, GameInfo.OPTIONS_BUTTON_Y, new ComponentListener() {
+			@Override
+			public void componentActivated(AbstractComponent ac) {
+				bb.enterState(GameInfo.STATE_OPTIONS_ID);
+			}
+		});
+		
+		options3 = new MouseOverArea(gc, Images.button, GameInfo.OPTIONS_BUTTON_X + 300, GameInfo.OPTIONS_BUTTON_Y, new ComponentListener() {
+			@Override
+			public void componentActivated(AbstractComponent ac) {
+				bb.enterState(GameInfo.STATE_OPTIONS_ID);
+			}
+		});
+		
 		play.setMouseOverImage(Images.buttonMO);
 		multiplayer.setMouseOverImage(Images.buttonMO);
 		options.setMouseOverImage(Images.buttonMO);
+		
+		play2.setMouseOverImage(Images.buttonMO);
+		multiplayer2.setMouseOverImage(Images.buttonMO);
+		options2.setMouseOverImage(Images.buttonMO);
+		
+		play3.setMouseOverImage(Images.buttonMO);
+		multiplayer3.setMouseOverImage(Images.buttonMO);
+		options3.setMouseOverImage(Images.buttonMO);
 		
 		play.setMouseDownSound(Sounds.select);
 		multiplayer.setMouseDownSound(Sounds.select);
 		options.setMouseDownSound(Sounds.select);
 		
+		play2.setMouseDownSound(Sounds.select);
+		multiplayer2.setMouseDownSound(Sounds.select);
+		options2.setMouseDownSound(Sounds.select);
+		
+		play3.setMouseDownSound(Sounds.select);
+		multiplayer3.setMouseDownSound(Sounds.select);
+		options3.setMouseDownSound(Sounds.select);
+		
 		BouncyBall.app.setShowFPS(GameInfo.settings.showFPS);
 		BouncyBall.app.setSoundOn(GameInfo.settings.sound);
 		BouncyBall.app.setMusicOn(GameInfo.settings.music);
+		
+		int offset = 300;
+		
 	}
 	
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		
 	}
+	
+	@Override
+	public void enter(GameContainer container, StateBasedGame game) throws SlickException {
+		setButtonPos();
+	}
+	
+	public static void setButtonPos() {
+		
+	}
 
 	@Override
 	public void renderMain(GameContainer gc, StateBasedGame sbg, Graphics g) {
-
 		g.setColor(Color.blue);
 		
 		g.drawImage(Images.logo, GameInfo.LOGO_X, GameInfo.LOGO_Y);
 		
-		play.render(gc, g);
-		multiplayer.render(gc, g);
-		options.render(gc, g);
+		if(GameInfo.settings.menuOrient == 0) {
+			play2.render(gc, g);
+			multiplayer2.render(gc, g);
+			options2.render(gc, g);
+		}
+		
+		if(GameInfo.settings.menuOrient == 1) {
+			play.render(gc, g);
+			multiplayer.render(gc, g);
+			options.render(gc, g);
+		}
+		
+		if(GameInfo.settings.menuOrient == 2) {
+			play3.render(gc, g);
+			multiplayer3.render(gc, g);
+			options3.render(gc, g);
+		}
 		
 		String[] names = {GameInfo.language.play, GameInfo.language.battle, GameInfo.language.options};
 		
@@ -124,9 +212,21 @@ public class MenuState extends BasicState {
 			}
  		}
 		
-		fontToUse.drawString(GameInfo.PLAY_BUTTON_X + FontHelper.getWidthDifference(fontToUse, GameInfo.language.play), GameInfo.PLAY_BUTTON_Y + FontHelper.getHeightDifference(fontToUse, GameInfo.language.play), GameInfo.language.play);
-		fontToUse.drawString(GameInfo.MULTIPLAYER_BUTTON_X + FontHelper.getWidthDifference(fontToUse, GameInfo.language.battle), GameInfo.MULTIPLAYER_BUTTON_Y + FontHelper.getHeightDifference(fontToUse, GameInfo.language.battle), GameInfo.language.battle);
-		fontToUse.drawString(GameInfo.OPTIONS_BUTTON_X + FontHelper.getWidthDifference(fontToUse, GameInfo.language.options), GameInfo.OPTIONS_BUTTON_Y + FontHelper.getHeightDifference(fontToUse, GameInfo.language.options), GameInfo.language.options);
+		if(GameInfo.settings.menuOrient == 0) {
+			fontToUse.drawString(GameInfo.PLAY_BUTTON_X - 300 + FontHelper.getWidthDifference(fontToUse, GameInfo.language.play), GameInfo.PLAY_BUTTON_Y + FontHelper.getHeightDifference(fontToUse, GameInfo.language.play), GameInfo.language.play);
+			fontToUse.drawString(GameInfo.MULTIPLAYER_BUTTON_X - 300 + FontHelper.getWidthDifference(fontToUse, GameInfo.language.battle), GameInfo.MULTIPLAYER_BUTTON_Y + FontHelper.getHeightDifference(fontToUse, GameInfo.language.battle), GameInfo.language.battle);
+			fontToUse.drawString(GameInfo.OPTIONS_BUTTON_X - 300 + FontHelper.getWidthDifference(fontToUse, GameInfo.language.options), GameInfo.OPTIONS_BUTTON_Y + FontHelper.getHeightDifference(fontToUse, GameInfo.language.options), GameInfo.language.options);
+		}
+		if(GameInfo.settings.menuOrient == 1) {
+			fontToUse.drawString(GameInfo.PLAY_BUTTON_X + FontHelper.getWidthDifference(fontToUse, GameInfo.language.play), GameInfo.PLAY_BUTTON_Y + FontHelper.getHeightDifference(fontToUse, GameInfo.language.play), GameInfo.language.play);
+			fontToUse.drawString(GameInfo.MULTIPLAYER_BUTTON_X + FontHelper.getWidthDifference(fontToUse, GameInfo.language.battle), GameInfo.MULTIPLAYER_BUTTON_Y + FontHelper.getHeightDifference(fontToUse, GameInfo.language.battle), GameInfo.language.battle);
+			fontToUse.drawString(GameInfo.OPTIONS_BUTTON_X + FontHelper.getWidthDifference(fontToUse, GameInfo.language.options), GameInfo.OPTIONS_BUTTON_Y + FontHelper.getHeightDifference(fontToUse, GameInfo.language.options), GameInfo.language.options);
+		}
+		if(GameInfo.settings.menuOrient == 2) {
+			fontToUse.drawString(GameInfo.PLAY_BUTTON_X + 300 + FontHelper.getWidthDifference(fontToUse, GameInfo.language.play), GameInfo.PLAY_BUTTON_Y + FontHelper.getHeightDifference(fontToUse, GameInfo.language.play), GameInfo.language.play);
+			fontToUse.drawString(GameInfo.MULTIPLAYER_BUTTON_X + 300 + FontHelper.getWidthDifference(fontToUse, GameInfo.language.battle), GameInfo.MULTIPLAYER_BUTTON_Y + FontHelper.getHeightDifference(fontToUse, GameInfo.language.battle), GameInfo.language.battle);
+			fontToUse.drawString(GameInfo.OPTIONS_BUTTON_X + 300 + FontHelper.getWidthDifference(fontToUse, GameInfo.language.options), GameInfo.OPTIONS_BUTTON_Y + FontHelper.getHeightDifference(fontToUse, GameInfo.language.options), GameInfo.language.options);
+		}
 	}
 
 	@Override

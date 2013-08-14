@@ -32,4 +32,5 @@ public class Settings implements Serializable {
 	public boolean renderAimLine = false, showFPS = false;
 	public Color[] lineColours = {Color.black, Color.white, Color.red, Color.blue, Color.yellow, Color.green};
 	public int lineColour = 0;
+	public int menuOrient = 1;
 }

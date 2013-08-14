@@ -8,6 +8,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import roboyobo.ball.state.AudioOptionsState;
+import roboyobo.ball.state.BasicState;
 import roboyobo.ball.state.BattleMenuGamemodeState;
 import roboyobo.ball.state.BattleMenuState;
 import roboyobo.ball.state.BattleState;
@@ -102,6 +103,14 @@ public class BouncyBall extends StateBasedGame {
 				GameState.isPaused = GameState.isPaused == true ? false : true;
 			}
 		}
+		
+		org.newdawn.slick.state.GameState gs = getCurrentState();
+		if(gs != null && gs instanceof BasicState) {
+			BasicState bs = (BasicState) gs;
+			bs.keyPress(key, c);
+		}
+		
+		
 	}
 
 	

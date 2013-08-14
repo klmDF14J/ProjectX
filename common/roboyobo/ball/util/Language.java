@@ -6,7 +6,7 @@ public class Language {
 	private String key, name;
 	
 	public String play, battle, options, selectLanguage, backToMenu, languages, gameOver, rocksDestroyed, timeLasted, shockwavesUsed, totalScore, submit, enterUsername, highscore, username, score, player, back, rocks, time, vs, general, videoS, audioS, gameS, settings, colour, aimLine;
-	public String on, off, shop, hud, showFPS, sound, music;
+	public String on, off, shop, hud, showFPS, sound, music, left, centre, right, menuOrient;
 	
 	public Language(String key, String[] values) {
 		this.key = key;
@@ -48,6 +48,10 @@ public class Language {
 		showFPS = values[33];
 		sound = values[34];
 		music = values[35];
+		left = values[36];
+		centre = values[37];
+		right = values[38];
+		menuOrient = values[39];
 	}
 	
 	public String getKey() {

@@ -27,3 +27,7 @@ TODO:
 	
 	-Fix rocks glitching on each other (Hopefully with new entity system)
 	
+	-Redo language system to read from file (Tricky)
+	
+	-Find a good place to put the title on the menu
+	
