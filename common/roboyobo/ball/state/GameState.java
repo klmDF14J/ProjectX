@@ -21,6 +21,7 @@ import roboyobo.ball.game.Ball;
 import roboyobo.ball.game.Bullet;
 import roboyobo.ball.game.HUD;
 import roboyobo.ball.game.Rock;
+import roboyobo.ball.resource.BackgroundManager;
 import roboyobo.ball.resource.Sounds;
 import roboyobo.ball.util.FontHelper;
 import roboyobo.ball.util.GameInfo;
@@ -114,7 +115,7 @@ public class GameState extends BasicGameState {
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 		
-		g.drawImage(new Image("/resources/images/projectX/background.png"), 0, 0);
+		g.drawImage(BackgroundManager.getBackgroundForState("game"), 0, 0);
 		
 		for(Ball ball : GameInfo.balls) {
 			ball.render(gc, g);

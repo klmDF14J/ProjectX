@@ -12,6 +12,7 @@ import org.newdawn.slick.gui.MouseOverArea;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import roboyobo.ball.resource.BackgroundManager;
 import roboyobo.ball.resource.Sounds;
 import roboyobo.ball.util.FontHelper;
 import roboyobo.ball.util.GameInfo;
@@ -130,7 +131,7 @@ public class GameOverState extends BasicGameState {
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 		g.setColor(Color.blue);
-		g.drawImage(new Image("/resources/images/projectX/menuBackground.png"), 0, 0);
+		g.drawImage(BackgroundManager.getBackgroundForState("menu"), 0, 0);
 		font.drawString(x + FontHelper.getBigWidthDifference(font, GameInfo.language.gameOver), y, GameInfo.language.gameOver);
 		
 		if(canX2) {

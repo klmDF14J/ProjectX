@@ -15,6 +15,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import roboyobo.ball.BouncyBall;
+import roboyobo.ball.resource.BackgroundManager;
 import roboyobo.ball.resource.Sounds;
 import roboyobo.ball.util.FileWriter;
 import roboyobo.ball.util.FontHelper;
@@ -100,7 +101,7 @@ public class AudioOptionsState extends BasicGameState {
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 		g.setColor(Color.blue);
-		g.drawImage(new Image("/resources/images/projectX/menuBackground.png"), 0, 0);
+		g.drawImage(BackgroundManager.getBackgroundForState("menu"), 0, 0);
 		
 		for(MouseOverArea moa : buttons) {
 			moa.render(gc, g);

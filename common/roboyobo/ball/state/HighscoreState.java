@@ -22,6 +22,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import roboyobo.ball.highscore.Entry;
+import roboyobo.ball.resource.BackgroundManager;
 import roboyobo.ball.resource.Sounds;
 import roboyobo.ball.util.FileWriter;
 import roboyobo.ball.util.FontHelper;
@@ -92,7 +93,7 @@ public class HighscoreState extends BasicGameState {
 		
 		g.setColor(Color.white);
 		
-		g.drawImage(new Image("/resources/images/projectX/menuBackground.png"), 0, 0);
+		g.drawImage(BackgroundManager.getBackgroundForState("menu"), 0, 0);
 		
 		font.drawString((int) (GameInfo.SCREEN_WIDTH / 2 - (font.getWidth(GameInfo.language.highscore) / 2)), (int) (GameInfo.SCREEN_HEIGHT / 2 - (font.getHeight(GameInfo.language.highscore) / 2) - 250), GameInfo.language.highscore);
 

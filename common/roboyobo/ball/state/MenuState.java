@@ -15,7 +15,9 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import roboyobo.ball.BouncyBall;
+import roboyobo.ball.resource.BackgroundManager;
 import roboyobo.ball.resource.Images;
+import roboyobo.ball.resource.ResourceManager;
 import roboyobo.ball.resource.Sounds;
 import roboyobo.ball.util.FileWriter;
 import roboyobo.ball.util.FontHelper;
@@ -42,8 +44,7 @@ public class MenuState extends BasicGameState {
 		fontToUse = font;
 		
 		LanguageHandler.init();
-		Sounds.init();
-		Images.init();
+		ResourceManager.init();
 		
 		if(FileWriter.load("/resources/projectX/settings.dat") instanceof Settings) {
 			GameInfo.settings = (Settings) FileWriter.load("/resources/projectX/settings.dat");
@@ -105,7 +106,7 @@ public class MenuState extends BasicGameState {
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-		g.drawImage(new Image("/resources/images/projectX/menuBackground.png"), 0, 0);
+		g.drawImage(BackgroundManager.getBackgroundForState("menu"), 0, 0);
 		g.setColor(Color.blue);
 		
 		g.drawImage(new Image("/resources/images/projectX/logo.png"), GameInfo.LOGO_X, GameInfo.LOGO_Y);
