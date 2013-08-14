@@ -31,3 +31,5 @@ TODO:
 	
 	-Find a good place to put the title on the menu
 	
+	-(Non-major) Find a nicer way to handle the menu orientation. Buttons dont update proper so I'm just maintaining 3 instances of it
+	

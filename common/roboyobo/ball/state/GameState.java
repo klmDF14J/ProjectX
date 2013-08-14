@@ -33,6 +33,7 @@ public class GameState extends BasicState {
 	private static UnicodeFont statFont;
 	private static UnicodeFont statFont2;
 	private static UnicodeFont statFont3;
+	private static UnicodeFont font;
 	
 	public GameState(int stateID) {
 		super(stateID, "game");
@@ -100,6 +101,8 @@ public class GameState extends BasicState {
 		statFont = FontHelper.setupAndReturnNewFont("font", (int) (24 * GameInfo.settings.hudScale));
 		statFont2 = FontHelper.setupAndReturnNewFont("font", (int) (18 * GameInfo.settings.hudScale));
 		statFont3 = FontHelper.setupAndReturnNewFont("font", (int) (12 * GameInfo.settings.hudScale));
+		
+		font = FontHelper.setupAndReturnNewFont("font", 24);
 	}
 	
 	@Override
@@ -139,6 +142,12 @@ public class GameState extends BasicState {
 			highscores.render(gc, g);
 			resume.render(gc, g);
 			menu.render(gc, g);
+			
+			font.drawString(GameInfo.SCREEN_WIDTH - 300 + FontHelper.getWidthDifference(font, GameInfo.language.backToMenu), GameInfo.SCREEN_HEIGHT - 100 + FontHelper.getHeightDifference(font, GameInfo.language.backToMenu), GameInfo.language.backToMenu);
+			font.drawString(FontHelper.getWidthDifference(font, GameInfo.language.back), GameInfo.SCREEN_HEIGHT - 100 + FontHelper.getHeightDifference(font, GameInfo.language.back), GameInfo.language.back);
+		
+			font.drawString(350 + FontHelper.getWidthDifference(font, GameInfo.language.shop), 100 + FontHelper.getHeightDifference(font, GameInfo.language.shop), GameInfo.language.shop);
+			font.drawString(350 + FontHelper.getWidthDifference(font, GameInfo.language.highscore), 250 + FontHelper.getHeightDifference(font, GameInfo.language.highscore), GameInfo.language.highscore);
 		}
 		
 		HUD.render(g, statFont, statFont2, statFont3);

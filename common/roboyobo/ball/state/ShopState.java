@@ -71,18 +71,9 @@ public class ShopState extends BasicState {
 			}
 		}));
 		
-		buttons.add(new MouseOverArea(gc, Images.button, GameInfo.SCREEN_WIDTH - 300, GameInfo.SCREEN_HEIGHT - 100, new ComponentListener() {
-			@Override
-			public void componentActivated(AbstractComponent ac) {
-				sbg.enterState(GameInfo.STATE_MENU_ID);
-			}
-		}));
-		
 		buttons.get(0).setMouseOverImage(Images.buttonMO);
-		buttons.get(1).setMouseOverImage(Images.buttonMO);
 		
 		buttons.get(0).setMouseDownSound(Sounds.select);
-		buttons.get(1).setMouseDownSound(Sounds.select);
 		
 		
 	}
@@ -96,8 +87,7 @@ public class ShopState extends BasicState {
 			moa.render(gc, g);
 		}
 		font.drawString(GameInfo.SCREEN_WIDTH / 2 - (font.getWidth(GameInfo.language.shop) / 2), 50, GameInfo.language.shop);
-		
-		font2.drawString(GameInfo.SCREEN_WIDTH - 300 + FontHelper.getWidthDifference(font2, GameInfo.language.backToMenu), GameInfo.SCREEN_HEIGHT - 100 + FontHelper.getHeightDifference(font2, GameInfo.language.backToMenu), GameInfo.language.backToMenu);
+
 		font2.drawString(FontHelper.getWidthDifference(font2, GameInfo.language.back), GameInfo.SCREEN_HEIGHT - 100 + FontHelper.getHeightDifference(font2, GameInfo.language.back), GameInfo.language.back);
 	}
 	
