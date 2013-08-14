@@ -1,10 +1,9 @@
-package roboyobo.ball;
+package roboyobo.ball.util;
 
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
 
-import roboyobo.ball.util.GameInfo;
 
 
 public class FontHelper {

@@ -17,6 +17,7 @@ import roboyobo.ball.state.GameState;
 import roboyobo.ball.state.GeneralOptionsState;
 import roboyobo.ball.state.HighscoreState;
 import roboyobo.ball.state.LanguageState;
+import roboyobo.ball.state.LoadingState;
 import roboyobo.ball.state.MenuState;
 import roboyobo.ball.state.OptionsState;
 import roboyobo.ball.state.ShopState;

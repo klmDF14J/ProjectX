@@ -16,12 +16,12 @@ import org.newdawn.slick.gui.MouseOverArea;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import roboyobo.ball.Ball;
 import roboyobo.ball.BouncyBall;
-import roboyobo.ball.Bullet;
-import roboyobo.ball.FontHelper;
-import roboyobo.ball.Rock;
+import roboyobo.ball.game.Ball;
+import roboyobo.ball.game.Bullet;
+import roboyobo.ball.game.Rock;
 import roboyobo.ball.resource.Sounds;
+import roboyobo.ball.util.FontHelper;
 import roboyobo.ball.util.GameInfo;
 
 public class GameState extends BasicGameState {

@@ -6,7 +6,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
 
-import roboyobo.ball.FontHelper;
+import roboyobo.ball.util.FontHelper;
 
 public class Entry implements Serializable {
 	

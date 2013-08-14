@@ -14,13 +14,13 @@ import org.newdawn.slick.gui.MouseOverArea;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import roboyobo.ball.EnumRank;
-import roboyobo.ball.FileWriter;
-import roboyobo.ball.FontHelper;
-import roboyobo.ball.Item;
-import roboyobo.ball.LanguageHandler;
 import roboyobo.ball.resource.Sounds;
+import roboyobo.ball.shop.Item;
+import roboyobo.ball.util.EnumRank;
+import roboyobo.ball.util.FileWriter;
+import roboyobo.ball.util.FontHelper;
 import roboyobo.ball.util.GameInfo;
+import roboyobo.ball.util.LanguageHandler;
 
 public class ShopState extends BasicGameState {
 

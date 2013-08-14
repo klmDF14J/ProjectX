@@ -15,12 +15,12 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import roboyobo.ball.BouncyBall;
-import roboyobo.ball.FileWriter;
-import roboyobo.ball.FontHelper;
-import roboyobo.ball.LanguageHandler;
-import roboyobo.ball.Settings;
 import roboyobo.ball.resource.Sounds;
+import roboyobo.ball.util.FileWriter;
+import roboyobo.ball.util.FontHelper;
 import roboyobo.ball.util.GameInfo;
+import roboyobo.ball.util.LanguageHandler;
+import roboyobo.ball.util.Settings;
 
 public class MenuState extends BasicGameState {
 

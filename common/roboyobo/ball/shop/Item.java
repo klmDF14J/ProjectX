@@ -1,9 +1,11 @@
-package roboyobo.ball;
+package roboyobo.ball.shop;
 
 import java.io.Serializable;
 
 import org.newdawn.slick.Color;
 
+import roboyobo.ball.util.EnumRank;
+import roboyobo.ball.util.FileWriter;
 import roboyobo.ball.util.GameInfo;
 
 public class Item implements Serializable {

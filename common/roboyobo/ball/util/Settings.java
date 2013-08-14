@@ -1,4 +1,4 @@
-package roboyobo.ball;
+package roboyobo.ball.util;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,7 +11,6 @@ import java.io.Serializable;
 
 import org.newdawn.slick.Color;
 
-import roboyobo.ball.util.GameInfo;
 
 
 public class Settings implements Serializable {
@@ -24,7 +23,7 @@ public class Settings implements Serializable {
 	/**
 	 * Settings for audio
 	 */
-	public boolean sound, music;
+	public boolean sound = true, music = true;
 	
 	
 	/**

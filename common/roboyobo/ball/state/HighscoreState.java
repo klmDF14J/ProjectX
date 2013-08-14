@@ -21,10 +21,10 @@ import org.newdawn.slick.gui.MouseOverArea;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import roboyobo.ball.FileWriter;
-import roboyobo.ball.FontHelper;
 import roboyobo.ball.highscore.Entry;
 import roboyobo.ball.resource.Sounds;
+import roboyobo.ball.util.FileWriter;
+import roboyobo.ball.util.FontHelper;
 import roboyobo.ball.util.GameInfo;
 import roboyobo.hoppityHop.level.Level;
 import roboyobo.hoppityHop.util.Chat;

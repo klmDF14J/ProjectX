@@ -1,4 +1,4 @@
-package roboyobo.ball;
+package roboyobo.ball.game;
 
 import java.util.ArrayList;
 

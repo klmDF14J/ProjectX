@@ -1,9 +1,8 @@
-package roboyobo.ball;
+package roboyobo.ball.util;
 
 import java.util.ArrayList;
 import java.util.Locale;
 
-import roboyobo.ball.util.GameInfo;
 
 public class LanguageHandler {
 	public static ArrayList<Language> languages;

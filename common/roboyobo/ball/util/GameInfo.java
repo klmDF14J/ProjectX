@@ -5,14 +5,11 @@ import java.util.ArrayList;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Shape;
 
-import roboyobo.ball.Ball;
-import roboyobo.ball.Bullet;
-import roboyobo.ball.Item;
-import roboyobo.ball.Language;
-import roboyobo.ball.LanguageHandler;
-import roboyobo.ball.Rock;
-import roboyobo.ball.Settings;
+import roboyobo.ball.game.Ball;
+import roboyobo.ball.game.Bullet;
+import roboyobo.ball.game.Rock;
 import roboyobo.ball.highscore.Entry;
+import roboyobo.ball.shop.Item;
 
 public class GameInfo {
 	
