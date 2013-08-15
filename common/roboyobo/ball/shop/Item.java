@@ -3,7 +3,9 @@ package roboyobo.ball.shop;
 import java.io.Serializable;
 
 import org.newdawn.slick.Color;
+import org.newdawn.slick.Image;
 
+import roboyobo.ball.resource.Images;
 import roboyobo.ball.util.EnumRank;
 import roboyobo.ball.util.FileWriter;
 import roboyobo.ball.util.GameInfo;
@@ -15,6 +17,7 @@ public class Item implements Serializable {
 	private int cost;
 	private EnumRank rank;
 	private int buySize, stackSize;
+	private Image img;
 	
 	/**
 	 * @param name The name of the item
@@ -79,5 +82,13 @@ public class Item implements Serializable {
 	
 	public boolean canStack() {
 		return canStack;
+	}
+	
+	public void setImage(int x, int y) {
+		img = Images.shopSheet.getSprite(x, y);
+	}
+	
+	public void renderInSlot(int x, int y) {
+		img.draw(x, y);
 	}
 }

@@ -56,6 +56,15 @@ public class ShopState extends BasicState {
 		for(Item item : GameInfo.shopContents) {
 			System.out.println(item.getName() + " has " + item.getStackSize() + " items in its stack. You buy it in a size of " + item.getBuySize() + " and just to check it " + (item.canStack() == true ? "can" : "cannot") + " stack");
 		}
+		
+		for(int i = 0; i < 10; i++) {
+			for(int j = 0; j < 5; j++) {
+				if(GameInfo.shopContents.size() > i + (j * 10)) {
+					Item item = GameInfo.shopContents.get(i + (j * 10));
+					item.setImage(i, j);
+				}
+			}
+		}
 	}
 	
 	@Override
@@ -98,6 +107,11 @@ public class ShopState extends BasicState {
 		for(int i = 0; i < 10; i++) {
 			for(int j = 0; j < 5; j++) {
 				g.drawRect(155 + (i * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)), 100 + (j * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)), GameInfo.SHOP_BOX_SIZE, GameInfo.SHOP_BOX_SIZE);
+				if(GameInfo.shopContents.size() > i + (j * 10)) {
+					Item item = GameInfo.shopContents.get(i + (j * 10));
+					item.renderInSlot(170 + (i * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)), 115 + (j * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)));
+					System.out.println("Filling i: " + i + " and j: " + j + ", with " + item.getName());
+				}
 			}
 		}
 	}
