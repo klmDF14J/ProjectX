@@ -27,11 +27,11 @@ public class Images {
 		button = createImage("button");
 		buttonMO = createImage("buttonMO");
 		
-		shopSheet = new SpriteSheet("/resources/images/projectX/shopSheet.png", 20, 20);
+		shopSheet = new SpriteSheet("/resources/images/projectX/shopSheet.png", 40, 40);
 		shopItems = new ArrayList<Image>();
 		
-		for(int i = 0; i < 20; i++) {
-			for(int j = 0; j < 20; j++) {
+		for(int i = 0; i < 40; i++) {
+			for(int j = 0; j < 40; j++) {
 				shopItems.add(shopSheet.getSprite(i, j));
 			}
 		}

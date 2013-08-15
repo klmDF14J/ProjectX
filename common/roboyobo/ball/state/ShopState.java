@@ -40,9 +40,26 @@ public class ShopState extends BasicState {
 		GameInfo.shopContents.add(new Item("Ultimate Gun", EnumRank.EPIC, 100, false, 1));
 		GameInfo.shopContents.add(new Item("Ultimate Ship", EnumRank.GOOD, 250, true, 1));
 		GameInfo.shopContents.add(new Item("Ultimate Bullet", EnumRank.BAD, 20, false, 10));
+		GameInfo.shopContents.add(new Item("Ultimate Rock", EnumRank.BAD, 20, false, 10));
+		GameInfo.shopContents.add(new Item("Lucys Item", EnumRank.EPIC, 0, true, 1));
+		GameInfo.shopContents.add(new Item("yolo Item", EnumRank.EPIC, 0, true, 1));
+		GameInfo.shopContents.add(new Item("swag Item", EnumRank.EPIC, 0, true, 1));
+		
+		ArrayList<Item> shopCopy = (ArrayList<Item>) GameInfo.shopContents.clone();
 		
 		if(FileWriter.load("/resources/projectX/itemsBought.dat") instanceof ArrayList<?>) {
 			GameInfo.shopContents = (ArrayList<Item>) FileWriter.load("/resources/projectX/itemsBought.dat");
+			
+			if(GameInfo.shopContents.size() < shopCopy.size()) {
+				System.out.println("Shop contents size is less than shop copy's size ");
+				for(int i = 0; i < shopCopy.size(); i++) {
+					System.out.println("Looping at: " + i);
+					if(i > GameInfo.shopContents.size() - 1) {
+						System.out.println("Shop contents is smaller than: " + i);
+						GameInfo.shopContents.add(shopCopy.get(i));
+					}
+				}
+			}
 		}
 		
 		System.out.println("There are currently " + GameInfo.shopContents.size() + " Items Available For Purchase");
@@ -50,8 +67,6 @@ public class ShopState extends BasicState {
 		for(Item item : GameInfo.shopContents) {
 			System.out.println(item.getName() + " is an item of " + item.getRank().getRankValue() + " quality. It costs " + item.getCost() + " tokens and is" + (item.isPremium() == false ? " not" : "") + " a premium item");
 		}
-		
-		GameInfo.shopContents.get(2).buy();
 		
 		for(Item item : GameInfo.shopContents) {
 			System.out.println(item.getName() + " has " + item.getStackSize() + " items in its stack. You buy it in a size of " + item.getBuySize() + " and just to check it " + (item.canStack() == true ? "can" : "cannot") + " stack");
@@ -109,7 +124,7 @@ public class ShopState extends BasicState {
 				g.drawRect(155 + (i * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)), 100 + (j * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)), GameInfo.SHOP_BOX_SIZE, GameInfo.SHOP_BOX_SIZE);
 				if(GameInfo.shopContents.size() > i + (j * 10)) {
 					Item item = GameInfo.shopContents.get(i + (j * 10));
-					item.renderInSlot(170 + (i * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)), 115 + (j * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)));
+					item.renderInSlot(160 + (i * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)), 105 + (j * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)));
 					System.out.println("Filling i: " + i + " and j: " + j + ", with " + item.getName());
 				}
 			}
