@@ -51,11 +51,8 @@ public class ShopState extends BasicState {
 			GameInfo.shopContents = (ArrayList<Item>) FileWriter.load("/resources/projectX/itemsBought.dat");
 			
 			if(GameInfo.shopContents.size() < shopCopy.size()) {
-				System.out.println("Shop contents size is less than shop copy's size ");
 				for(int i = 0; i < shopCopy.size(); i++) {
-					System.out.println("Looping at: " + i);
 					if(i > GameInfo.shopContents.size() - 1) {
-						System.out.println("Shop contents is smaller than: " + i);
 						GameInfo.shopContents.add(shopCopy.get(i));
 					}
 				}

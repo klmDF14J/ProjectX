@@ -9,6 +9,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
 import roboyobo.ball.resource.Images;
+import roboyobo.ball.resource.Sounds;
 import roboyobo.ball.state.GameState;
 import roboyobo.ball.util.GameInfo;
 
@@ -125,6 +126,7 @@ public class Rock {
 		if(!isDead()) {
 			dead = val;
 			if(type == 0) {
+				Sounds.destroy.play();
 				GameInfo.DEAD_ROCKS++;
 			}
 		}
