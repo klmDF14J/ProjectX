@@ -56,8 +56,6 @@ public class ShopState extends BasicState {
 		for(Item item : GameInfo.shopContents) {
 			System.out.println(item.getName() + " has " + item.getStackSize() + " items in its stack. You buy it in a size of " + item.getBuySize() + " and just to check it " + (item.canStack() == true ? "can" : "cannot") + " stack");
 		}
-		
-		
 	}
 	
 	@Override
@@ -74,8 +72,6 @@ public class ShopState extends BasicState {
 		buttons.get(0).setMouseOverImage(Images.buttonMO);
 		
 		buttons.get(0).setMouseDownSound(Sounds.select);
-		
-		
 	}
 
 	@Override
@@ -89,13 +85,21 @@ public class ShopState extends BasicState {
 		font.drawString(GameInfo.SCREEN_WIDTH / 2 - (font.getWidth(GameInfo.language.shop) / 2), 50, GameInfo.language.shop);
 
 		font2.drawString(FontHelper.getWidthDifference(font2, GameInfo.language.back), GameInfo.SCREEN_HEIGHT - 100 + FontHelper.getHeightDifference(font2, GameInfo.language.back), GameInfo.language.back);
+		
+		renderShop(gc, sbg, g);
 	}
-	
-	
 
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
 		
+	}
+	
+	private void renderShop(GameContainer gc, StateBasedGame sbg, Graphics g) {
+		for(int i = 0; i < 10; i++) {
+			for(int j = 0; j < 5; j++) {
+				g.drawRect(155 + (i * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)), 100 + (j * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)), GameInfo.SHOP_BOX_SIZE, GameInfo.SHOP_BOX_SIZE);
+			}
+		}
 	}
 
 

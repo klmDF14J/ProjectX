@@ -95,6 +95,8 @@ public class GameInfo {
 	public static final int TOKEN_STARTER_NUM = 100;
 	
 	public static ArrayList<Item> shopContents;
+	public static final int SHOP_BOX_SIZE = 50;
+	public static final int SHOP_BOX_GAP = 20;
 	
 	public static Language language;
 	public static Settings settings = new Settings();
