@@ -212,7 +212,14 @@ public class GameState extends BasicState {
 	private boolean started = false;
 	
 	@Override
-	public void keyPress(int key, char c) {
+	public void keyPressed(int key, char c) {
+		if(key == Keyboard.KEY_ESCAPE) {
+			isPaused = isPaused == true ? false : true;
+		}
+		check1337(key);
+	}
+	
+	private void check1337(int key) {
 		if(key == Keyboard.KEY_1 && !started && chain == 0) {
 			chain++;
 		}

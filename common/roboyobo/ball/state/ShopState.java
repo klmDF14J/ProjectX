@@ -122,10 +122,14 @@ public class ShopState extends BasicState {
 				if(GameInfo.shopContents.size() > i + (j * 10)) {
 					Item item = GameInfo.shopContents.get(i + (j * 10));
 					item.renderInSlot(160 + (i * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)), 105 + (j * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)));
-					System.out.println("Filling i: " + i + " and j: " + j + ", with " + item.getName());
 				}
 			}
 		}
+	}
+	
+	@Override
+	public void mouseMoved(int oldx, int oldy, int newx, int newy) {
+		
 	}
 
 

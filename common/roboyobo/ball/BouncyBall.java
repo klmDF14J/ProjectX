@@ -76,41 +76,32 @@ public class BouncyBall extends StateBasedGame {
 	
 	@Override
 	public void mouseMoved(int oldX, int oldY, int newX, int newY) {
-		super.mouseMoved(oldX, oldY, newX, newY);
-		
 		if(!GameState.isPaused) {
 			GameInfo.balls.get(0).mouseX = newX;
 			GameInfo.balls.get(0).mouseY = newY;
-		}
-	}
-	
-	@Override
-	public void mousePressed(int button, int x, int y) {
-		super.mousePressed(button, x, y);
-		
-		if(!GameInfo.balls.get(0).isDead() && this.getCurrentStateID() == GameInfo.STATE_GAME_ID) {
-			GameInfo.balls.get(0).fire(button);
-		}
-		if(this.getCurrentStateID() == GameInfo.STATE_OPTIONS_ID) {
-			OptionsState.length += 10;
-		}
-	}
-	
-	@Override
-	public void keyPressed(int key, char c) {
-		if(getCurrentStateID() == GameInfo.STATE_GAME_ID) {
-			if(key == Keyboard.KEY_ESCAPE) {
-				GameState.isPaused = GameState.isPaused == true ? false : true;
-			}
 		}
 		
 		org.newdawn.slick.state.GameState gs = getCurrentState();
 		if(gs != null && gs instanceof BasicState) {
 			BasicState bs = (BasicState) gs;
-			bs.keyPress(key, c);
+			bs.mouseMoved(oldX, oldY, newX, newY);
 		}
-		
-		
+	}
+	
+	@Override
+	public void mousePressed(int button, int x, int y) {
+		if(!GameInfo.balls.get(0).isDead() && this.getCurrentStateID() == GameInfo.STATE_GAME_ID) {
+			GameInfo.balls.get(0).fire(button);
+		}
+	}
+	
+	@Override
+	public void keyPressed(int key, char c) {
+		org.newdawn.slick.state.GameState gs = getCurrentState();
+		if(gs != null && gs instanceof BasicState) {
+			BasicState bs = (BasicState) gs;
+			bs.keyPressed(key, c);
+		}		
 	}
 
 	

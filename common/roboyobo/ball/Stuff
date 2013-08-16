@@ -7,15 +7,8 @@ Music: http://www.last.fm/music/+free-music-downloads/space+ambient
 Converted with: http://audio.online-convert.com/convert-to-ogg
 
 TODO: 
-	- In game shop (Lots to do)
 	
 	-Finish battle mode, actually add gameplay, waiting on new entity system before doing this
-	
-	-Finish up basic shop
-	
-	-Work on token system, need an equation for converting score into tokens. 
-	
-	-Finish up shop, add selection menu for buy size instead of just fixed
 	
 	-Add items where u can only have one a day etc in the shop
 	
@@ -31,6 +24,12 @@ TODO:
 	
 	-(Non-major) Find a nicer way to handle the menu orientation. Buttons dont update proper so I'm just maintaining 3 instances of it
 	
-	-Make it so the shop will recognise new items on update (currently requires you to delete itemsBought.dat)
+	-Work on tooltips for the shop (NEXT PRIORITY, fairly simple but needs to be done otherwise I'll forget)
+	
+	-Render current amount of items in the stack on the shop item
+	
+	-Proper way to buy things, work on token system and have a buy size dialog box
+	
+	-Add music to game (Code on laptop)
 	
 	
