@@ -38,13 +38,7 @@ public class ShopState extends BasicState {
 		
 		GameInfo.shopContents = new ArrayList<Item>();
 		
-		GameInfo.shopContents.add(new Item("Ultimate Gun", EnumRank.EPIC, 100, false, 1));
-		GameInfo.shopContents.add(new Item("Ultimate Ship", EnumRank.GOOD, 250, true, 1));
-		GameInfo.shopContents.add(new Item("Ultimate Bullet", EnumRank.BAD, 20, false, 10));
-		GameInfo.shopContents.add(new Item("Ultimate Rock", EnumRank.BAD, 20, false, 10));
-		GameInfo.shopContents.add(new Item("Lucys Item", EnumRank.EPIC, 0, true, 1));
-		GameInfo.shopContents.add(new Item("yolo Item", EnumRank.EPIC, 0, true, 1));
-		GameInfo.shopContents.add(new Item("swag Item", EnumRank.EPIC, 0, true, 1));
+		GameInfo.shopContents.add(new Item("Laser Beam", EnumRank.EPIC, 100, false, 1));
 		
 		ArrayList<Item> shopCopy = (ArrayList<Item>) GameInfo.shopContents.clone();
 		
@@ -148,11 +142,9 @@ public class ShopState extends BasicState {
 				Rectangle box = new Rectangle(155 + (i * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)), 100 + (j * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)), 50, 50);
 				if(mouse.intersects(box)) {
 					intersects = true;
-					System.out.println("Intersection with " + (i + (j * 10)));
 					nonInter[i + (j * 10)] = false;
 				}
 				if(!mouse.intersects(box)) {
-					System.out.println("Doesnt Intersect with " + (i + (j * 10)));
 					nonInter[i + (j * 10)] = true;
 				}
 				if(nonInter[i + (j * 10)] == false) {

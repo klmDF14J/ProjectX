@@ -24,7 +24,7 @@ TODO:
 	
 	-(Non-major) Find a nicer way to handle the menu orientation. Buttons dont update proper so I'm just maintaining 3 instances of it
 	
-	-Work on tooltips for the shop (NEXT PRIORITY, fairly simple but needs to be done otherwise I'll forget)
+	-Improve tooltips (Kinda buggy in the way they are coded (Possibly move to a point system?)
 	
 	-Render current amount of items in the stack on the shop item
 	
