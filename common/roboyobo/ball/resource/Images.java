@@ -1,5 +1,7 @@
 package roboyobo.ball.resource;
 
+import java.io.ObjectInputStream.GetField;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import org.newdawn.slick.Image;
@@ -39,7 +41,7 @@ public class Images {
 	}
 	
 	
-	private static Image createImage(String path) throws SlickException {
+	public static Image createImage(String path) throws SlickException {
 		Image img = new Image("/resources/images/projectX/" + path + ".png");
 		
 		return img;

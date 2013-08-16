@@ -41,10 +41,10 @@ public class ShopState extends BasicState {
 		
 		GameInfo.shopContents = new ArrayList<Item>();
 		
-		GameInfo.shopContents.add(new Item("Test 1", EnumRank.BAD, 100, false, 1));
-		GameInfo.shopContents.add(new Item("Test 2", EnumRank.AVERAGE, 100, false, 1));
-		GameInfo.shopContents.add(new Item("Test 3", EnumRank.GOOD, 100, true, 1));
-		GameInfo.shopContents.add(new Item("Test 4", EnumRank.EPIC, 250, true, 1));
+		GameInfo.shopContents.add(new Item("Test 1", EnumRank.BAD, 100, false, 1, "useImg"));
+		GameInfo.shopContents.add(new Item("Test 2", EnumRank.AVERAGE, 100, false, 1, "ship"));
+		GameInfo.shopContents.add(new Item("Test 3", EnumRank.GOOD, 100, true, 1, "bullet"));
+		GameInfo.shopContents.add(new Item("Test 4", EnumRank.EPIC, 250, true, 1, "asteroid"));
 		
 		ArrayList<Item> shopCopy = (ArrayList<Item>) GameInfo.shopContents.clone();
 		
@@ -139,6 +139,7 @@ public class ShopState extends BasicState {
 			if(item != null) {
 				font3.drawString(x + xDif + 10, y + yDif + 10, item.getName(), item.getColorFromRank());
 				font4.drawString(x + xDif + 10, y + yDif + 30, item.getCost() + " Tokens", GameInfo.TOKEN_COUNT - item.getCost() >= 0 ? Color.green : Color.red);
+				item.getTypeImage().draw(x + xDif + 170, y + yDif + 10);
 			}
 		}
 	}
