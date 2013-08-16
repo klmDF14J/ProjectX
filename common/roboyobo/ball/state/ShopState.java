@@ -124,37 +124,33 @@ public class ShopState extends BasicState {
 	}
 	
 	private void renderTooltip(GameContainer gc, StateBasedGame sbg, Graphics g) {
-		if(intersects && inX >= 155 && inX < 155 + (9 * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)) + 50 && inY >= 100 && inY < 100 + (4 * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)) + 50) {
-			g.setColor(new Color(192, 192, 192, 0.7F));
-			g.fillRect(inX, inY, 200, 50);
-		}	
+		if(num < 50) {
+			int x = 155 + (intersectionValI * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP));
+			int y = 100 + (intersectionValJ * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP));
+			int xDif = inX - x;
+			int yDif = inY - y;
+			Images.tooltip.draw(x + xDif, y + yDif, 200, 50);
+		}
 	}
 	
-	private int inX, inY;
-	private boolean intersects = false, flag = false;
-	private boolean[] nonInter = new boolean[50];
+	private int inX, inY, intersectionValI, intersectionValJ, num;
 	
 	@Override
 	public void mouseMoved(int oldx, int oldy, int newx, int newy) {
+		intersectionValI = 0;
+		intersectionValJ = 0;
+		num = 0;
 		for(int i = 0; i < 10; i++) {
 			for(int j = 0; j < 5; j++) {
 				Rectangle mouse = new Rectangle(newx, newy, 1, 1);
 				Rectangle box = new Rectangle(155 + (i * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)), 100 + (j * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)), 50, 50);
 				if(mouse.intersects(box)) {
-					intersects = true;
-					nonInter[i + (j * 10)] = false;
+					System.out.println("Intersecting at: " + (i + (j * 10)));
+					intersectionValI = i;
+					intersectionValJ = j;
 				}
-				if(!mouse.intersects(box)) {
-					nonInter[i + (j * 10)] = true;
-				}
-				if(nonInter[i + (j * 10)] == false) {
-					flag = true;
-				}
-				if(!flag) {
-					intersects = false;
-				}
-				if(i >= 9 && j >= 4) {
-					nonInter = new boolean[50];
+				else {
+					num++;
 				}
 				inX = newx;
 				inY = newy;
