@@ -10,7 +10,7 @@ public class Images {
 	
 	public static Image rock, ship, shipDead, shockwave, bullet, onethreethreeseven;
 	
-	public static Image logo, button, buttonMO;
+	public static Image logo, button, buttonMO, tooltip, tooltipBlank;
 	
 	public static SpriteSheet shopSheet;
 	public static ArrayList<Image> shopItems;
@@ -26,6 +26,8 @@ public class Images {
 		logo = createImage("logo");
 		button = createImage("button");
 		buttonMO = createImage("buttonMO");
+		tooltip = createImage("tooltip");
+		tooltipBlank = createImage("tooltipBlank");
 		
 		shopSheet = new SpriteSheet("/resources/images/projectX/shopSheet.png", 40, 40);
 		shopItems = new ArrayList<Image>();

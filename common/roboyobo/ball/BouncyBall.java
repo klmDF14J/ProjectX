@@ -76,11 +76,6 @@ public class BouncyBall extends StateBasedGame {
 	
 	@Override
 	public void mouseMoved(int oldX, int oldY, int newX, int newY) {
-		if(!GameState.isPaused) {
-			GameInfo.balls.get(0).mouseX = newX;
-			GameInfo.balls.get(0).mouseY = newY;
-		}
-		
 		org.newdawn.slick.state.GameState gs = getCurrentState();
 		if(gs != null) {
 			gs.mouseMoved(oldX, oldY, newX, newY);

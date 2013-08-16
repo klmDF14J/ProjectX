@@ -215,6 +215,14 @@ public class GameState extends BasicState {
 		}
 	}
 	
+	@Override
+	public void mouseMoved(int oldX, int oldY, int newX, int newY) {
+		if(!isPaused) {
+			GameInfo.balls.get(0).mouseX = newX;
+			GameInfo.balls.get(0).mouseY = newY;
+		}
+	}
+	
 	private int lastkey = 0, chain = 0;
 	private boolean started = false;
 	

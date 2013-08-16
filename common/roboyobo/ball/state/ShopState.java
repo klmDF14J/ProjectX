@@ -8,6 +8,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.gui.AbstractComponent;
 import org.newdawn.slick.gui.ComponentListener;
 import org.newdawn.slick.gui.MouseOverArea;
@@ -108,6 +109,7 @@ public class ShopState extends BasicState {
 		font2.drawString(FontHelper.getWidthDifference(font2, GameInfo.language.back), GameInfo.SCREEN_HEIGHT - 100 + FontHelper.getHeightDifference(font2, GameInfo.language.back), GameInfo.language.back);
 		
 		renderShop(gc, sbg, g);
+		renderTooltip(gc, sbg, g);
 	}
 
 	@Override
@@ -127,9 +129,45 @@ public class ShopState extends BasicState {
 		}
 	}
 	
+	private void renderTooltip(GameContainer gc, StateBasedGame sbg, Graphics g) {
+		if(intersects && inX >= 155 && inX < 155 + (9 * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)) + 50 && inY >= 100 && inY < 100 + (4 * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)) + 50) {
+			g.setColor(new Color(192, 192, 192, 0.7F));
+			g.fillRect(inX, inY, 200, 50);
+		}	
+	}
+	
+	private int inX, inY;
+	private boolean intersects = false, flag = false;
+	private boolean[] nonInter = new boolean[50];
+	
 	@Override
 	public void mouseMoved(int oldx, int oldy, int newx, int newy) {
-		
+		for(int i = 0; i < 10; i++) {
+			for(int j = 0; j < 5; j++) {
+				Rectangle mouse = new Rectangle(newx, newy, 1, 1);
+				Rectangle box = new Rectangle(155 + (i * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)), 100 + (j * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)), 50, 50);
+				if(mouse.intersects(box)) {
+					intersects = true;
+					System.out.println("Intersection with " + (i + (j * 10)));
+					nonInter[i + (j * 10)] = false;
+				}
+				if(!mouse.intersects(box)) {
+					System.out.println("Doesnt Intersect with " + (i + (j * 10)));
+					nonInter[i + (j * 10)] = true;
+				}
+				if(nonInter[i + (j * 10)] == false) {
+					flag = true;
+				}
+				if(!flag) {
+					intersects = false;
+				}
+				if(i >= 9 && j >= 4) {
+					nonInter = new boolean[50];
+				}
+				inX = newx;
+				inY = newy;
+ 			}
+		}
 	}
 
 
