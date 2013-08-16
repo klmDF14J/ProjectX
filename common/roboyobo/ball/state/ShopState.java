@@ -139,7 +139,8 @@ public class ShopState extends BasicState {
 			if(item != null) {
 				font3.drawString(x + xDif + 10, y + yDif + 10, item.getName(), item.getColorFromRank());
 				font4.drawString(x + xDif + 10, y + yDif + 30, item.getCost() + " Tokens", GameInfo.TOKEN_COUNT - item.getCost() >= 0 ? Color.green : Color.red);
-				item.getTypeImage().draw(x + xDif + 170, y + yDif + 10);
+				
+				item.getTypeImage().draw(x + xDif + 160, y + yDif + 10, 1F / (item.getTypeImage().getWidth() / 30F));
 			}
 		}
 	}
