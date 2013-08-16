@@ -97,6 +97,11 @@ public class GameInfo {
 	public static ArrayList<Item> shopContents;
 	public static final int SHOP_BOX_SIZE = 50;
 	public static final int SHOP_BOX_GAP = 20;
+	public static final int SHOP_BOX_ROW_SIZE = 10;
+	public static final int SHOP_BOX_COLUMN_SIZE = 5;
+	
+	public static final int TOOLTIP_LENGTH = 200;
+	public static final int TOOLTIP_HEIGHT = 200;
 	
 	public static Language language;
 	public static Settings settings = new Settings();

@@ -124,7 +124,7 @@ public class ShopState extends BasicState {
 	}
 	
 	private void renderTooltip(GameContainer gc, StateBasedGame sbg, Graphics g) {
-		if(num < 50) {
+		if(num < GameInfo.SHOP_BOX_ROW_SIZE * GameInfo.SHOP_BOX_COLUMN_SIZE) {
 			int x = 155 + (intersectionValI * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP));
 			int y = 100 + (intersectionValJ * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP));
 			int xDif = inX - x;
@@ -140,12 +140,11 @@ public class ShopState extends BasicState {
 		intersectionValI = 0;
 		intersectionValJ = 0;
 		num = 0;
-		for(int i = 0; i < 10; i++) {
-			for(int j = 0; j < 5; j++) {
+		for(int i = 0; i < GameInfo.SHOP_BOX_ROW_SIZE; i++) {
+			for(int j = 0; j < GameInfo.SHOP_BOX_COLUMN_SIZE; j++) {
 				Rectangle mouse = new Rectangle(newx, newy, 1, 1);
 				Rectangle box = new Rectangle(155 + (i * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)), 100 + (j * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)), 50, 50);
 				if(mouse.intersects(box)) {
-					System.out.println("Intersecting at: " + (i + (j * 10)));
 					intersectionValI = i;
 					intersectionValJ = j;
 				}
