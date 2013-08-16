@@ -8,6 +8,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
+import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.gui.AbstractComponent;
 import org.newdawn.slick.gui.ComponentListener;
@@ -28,17 +29,22 @@ public class ShopState extends BasicState {
 	
 	private ArrayList<MouseOverArea> buttons;
 	
-	private UnicodeFont font, font2;
+	private UnicodeFont font, font2, font3, font4;
 	
 	public ShopState(int stateID) throws SlickException {
 		super(stateID, "menu");
 		
 		font = FontHelper.setupAndReturnNewFont("font", 36);
 		font2 = FontHelper.setupAndReturnNewFont("font", 24);
+		font3 = FontHelper.setupAndReturnNewFont("font", 16);
+		font4 = FontHelper.setupAndReturnNewFont("font", 12);
 		
 		GameInfo.shopContents = new ArrayList<Item>();
 		
-		GameInfo.shopContents.add(new Item("Laser Beam", EnumRank.EPIC, 100, false, 1));
+		GameInfo.shopContents.add(new Item("Test 1", EnumRank.BAD, 100, false, 1));
+		GameInfo.shopContents.add(new Item("Test 2", EnumRank.AVERAGE, 100, false, 1));
+		GameInfo.shopContents.add(new Item("Test 3", EnumRank.GOOD, 100, true, 1));
+		GameInfo.shopContents.add(new Item("Test 4", EnumRank.EPIC, 250, true, 1));
 		
 		ArrayList<Item> shopCopy = (ArrayList<Item>) GameInfo.shopContents.clone();
 		
@@ -112,11 +118,11 @@ public class ShopState extends BasicState {
 	}
 	
 	private void renderShop(GameContainer gc, StateBasedGame sbg, Graphics g) {
-		for(int i = 0; i < 10; i++) {
-			for(int j = 0; j < 5; j++) {
+		for(int i = 0; i < GameInfo.SHOP_BOX_ROW_SIZE; i++) {
+			for(int j = 0; j < GameInfo.SHOP_BOX_COLUMN_SIZE; j++) {
 				g.drawRect(155 + (i * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)), 100 + (j * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)), GameInfo.SHOP_BOX_SIZE, GameInfo.SHOP_BOX_SIZE);
-				if(GameInfo.shopContents.size() > i + (j * 10)) {
-					Item item = GameInfo.shopContents.get(i + (j * 10));
+				if(GameInfo.shopContents.size() > i + (j * GameInfo.SHOP_BOX_ROW_SIZE)) {
+					Item item = GameInfo.shopContents.get(i + (j * GameInfo.SHOP_BOX_ROW_SIZE));
 					item.renderInSlot(160 + (i * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)), 105 + (j * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)));
 				}
 			}
@@ -130,16 +136,22 @@ public class ShopState extends BasicState {
 			int xDif = inX - x;
 			int yDif = inY - y;
 			Images.tooltip.draw(x + xDif, y + yDif, 200, 50);
+			if(item != null) {
+				font3.drawString(x + xDif + 10, y + yDif + 10, item.getName(), item.getColorFromRank());
+				font4.drawString(x + xDif + 10, y + yDif + 30, item.getCost() + " Tokens", GameInfo.TOKEN_COUNT - item.getCost() >= 0 ? Color.green : Color.red);
+			}
 		}
 	}
 	
 	private int inX, inY, intersectionValI, intersectionValJ, num;
+	private Item item;
 	
 	@Override
 	public void mouseMoved(int oldx, int oldy, int newx, int newy) {
 		intersectionValI = 0;
 		intersectionValJ = 0;
 		num = 0;
+		item = null;
 		for(int i = 0; i < GameInfo.SHOP_BOX_ROW_SIZE; i++) {
 			for(int j = 0; j < GameInfo.SHOP_BOX_COLUMN_SIZE; j++) {
 				Rectangle mouse = new Rectangle(newx, newy, 1, 1);
@@ -147,6 +159,9 @@ public class ShopState extends BasicState {
 				if(mouse.intersects(box)) {
 					intersectionValI = i;
 					intersectionValJ = j;
+					if(GameInfo.shopContents.size() > i + (j * 10)) {
+						item = GameInfo.shopContents.get(i + (j * 10));
+					}
 				}
 				else {
 					num++;
