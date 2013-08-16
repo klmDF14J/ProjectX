@@ -82,25 +82,24 @@ public class BouncyBall extends StateBasedGame {
 		}
 		
 		org.newdawn.slick.state.GameState gs = getCurrentState();
-		if(gs != null && gs instanceof BasicState) {
-			BasicState bs = (BasicState) gs;
-			bs.mouseMoved(oldX, oldY, newX, newY);
+		if(gs != null) {
+			gs.mouseMoved(oldX, oldY, newX, newY);
 		}
 	}
 	
 	@Override
 	public void mousePressed(int button, int x, int y) {
-		if(!GameInfo.balls.get(0).isDead() && this.getCurrentStateID() == GameInfo.STATE_GAME_ID) {
-			GameInfo.balls.get(0).fire(button);
+		org.newdawn.slick.state.GameState gs = getCurrentState();
+		if(gs != null) {
+			gs.mousePressed(button, x, y);
 		}
 	}
 	
 	@Override
 	public void keyPressed(int key, char c) {
 		org.newdawn.slick.state.GameState gs = getCurrentState();
-		if(gs != null && gs instanceof BasicState) {
-			BasicState bs = (BasicState) gs;
-			bs.keyPressed(key, c);
+		if(gs != null) {
+			gs.keyPressed(key, c);
 		}		
 	}
 

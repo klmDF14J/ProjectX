@@ -208,6 +208,13 @@ public class GameState extends BasicState {
 		}
 	}
 	
+	@Override
+	public void mousePressed(int button, int x, int y) {
+		if(!GameInfo.balls.get(0).isDead()) {
+			GameInfo.balls.get(0).fire(button);
+		}
+	}
+	
 	private int lastkey = 0, chain = 0;
 	private boolean started = false;
 	
@@ -236,5 +243,4 @@ public class GameState extends BasicState {
 		}
 		lastkey = key;
 	}
-
 }
