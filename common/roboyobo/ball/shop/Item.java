@@ -14,11 +14,14 @@ import roboyobo.ball.util.GameInfo;
 
 public class Item implements Serializable {
 	
-	private boolean purchased = false, premium = false, canStack = false, unlocked = true;
+	private boolean purchased = false, premium = false, canStack = false, locked = false;
 	private String name, type;
 	private int cost;
 	private EnumType rank;
 	private int stackSize, id;
+	
+	private Item otherItem;
+	private int otherSize;
 	
 	/**
 	 * @param name The name of the item
@@ -51,7 +54,7 @@ public class Item implements Serializable {
 	}
 	
 	public boolean canBuy() {
-		return !premium && GameInfo.TOKEN_COUNT >= getCost() * GameInfo.SHOP_CURRENT_BUY_SIZE && (canStack == true ? true : stackSize < 1) && isPurchasable();
+		return !premium && GameInfo.TOKEN_COUNT >= getCost() * GameInfo.SHOP_CURRENT_BUY_SIZE && (canStack == true ? true : stackSize < 1) && !isLocked();
 	}
 	
 	public int getCost() {
@@ -82,12 +85,20 @@ public class Item implements Serializable {
 		return canStack;
 	}
 	
-	public void setLocked(boolean val) {
-		unlocked = val;
+	public void setLocked(Item par1, int par2) {
+		locked = par1.getStackSize() < par2;
+		otherItem = par1;
+		otherSize = par2;
 	}
 	
-	public boolean isPurchasable() {
-		return unlocked;
+	public void checkLocked() {
+		if(otherItem != null && otherItem.getStackSize() >= otherSize) {
+			locked = false;
+		}
+	}
+	
+	public boolean isLocked() {
+		return locked;
 	}
 	
 	private int getNextID() {

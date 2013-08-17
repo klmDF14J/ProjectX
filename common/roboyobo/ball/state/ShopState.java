@@ -50,6 +50,8 @@ public class ShopState extends BasicState {
 		GameInfo.shopContents.add(new Item("Rock Zapper", EnumType.WEAPON, 250, false, false));
 		GameInfo.shopContents.add(new Item("BG Pack", EnumType.MISC, 500, false, false));
 		
+		GameInfo.shopContents.get(3).setLocked(GameInfo.shopContents.get(2), 10);
+		
 		ArrayList<Item> shopCopy = (ArrayList<Item>) GameInfo.shopContents.clone();
 		
 		if(FileWriter.load("/resources/projectX/itemsBought.dat") instanceof ArrayList<?>) {
@@ -75,15 +77,6 @@ public class ShopState extends BasicState {
 		}
 		
 		System.out.println("Currently there are " + GameInfo.TOKEN_COUNT + " tokens");
-		/*
-		for(int i = 0; i < 10; i++) {
-			for(int j = 0; j < 5; j++) {
-				if(GameInfo.shopContents.size() > i + (j * 10)) {
-					Item item = GameInfo.shopContents.get(i + (j * 10));
-					item.setImage(i, j);
-				}
-			}
-		}*/
 	}
 	
 	@Override
@@ -198,18 +191,28 @@ public class ShopState extends BasicState {
 			int yDif = inY - y;
 			Images.tooltip.draw(x + xDif, y + yDif, 200, 50);
 			if(item != null) {
-				font3.drawString(x + xDif + 10, y + yDif + 10, item.getName(), item.getColorFromRank());
-				font4.drawString(x + xDif + 10, y + yDif + 30, item.getCost() + " Tokens", GameInfo.TOKEN_COUNT - item.getCost() >= 0 ? Color.green : Color.red);
+				item.checkLocked();
+				if(!item.isLocked()) {
+					font3.drawString(x + xDif + 10, y + yDif + 10, item.getName(), item.getColorFromRank());
+					font4.drawString(x + xDif + 10, y + yDif + 30, item.getCost() + " Tokens", GameInfo.TOKEN_COUNT - item.getCost() >= 0 ? Color.green : Color.red);
 				
-				Images.upgradeItems.get(item.getRank().getID()).draw(x + xDif + 160, y + yDif + 10, 1F / (Images.upgradeItems.get(item.getID()).getWidth() / 30F));
+					Images.upgradeItems.get(item.getRank().getID()).draw(x + xDif + 160, y + yDif + 10, 1F / (Images.upgradeItems.get(item.getID()).getWidth() / 30F));
+				}
+				else {
+					renderUnknown(x, y, xDif, yDif);
+				}
 			}
-			if(item == null) {
-				font3.drawString(x + xDif + 10, y + yDif + 10, "Unknown");
-				font4.drawString(x + xDif + 10, y + yDif + 30, "? Tokens", Color.red);
-				
-				font2.drawString(x + xDif + 170, y + yDif + 10, "?");
+			else {
+				renderUnknown(x, y, xDif, yDif);
 			}
 		}
+	}
+	
+	private void renderUnknown(int x, int y, int xDif, int yDif) {
+		font3.drawString(x + xDif + 10, y + yDif + 10, item != null ? "Undiscovered" : "Unknown");
+		font4.drawString(x + xDif + 10, y + yDif + 30, "? Tokens", Color.red);
+	
+		font2.drawString(x + xDif + 170, y + yDif + 10, "?");
 	}
 	
 	private void renderBuyBox(GameContainer gc, StateBasedGame sbg, Graphics g) {
