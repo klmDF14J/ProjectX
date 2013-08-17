@@ -13,12 +13,13 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import roboyobo.ball.resource.Images;
 import roboyobo.ball.resource.Sounds;
+import roboyobo.ball.util.FileWriter;
 import roboyobo.ball.util.FontHelper;
 import roboyobo.ball.util.GameInfo;
 
 public class GameOverState extends BasicState {
 	
-	private UnicodeFont font, font2, font3;
+	private UnicodeFont font, font2, font3, font4;
 	
 	private static float x = GameInfo.SCREEN_WIDTH / 2 - (GameInfo.GAME_OVER_PANEL_WIDTH / 2);
 	private static float y = GameInfo.SCREEN_HEIGHT;
@@ -78,6 +79,7 @@ public class GameOverState extends BasicState {
 		font = FontHelper.setupAndReturnNewFont("font", 48);
 		font2 = FontHelper.setupAndReturnNewFont("font", 24);
 		font3 = FontHelper.setupAndReturnNewFont("font", 16);
+		font4 = FontHelper.setupAndReturnNewFont("font", 12);
 		
 		info = new MouseOverArea(gc, new Image("/resources/images/projectX/buttonScore.png"), 654, (int) y5 + 22, new ComponentListener() {
 			@Override
@@ -160,7 +162,9 @@ public class GameOverState extends BasicState {
 			font3.drawString(680, y5 + 25, "(T x R) - (S x 3000)");
 		}
 		
-		
+		Images.tooltip.draw(GameInfo.SCREEN_WIDTH - 100, 0);
+		Images.token.draw(GameInfo.SCREEN_WIDTH - 90, 10, 2F);
+		font4.drawString(GameInfo.SCREEN_WIDTH - 55, 20, "" + GameInfo.TOKEN_COUNT);
 	}
 
 	@Override
@@ -237,8 +241,9 @@ public class GameOverState extends BasicState {
 		if(!flag2) {
 			flag2 = true;
 			float val = (calcScore() / 5);
-			System.out.println("Current Token Count: " + GameInfo.TOKEN_COUNT + " and with the score: " + (GameInfo.TOKEN_COUNT + val));
 			GameInfo.TOKEN_COUNT += val;
+			FileWriter.save("/resources/projectX/tokenData.dat", GameInfo.TOKEN_COUNT);
+			System.out.println(GameInfo.TOKEN_COUNT);
 		}
 	}
 	
@@ -287,6 +292,7 @@ public class GameOverState extends BasicState {
 		totalAmount = 0;
 		
 		flag = false;
+		flag2 = false;
 	}
 
 
