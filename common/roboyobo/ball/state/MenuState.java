@@ -57,6 +57,14 @@ public class MenuState extends BasicState {
 			i = (int) FileWriter.load("/resources/projectX/language.dat");
 		}
 		
+		if(FileWriter.load("/resources/projectX/tokenData.dat") instanceof Integer) {
+			GameInfo.TOKEN_COUNT = (int) FileWriter.load("/resources/projectX/tokenData.dat");
+		}
+		
+		if(FileWriter.load("/resources/projectX/tokenPreData.dat") instanceof Integer) {
+			GameInfo.TOKEN_PRE_COUNT = (int) FileWriter.load("/resources/projectX/tokenPreData.dat");
+		}
+		
 		if(i == 0 && Locale.getDefault().getDisplayLanguage() != Locale.ENGLISH.getDisplayLanguage()) {
 			System.err.println("Language is set to English, however your default locale is " + Locale.getDefault().getDisplayLanguage());
 			LanguageHandler.workOutAndSetLanguage();

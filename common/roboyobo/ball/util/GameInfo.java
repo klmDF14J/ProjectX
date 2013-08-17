@@ -93,6 +93,7 @@ public class GameInfo {
 	
 	public static final int TOKEN_STARTER_NUM = 1000;
 	public static int TOKEN_COUNT = TOKEN_STARTER_NUM;
+	public static int TOKEN_PRE_COUNT = 5;
 	
 	public static ArrayList<Item> shopContents;
 	public static final int SHOP_BOX_SIZE = 50;

@@ -48,7 +48,7 @@ public class ShopState extends BasicState {
 		GameInfo.shopContents.add(new Item("Ship Armour", EnumType.SHIP, 100, false, false));
 		GameInfo.shopContents.add(new Item("Metal Bullet", EnumType.AMMO, 100, false, true));
 		GameInfo.shopContents.add(new Item("Rock Zapper", EnumType.WEAPON, 250, false, false));
-		GameInfo.shopContents.add(new Item("BG Pack", EnumType.MISC, 500, false, false));
+		GameInfo.shopContents.add(new Item("BG Pack", EnumType.MISC, 2, true, false));
 		
 		GameInfo.shopContents.get(3).setLocked(GameInfo.shopContents.get(2), 10);
 		
@@ -150,6 +150,16 @@ public class ShopState extends BasicState {
 
 		font2.drawString(FontHelper.getWidthDifference(font2, GameInfo.language.back), GameInfo.SCREEN_HEIGHT - 100 + FontHelper.getHeightDifference(font2, GameInfo.language.back), GameInfo.language.back);
 		
+		Images.tooltip.draw(GameInfo.SCREEN_WIDTH - 100, 0);
+		Images.token.draw(GameInfo.SCREEN_WIDTH - 90, 10, 2F);
+		font4.drawString(GameInfo.SCREEN_WIDTH - 55, 20, "" + GameInfo.TOKEN_COUNT);
+		
+		if(GameInfo.TOKEN_PRE_COUNT > 0) {
+			Images.tooltip.draw(GameInfo.SCREEN_WIDTH - 100, 50);
+			Images.tokenPre.draw(GameInfo.SCREEN_WIDTH - 90, 60, 2F);
+			font4.drawString(GameInfo.SCREEN_WIDTH - 55, 70, "" + GameInfo.TOKEN_PRE_COUNT);
+		}
+		
 		renderShop(gc, sbg, g);
 		renderTooltip(gc, sbg, g);
 		renderBuyBox(gc, sbg, g);
@@ -194,7 +204,7 @@ public class ShopState extends BasicState {
 				item.checkLocked();
 				if(!item.isLocked()) {
 					font3.drawString(x + xDif + 10, y + yDif + 10, item.getName(), item.getColorFromRank());
-					font4.drawString(x + xDif + 10, y + yDif + 30, item.getCost() + " Tokens", GameInfo.TOKEN_COUNT - item.getCost() >= 0 ? Color.green : Color.red);
+					font4.drawString(x + xDif + 10, y + yDif + 30, item.getCost() + (item.isPremium() ? " Premium Tokens" : " Tokens") , item.isPremium() ? GameInfo.TOKEN_PRE_COUNT - item.getCost() >= 0 ? Color.green : Color.red : GameInfo.TOKEN_COUNT - item.getCost() >= 0 ? Color.green : Color.red);
 				
 					Images.upgradeItems.get(item.getRank().getID()).draw(x + xDif + 160, y + yDif + 10, 1F / (Images.upgradeItems.get(item.getID()).getWidth() / 30F));
 				}
@@ -264,7 +274,9 @@ public class ShopState extends BasicState {
 		getIntersection(x, y);
 		if(GameInfo.shopContents.size() > intersectionValI + (intersectionValJ * 10) && loaded) {
 			item = GameInfo.shopContents.get(intersectionValI + (intersectionValJ * 10));
-			drawBuyBox = true;
+			if((item.canStack() || (!item.canStack() && item.getStackSize() == 0)) && !item.isLocked()) {
+				drawBuyBox = true;
+			}
 		}
 	}	
 	

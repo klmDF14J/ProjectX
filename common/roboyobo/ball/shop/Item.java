@@ -46,6 +46,14 @@ public class Item implements Serializable {
 			GameInfo.TOKEN_COUNT -= (getCost() * GameInfo.SHOP_CURRENT_BUY_SIZE);
 			stackSize += GameInfo.SHOP_CURRENT_BUY_SIZE;
 			FileWriter.save("/resources/projectX/itemsBought.dat", GameInfo.shopContents);
+			FileWriter.save("/resources/projectX/tokenData.dat", GameInfo.TOKEN_COUNT);
+		}
+		if(premium && GameInfo.TOKEN_PRE_COUNT >= getCost() * GameInfo.SHOP_CURRENT_BUY_SIZE && (canStack == true ? true : stackSize < 1) && !isLocked()) {
+			purchased = true;
+			GameInfo.TOKEN_PRE_COUNT -= (getCost() * GameInfo.SHOP_CURRENT_BUY_SIZE);
+			stackSize += GameInfo.SHOP_CURRENT_BUY_SIZE;
+			FileWriter.save("/resources/projectX/itemsBought.dat", GameInfo.shopContents);
+			FileWriter.save("/resources/projectX/tokenPreData.dat", GameInfo.TOKEN_PRE_COUNT);
 		}
 	}
 	

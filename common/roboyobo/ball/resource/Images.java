@@ -12,7 +12,7 @@ public class Images {
 	
 	public static Image rock, ship, shipDead, shockwave, bullet, onethreethreeseven;
 	
-	public static Image logo, button, buttonMO, tooltip, buySizeButton, buySizeButtonMO;
+	public static Image logo, button, buttonMO, tooltip, buySizeButton, buySizeButtonMO, token, tokenPre;
 	
 	public static SpriteSheet shopSheet;
 	public static ArrayList<Image> shopItems;
@@ -34,6 +34,8 @@ public class Images {
 		tooltip = createImage("tooltip");
 		buySizeButton = createImage("buySizeButton");
 		buySizeButtonMO = createImage("buySizeButtonMO");
+		token = createImage("token");
+		tokenPre = createImage("tokenPre");
 		
 		shopSheet = new SpriteSheet("/resources/images/projectX/shopSheet.png", 40, 40);
 		shopItems = new ArrayList<Image>();
