@@ -34,12 +34,6 @@ public class Item implements Serializable {
 		this.canStack = canStack;
 		this.type = rank.getRankValue();
 		this.id = getNextID();
-		
-		/*try {
-			setTypeImage(type);
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}*/
 	}
 	
 	
@@ -57,7 +51,7 @@ public class Item implements Serializable {
 	}
 	
 	public boolean canBuy() {
-		return !premium && GameInfo.TOKEN_COUNT >= getCost() && (canStack == true ? true : stackSize < 1) && isPurchasable();
+		return !premium && GameInfo.TOKEN_COUNT >= getCost() * GameInfo.SHOP_CURRENT_BUY_SIZE && (canStack == true ? true : stackSize < 1) && isPurchasable();
 	}
 	
 	public int getCost() {
@@ -87,28 +81,6 @@ public class Item implements Serializable {
 	public boolean canStack() {
 		return canStack;
 	}
-	/*
-	public void setImage(int x, int y) {
-		img = Images.shopSheet.getSprite(x, y);
-		if(type == "useImg") {
-			typeImg = img;
-		}
-	}*/
-	
-	/*public void renderInSlot(int x, int y) {
-		img.draw(x, y);
-	}*/
-	
-	/*public void setTypeImage(String par1) throws SlickException {
-		if(par1 != "useImg") {
-			typeImg = Images.upgradeItems.get(rank.getID());
-			System.out.println(rank.getID() + " for " + getName());
-		}
-	}*/
-	
-	/*public Image getTypeImage() {
-		return typeImg;
-	}*/
 	
 	public void setLocked(boolean val) {
 		unlocked = val;
