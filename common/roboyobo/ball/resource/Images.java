@@ -12,10 +12,13 @@ public class Images {
 	
 	public static Image rock, ship, shipDead, shockwave, bullet, onethreethreeseven;
 	
-	public static Image logo, button, buttonMO, tooltip;
+	public static Image logo, button, buttonMO, tooltip, buySizeButton, buySizeButtonMO;
 	
 	public static SpriteSheet shopSheet;
 	public static ArrayList<Image> shopItems;
+	
+	public static SpriteSheet upgradeSheet;
+	public static ArrayList<Image> upgradeItems;
 	
 	public static void init() throws SlickException {
 		rock = createImage("asteroid");
@@ -29,6 +32,8 @@ public class Images {
 		button = createImage("button");
 		buttonMO = createImage("buttonMO");
 		tooltip = createImage("tooltip");
+		buySizeButton = createImage("buySizeButton");
+		buySizeButtonMO = createImage("buySizeButtonMO");
 		
 		shopSheet = new SpriteSheet("/resources/images/projectX/shopSheet.png", 40, 40);
 		shopItems = new ArrayList<Image>();
@@ -36,6 +41,15 @@ public class Images {
 		for(int i = 0; i < 40; i++) {
 			for(int j = 0; j < 40; j++) {
 				shopItems.add(shopSheet.getSprite(i, j));
+			}
+		}
+		
+		upgradeSheet = new SpriteSheet("/resources/images/projectX/upgradeSheet.png", 40, 40);
+		upgradeItems = new ArrayList<Image>();
+		
+		for(int i = 0; i < 40; i++) {
+			for(int j = 0; j < 40; j++) {
+				upgradeItems.add(upgradeSheet.getSprite(j, i));
 			}
 		}
 	}

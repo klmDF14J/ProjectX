@@ -2,6 +2,7 @@ package roboyobo.ball.state;
 
 import java.util.ArrayList;
 
+import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -18,7 +19,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import roboyobo.ball.resource.Images;
 import roboyobo.ball.resource.Sounds;
 import roboyobo.ball.shop.Item;
-import roboyobo.ball.util.EnumRank;
+import roboyobo.ball.util.EnumType;
 import roboyobo.ball.util.FileWriter;
 import roboyobo.ball.util.FontHelper;
 import roboyobo.ball.util.GameInfo;
@@ -28,23 +29,26 @@ public class ShopState extends BasicState {
 	public static int length = 10;
 	
 	private ArrayList<MouseOverArea> buttons;
+	private MouseOverArea minus, plus, minus10, plus10;
 	
-	private UnicodeFont font, font2, font3, font4;
+	private UnicodeFont font, font2, font3, font4, font5;
 	
 	public ShopState(int stateID) throws SlickException {
 		super(stateID, "menu");
 		
 		font = FontHelper.setupAndReturnNewFont("font", 36);
 		font2 = FontHelper.setupAndReturnNewFont("font", 24);
-		font3 = FontHelper.setupAndReturnNewFont("font", 16);
+		font3 = FontHelper.setupAndReturnNewFont("font", 14);
 		font4 = FontHelper.setupAndReturnNewFont("font", 12);
+		font5 = FontHelper.setupAndReturnNewFont("font", 8);
 		
 		GameInfo.shopContents = new ArrayList<Item>();
 		
-		GameInfo.shopContents.add(new Item("Test 1", EnumRank.BAD, 100, false, 1, "useImg"));
-		GameInfo.shopContents.add(new Item("Test 2", EnumRank.AVERAGE, 100, false, 1, "ship"));
-		GameInfo.shopContents.add(new Item("Test 3", EnumRank.GOOD, 100, true, 1, "bullet"));
-		GameInfo.shopContents.add(new Item("Test 4", EnumRank.EPIC, 250, true, 1, "asteroid"));
+		GameInfo.shopContents.add(new Item("Laser Gun", EnumType.WEAPON, 100, false, false));
+		GameInfo.shopContents.add(new Item("Ship Armour", EnumType.SHIP, 100, false, false));
+		GameInfo.shopContents.add(new Item("Metal Bullet", EnumType.AMMO, 100, false, true));
+		GameInfo.shopContents.add(new Item("Rock Zapper", EnumType.WEAPON, 250, true, false));
+		GameInfo.shopContents.add(new Item("BG Pack", EnumType.MISC, 500, false, false));
 		
 		ArrayList<Item> shopCopy = (ArrayList<Item>) GameInfo.shopContents.clone();
 		
@@ -67,7 +71,7 @@ public class ShopState extends BasicState {
 		}
 		
 		for(Item item : GameInfo.shopContents) {
-			System.out.println(item.getName() + " has " + item.getStackSize() + " items in its stack. You buy it in a size of " + item.getBuySize() + " and just to check it " + (item.canStack() == true ? "can" : "cannot") + " stack");
+			System.out.println(item.getName() + " has " + item.getStackSize() + " items in its stack. Just to check it " + (item.canStack() == true ? "can" : "cannot") + " stack");
 		}
 		
 		for(int i = 0; i < 10; i++) {
@@ -91,9 +95,52 @@ public class ShopState extends BasicState {
 			}
 		}));
 		
-		buttons.get(0).setMouseOverImage(Images.buttonMO);
+		minus = new MouseOverArea(gc, Images.buySizeButton, GameInfo.SCREEN_WIDTH / 2 - 100, 291, new ComponentListener()  {
+			@Override
+			public void componentActivated(AbstractComponent arg0) {
+				GameInfo.SHOP_CURRENT_BUY_SIZE = GameInfo.SHOP_CURRENT_BUY_SIZE > 0 ? GameInfo.SHOP_CURRENT_BUY_SIZE - 1 : 0;
+				System.out.println(GameInfo.SHOP_CURRENT_BUY_SIZE);
+			}
+		});
 		
+		plus = new MouseOverArea(gc, Images.buySizeButton, GameInfo.SCREEN_WIDTH / 2 + 75, 291, new ComponentListener()  {
+			@Override
+			public void componentActivated(AbstractComponent arg0) {
+				GameInfo.SHOP_CURRENT_BUY_SIZE = GameInfo.SHOP_CURRENT_BUY_SIZE < 100 ? GameInfo.SHOP_CURRENT_BUY_SIZE + 1 : 100;
+				System.out.println(GameInfo.SHOP_CURRENT_BUY_SIZE);
+			}
+		});
+		
+		minus10 = new MouseOverArea(gc, Images.buySizeButton, GameInfo.SCREEN_WIDTH / 2 - 130, 291, new ComponentListener()  {
+			@Override
+			public void componentActivated(AbstractComponent arg0) {
+				GameInfo.SHOP_CURRENT_BUY_SIZE = GameInfo.SHOP_CURRENT_BUY_SIZE >= 10 ? GameInfo.SHOP_CURRENT_BUY_SIZE - 10 : 0;
+				System.out.println(GameInfo.SHOP_CURRENT_BUY_SIZE);
+			}
+		});
+		
+		plus10 = new MouseOverArea(gc, Images.buySizeButton, GameInfo.SCREEN_WIDTH / 2 + 105, 291, new ComponentListener()  {
+			@Override
+			public void componentActivated(AbstractComponent arg0) {
+				GameInfo.SHOP_CURRENT_BUY_SIZE = GameInfo.SHOP_CURRENT_BUY_SIZE <= 90 ? GameInfo.SHOP_CURRENT_BUY_SIZE + 10 : 100;
+				System.out.println(GameInfo.SHOP_CURRENT_BUY_SIZE);
+			}
+		});
+		
+		buttons.get(0).setMouseOverImage(Images.buttonMO);
 		buttons.get(0).setMouseDownSound(Sounds.select);
+		
+		minus.setMouseOverImage(Images.buySizeButtonMO);
+		minus.setMouseDownSound(Sounds.select);
+		
+		plus.setMouseOverImage(Images.buySizeButtonMO);
+		plus.setMouseDownSound(Sounds.select);
+		
+		minus10.setMouseOverImage(Images.buySizeButtonMO);
+		minus10.setMouseDownSound(Sounds.select);
+		
+		plus10.setMouseOverImage(Images.buySizeButtonMO);
+		plus10.setMouseDownSound(Sounds.select);
 	}
 
 	@Override
@@ -110,11 +157,17 @@ public class ShopState extends BasicState {
 		
 		renderShop(gc, sbg, g);
 		renderTooltip(gc, sbg, g);
+		renderBuyBox(gc, sbg, g);
 	}
 
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
-		
+		if(loadTimer >= 1000) {
+			loaded = true;
+		}
+		if(!loaded) {
+			loadTimer += delta;
+		}
 	}
 	
 	private void renderShop(GameContainer gc, StateBasedGame sbg, Graphics g) {
@@ -124,13 +177,19 @@ public class ShopState extends BasicState {
 				if(GameInfo.shopContents.size() > i + (j * GameInfo.SHOP_BOX_ROW_SIZE)) {
 					Item item = GameInfo.shopContents.get(i + (j * GameInfo.SHOP_BOX_ROW_SIZE));
 					item.renderInSlot(160 + (i * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)), 105 + (j * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)));
+					if(item.canStack()) {
+						font4.drawString(190 + (i * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)), 135 + (j * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)), "" + item.getStackSize());
+					}
+					else {
+						font5.drawString(160 + (i * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)), 140 + (j * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)), item.isPurchased() == true ? "Bought" : "");
+					}
 				}
 			}
 		}
 	}
 	
 	private void renderTooltip(GameContainer gc, StateBasedGame sbg, Graphics g) {
-		if(num < GameInfo.SHOP_BOX_ROW_SIZE * GameInfo.SHOP_BOX_COLUMN_SIZE) {
+		if(num < GameInfo.SHOP_BOX_ROW_SIZE * GameInfo.SHOP_BOX_COLUMN_SIZE && !drawBuyBox) {
 			int x = 155 + (intersectionValI * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP));
 			int y = 100 + (intersectionValJ * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP));
 			int xDif = inX - x;
@@ -142,37 +201,100 @@ public class ShopState extends BasicState {
 				
 				item.getTypeImage().draw(x + xDif + 160, y + yDif + 10, 1F / (item.getTypeImage().getWidth() / 30F));
 			}
+			if(item == null) {
+				font3.drawString(x + xDif + 10, y + yDif + 10, "Unknown");
+				font4.drawString(x + xDif + 10, y + yDif + 30, "? Tokens", Color.red);
+				
+				font2.drawString(x + xDif + 170, y + yDif + 10, "?");
+			}
 		}
 	}
 	
-	private int inX, inY, intersectionValI, intersectionValJ, num;
+	private void renderBuyBox(GameContainer gc, StateBasedGame sbg, Graphics g) {
+		if(drawBuyBox) {
+			Color c = Color.darkGray;
+			c.a = 0.85F;
+			g.setColor(c);
+			g.fillRect(GameInfo.SCREEN_WIDTH / 2 - 150, GameInfo.SCREEN_HEIGHT / 2 - 100, 300, 200);
+			font2.drawString(GameInfo.SCREEN_WIDTH / 2 - 150 + (FontHelper.getWidthDifference(font2, "Purchase")), GameInfo.SCREEN_HEIGHT / 2 - 80, "Purchase");
+			
+			minus.render(gc, g);
+			plus.render(gc, g);
+			minus10.render(gc, g);
+			plus10.render(gc, g);
+			
+			String str = "" + GameInfo.SHOP_CURRENT_BUY_SIZE;
+			font2.drawString(GameInfo.SCREEN_WIDTH / 2 - 150 + ((300 - font2.getWidth(str)) / 2), GameInfo.SCREEN_HEIGHT / 2 - 100 + ((200 - font2.getHeight(str)) / 2), str);
+			
+			String name = item.getName();
+			font2.drawString(GameInfo.SCREEN_WIDTH / 2 - 150 + ((300 - font2.getWidth(name)) / 2), GameInfo.SCREEN_HEIGHT / 2 - 40 + ((200 - font2.getHeight(name)) / 2), name);
+		
+			if(!item.canStack()) {
+				GameInfo.SHOP_CURRENT_BUY_SIZE = 1;
+				minus.setAcceptingInput(false);
+				plus.setAcceptingInput(false);
+				minus10.setAcceptingInput(false);
+				plus10.setAcceptingInput(false);
+			}
+			else {
+				minus.setAcceptingInput(true);
+				plus.setAcceptingInput(true);
+				minus10.setAcceptingInput(true);
+				plus10.setAcceptingInput(true);
+			}
+		}
+	}
+	
+	private int inX, inY, intersectionValI, intersectionValJ, num, loadTimer;
 	private Item item;
+	private boolean drawBuyBox = false, loaded = false;
 	
 	@Override
 	public void mouseMoved(int oldx, int oldy, int newx, int newy) {
-		intersectionValI = 0;
-		intersectionValJ = 0;
-		num = 0;
-		item = null;
-		for(int i = 0; i < GameInfo.SHOP_BOX_ROW_SIZE; i++) {
-			for(int j = 0; j < GameInfo.SHOP_BOX_COLUMN_SIZE; j++) {
-				Rectangle mouse = new Rectangle(newx, newy, 1, 1);
-				Rectangle box = new Rectangle(155 + (i * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)), 100 + (j * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)), 50, 50);
-				if(mouse.intersects(box)) {
-					intersectionValI = i;
-					intersectionValJ = j;
-					if(GameInfo.shopContents.size() > i + (j * 10)) {
-						item = GameInfo.shopContents.get(i + (j * 10));
+		getIntersection(newx, newy);
+	}
+	
+	@Override
+	public void mouseClicked(int button, int x, int y, int clickCount) {
+		getIntersection(x, y);
+		if(GameInfo.shopContents.size() > intersectionValI + (intersectionValJ * 10) && loaded) {
+			item = GameInfo.shopContents.get(intersectionValI + (intersectionValJ * 10));
+			System.out.println(intersectionValI + (intersectionValJ * 10));
+			drawBuyBox = true;
+		}
+	}	
+	
+	public void getIntersection(int newx, int newy) {
+		if(!drawBuyBox) {
+			intersectionValI = 0;
+			intersectionValJ = 0;
+			num = 0;
+			item = null;
+			for(int i = 0; i < GameInfo.SHOP_BOX_ROW_SIZE; i++) {
+				for(int j = 0; j < GameInfo.SHOP_BOX_COLUMN_SIZE; j++) {
+					Rectangle mouse = new Rectangle(newx, newy, 1, 1);
+					Rectangle box = new Rectangle(155 + (i * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)), 100 + (j * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)), 50, 50);
+					if(mouse.intersects(box)) {
+						intersectionValI = i;
+						intersectionValJ = j;
+						if(GameInfo.shopContents.size() > i + (j * 10)) {
+							item = GameInfo.shopContents.get(i + (j * 10));
+						}
 					}
-				}
-				else {
-					num++;
-				}
-				inX = newx;
-				inY = newy;
- 			}
+					else {
+						num++;
+					}
+					inX = newx;
+					inY = newy;
+	 			}
+			}
 		}
 	}
-
-
+	
+	@Override
+	public void keyPressed(int key, char c) {
+		if(key == Keyboard.KEY_ESCAPE && drawBuyBox) {
+			drawBuyBox = false;
+		}
+	}
 }

@@ -103,6 +103,8 @@ public class GameInfo {
 	public static final int TOOLTIP_LENGTH = 200;
 	public static final int TOOLTIP_HEIGHT = 200;
 	
+	public static int SHOP_CURRENT_BUY_SIZE = 10;
+	
 	public static Language language;
 	public static Settings settings = new Settings();
 	

@@ -8,17 +8,17 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import roboyobo.ball.resource.Images;
-import roboyobo.ball.util.EnumRank;
+import roboyobo.ball.util.EnumType;
 import roboyobo.ball.util.FileWriter;
 import roboyobo.ball.util.GameInfo;
 
 public class Item implements Serializable {
 	
-	private boolean purchased = false, premium = false, canStack = false;
+	private boolean purchased = false, premium = false, canStack = false, unlocked = true;
 	private String name, type;
 	private int cost;
-	private EnumRank rank;
-	private int buySize, stackSize;
+	private EnumType rank;
+	private int stackSize;
 	private Image img, typeImg;
 	
 	/**
@@ -27,14 +27,13 @@ public class Item implements Serializable {
 	 * @param cost How many tokens will it cost
 	 * @param premium Does this item require a premium account to purchase
 	 */
-	public Item(String name, EnumRank rank, int cost, boolean premium, int buySize, String type) {
+	public Item(String name, EnumType rank, int cost, boolean premium, boolean canStack) {
 		this.name = name;
 		this.rank = rank;
 		this.cost = cost;
 		this.premium = premium;
-		this.buySize = buySize;
-		this.canStack = buySize > 1 ? true : false;
-		this.type = type;
+		this.canStack = canStack;
+		this.type = rank.getRankValue();
 		
 		try {
 			setTypeImage(type);
@@ -48,7 +47,7 @@ public class Item implements Serializable {
 		if(canBuy()) {
 			purchased = true;
 			GameInfo.TOKEN_COUNT -= getCost();
-			stackSize += buySize;
+			stackSize += GameInfo.SHOP_CURRENT_BUY_SIZE;
 			FileWriter.save("/resources/projectX/itemsBought.dat", GameInfo.shopContents);
 		}
 	}
@@ -58,14 +57,14 @@ public class Item implements Serializable {
 	}
 	
 	public boolean canBuy() {
-		return !premium && GameInfo.TOKEN_COUNT >= getCost() && (canStack == true ? true : stackSize < 1);
+		return !premium && GameInfo.TOKEN_COUNT >= getCost() && (canStack == true ? true : stackSize < 1) && isPurchasable();
 	}
 	
 	public int getCost() {
 		return cost;
 	}
 	
-	public EnumRank getRank() {
+	public EnumType getRank() {
 		return rank;
 	}
 	
@@ -85,10 +84,6 @@ public class Item implements Serializable {
 		return stackSize;
 	}
 	
-	public int getBuySize() {
-		return buySize;
-	}
-	
 	public boolean canStack() {
 		return canStack;
 	}
@@ -106,11 +101,20 @@ public class Item implements Serializable {
 	
 	public void setTypeImage(String par1) throws SlickException {
 		if(par1 != "useImg") {
-			typeImg = Images.createImage(par1);
+			typeImg = Images.upgradeItems.get(rank.getID());
+			System.out.println(rank.getID() + " for " + getName());
 		}
 	}
 	
 	public Image getTypeImage() {
 		return typeImg;
+	}
+	
+	public void setLocked(boolean val) {
+		unlocked = val;
+	}
+	
+	public boolean isPurchasable() {
+		return unlocked;
 	}
 }
