@@ -54,7 +54,7 @@ public class GameOverState extends BasicState {
 
 	private static float totalAmount;
 	
-	private static boolean flag = false;
+	private static boolean flag = false, flag2 = false;
 	private static boolean renderInfo = false;
 	
 	private static boolean canX = false, canX2 = false, canX3 = false, canX4 = false, canX5 = false;
@@ -234,6 +234,12 @@ public class GameOverState extends BasicState {
 			}
 		}
 		
+		if(!flag2) {
+			flag2 = true;
+			float val = (calcScore() / 5);
+			System.out.println("Current Token Count: " + GameInfo.TOKEN_COUNT + " and with the score: " + (GameInfo.TOKEN_COUNT + val));
+			GameInfo.TOKEN_COUNT += val;
+		}
 	}
 	
 	public static float calcScore() {

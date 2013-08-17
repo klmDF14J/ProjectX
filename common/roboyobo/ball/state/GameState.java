@@ -36,6 +36,8 @@ public class GameState extends BasicState {
 	private static UnicodeFont statFont3;
 	private static UnicodeFont font;
 	
+	private StateBasedGame sbg;
+	
 	public GameState(int stateID) {
 		super(stateID, "game");
 		
@@ -96,6 +98,8 @@ public class GameState extends BasicState {
 		rocksDead = new Image("/resources/images/projectX/asteroid.png");
 		
 		setFonts();
+		
+		this.sbg = sbg;
 	}
 	
 	public static void setFonts() throws SlickException {
@@ -230,6 +234,9 @@ public class GameState extends BasicState {
 	public void keyPressed(int key, char c) {
 		if(key == Keyboard.KEY_ESCAPE) {
 			isPaused = isPaused == true ? false : true;
+		}
+		if(key == Keyboard.KEY_D) {
+			GameInfo.balls.get(0).setHealth(0);
 		}
 		check1337(key);
 	}
