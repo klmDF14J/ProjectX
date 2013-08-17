@@ -47,7 +47,7 @@ public class ShopState extends BasicState {
 		GameInfo.shopContents.add(new Item("Laser Gun", EnumType.WEAPON, 100, false, false));
 		GameInfo.shopContents.add(new Item("Ship Armour", EnumType.SHIP, 100, false, false));
 		GameInfo.shopContents.add(new Item("Metal Bullet", EnumType.AMMO, 100, false, true));
-		GameInfo.shopContents.add(new Item("Rock Zapper", EnumType.WEAPON, 250, true, false));
+		GameInfo.shopContents.add(new Item("Rock Zapper", EnumType.WEAPON, 250, false, false));
 		GameInfo.shopContents.add(new Item("BG Pack", EnumType.MISC, 500, false, false));
 		
 		ArrayList<Item> shopCopy = (ArrayList<Item>) GameInfo.shopContents.clone();
@@ -74,6 +74,8 @@ public class ShopState extends BasicState {
 			System.out.println(item.getName() + " has " + item.getStackSize() + " items in its stack. Just to check it " + (item.canStack() == true ? "can" : "cannot") + " stack");
 		}
 		
+		System.out.println("Currently there are " + GameInfo.TOKEN_COUNT + " tokens");
+		/*
 		for(int i = 0; i < 10; i++) {
 			for(int j = 0; j < 5; j++) {
 				if(GameInfo.shopContents.size() > i + (j * 10)) {
@@ -81,7 +83,7 @@ public class ShopState extends BasicState {
 					item.setImage(i, j);
 				}
 			}
-		}
+		}*/
 	}
 	
 	@Override
@@ -176,7 +178,7 @@ public class ShopState extends BasicState {
 				g.drawRect(155 + (i * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)), 100 + (j * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)), GameInfo.SHOP_BOX_SIZE, GameInfo.SHOP_BOX_SIZE);
 				if(GameInfo.shopContents.size() > i + (j * GameInfo.SHOP_BOX_ROW_SIZE)) {
 					Item item = GameInfo.shopContents.get(i + (j * GameInfo.SHOP_BOX_ROW_SIZE));
-					item.renderInSlot(160 + (i * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)), 105 + (j * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)));
+					Images.shopItems.get(item.getID()).draw(160 + (i * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)), 105 + (j * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)));
 					if(item.canStack()) {
 						font4.drawString(190 + (i * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)), 135 + (j * (GameInfo.SHOP_BOX_SIZE + GameInfo.SHOP_BOX_GAP)), "" + item.getStackSize());
 					}
@@ -199,7 +201,7 @@ public class ShopState extends BasicState {
 				font3.drawString(x + xDif + 10, y + yDif + 10, item.getName(), item.getColorFromRank());
 				font4.drawString(x + xDif + 10, y + yDif + 30, item.getCost() + " Tokens", GameInfo.TOKEN_COUNT - item.getCost() >= 0 ? Color.green : Color.red);
 				
-				item.getTypeImage().draw(x + xDif + 160, y + yDif + 10, 1F / (item.getTypeImage().getWidth() / 30F));
+				Images.upgradeItems.get(item.getRank().getID()).draw(x + xDif + 160, y + yDif + 10, 1F / (Images.upgradeItems.get(item.getID()).getWidth() / 30F));
 			}
 			if(item == null) {
 				font3.drawString(x + xDif + 10, y + yDif + 10, "Unknown");
@@ -259,7 +261,6 @@ public class ShopState extends BasicState {
 		getIntersection(x, y);
 		if(GameInfo.shopContents.size() > intersectionValI + (intersectionValJ * 10) && loaded) {
 			item = GameInfo.shopContents.get(intersectionValI + (intersectionValJ * 10));
-			System.out.println(intersectionValI + (intersectionValJ * 10));
 			drawBuyBox = true;
 		}
 	}	
@@ -295,6 +296,10 @@ public class ShopState extends BasicState {
 	public void keyPressed(int key, char c) {
 		if(key == Keyboard.KEY_ESCAPE && drawBuyBox) {
 			drawBuyBox = false;
+		}
+		if(key == Keyboard.KEY_RETURN && drawBuyBox) {
+			drawBuyBox = false;
+			item.buy();
 		}
 	}
 }

@@ -91,8 +91,8 @@ public class GameInfo {
 	public static int BATTLE_PLAYER_COUNT;
 	public static int BATTLE_GAMEMODE;
 	
-	public static int TOKEN_COUNT = 100;
-	public static final int TOKEN_STARTER_NUM = 100;
+	public static final int TOKEN_STARTER_NUM = 1000;
+	public static int TOKEN_COUNT = TOKEN_STARTER_NUM;
 	
 	public static ArrayList<Item> shopContents;
 	public static final int SHOP_BOX_SIZE = 50;
@@ -104,6 +104,8 @@ public class GameInfo {
 	public static final int TOOLTIP_HEIGHT = 200;
 	
 	public static int SHOP_CURRENT_BUY_SIZE = 10;
+	
+	public static int lastID;
 	
 	public static Language language;
 	public static Settings settings = new Settings();
