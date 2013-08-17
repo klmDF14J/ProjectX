@@ -226,7 +226,7 @@ public class ShopState extends BasicState {
 			String str = "" + GameInfo.SHOP_CURRENT_BUY_SIZE;
 			font2.drawString(GameInfo.SCREEN_WIDTH / 2 - 150 + ((300 - font2.getWidth(str)) / 2), GameInfo.SCREEN_HEIGHT / 2 - 100 + ((200 - font2.getHeight(str)) / 2), str);
 			
-			String name = item.getName();
+			String name = item.getName() + (GameInfo.SHOP_CURRENT_BUY_SIZE > 1 ? "s" : GameInfo.SHOP_CURRENT_BUY_SIZE == 1 ? "" : "s");
 			font2.drawString(GameInfo.SCREEN_WIDTH / 2 - 150 + ((300 - font2.getWidth(name)) / 2), GameInfo.SCREEN_HEIGHT / 2 - 40 + ((200 - font2.getHeight(name)) / 2), name);
 		
 			if(!item.canStack()) {
